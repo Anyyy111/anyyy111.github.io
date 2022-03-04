@@ -94,7 +94,6 @@
 <p>图片信息：</p>
 <p><img src="http://www.anyiblog.top/uploads/2021/06/QQ%E6%88%AA%E5%9B%BE20210601152926.png"></p>
 <p>包括尺寸、质量、格式和容量等等</p>
-<p>[audio loop&#x3D;”ture” src&#x3D;”<a href="http://www.anyiblog.top/music/%E5%9D%A0.mp3&quot;]">http://www.anyiblog.top/music/坠.mp3&quot;]</a></p>
 <p>加密：</p>
 <p><img src="http://www.anyiblog.top/uploads/2021/06/QQ%E6%88%AA%E5%9B%BE20210601153131.png"></p>
 <p>最后Encode即可生成一份你想要隐藏的文件的文件</p>
@@ -143,7 +142,6 @@
 <p>提示:</p>
 <p>连续加了两天班又经历了2021.3.14 AWD线上赛的后MuMuMisc内心黑化程度到达了100%，他决定出一个套娃题目来与大家进行较♂量。<br>MuMuMisc先是构造了一串flag，然后在他的外国网友霍夫曼的指导下进行了最原始的编码加密，最后层层套娃将其藏进了一张图片里。<br>霍夫曼在完成工♂作后靠在树上与MuMuMisc进行了视频对话，他说MuMuMisc出的题目也就有他指导的那一层还有点意思，但整体还是简单得不能看。钥匙都给你了，聪明的你最后一定能够得到flag。  </p>
 <h2 id><a href="#" class="headerlink" title></a></h2><p>感谢套神mumuzi发现的题目的一点小瑕疵，mumuzi yyds orz。</p>
-<p>[audio loop&#x3D;”ture” src&#x3D;”<a href="http://10.140.98.66/music/%E4%BA%BA%E7%94%9F%E8%8B%A6%E7%9F%AD.mp3&quot;]">http://10.140.98.66/music/人生苦短.mp3&quot;]</a> </p>
 <p>—————————————-</p>
 <p>先用winhex打开private.key</p>
 <p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/2-5.png"></p>
@@ -2045,7 +2043,7 @@ decode()
     &#125;
 ?&gt;
 </code></pre>
-<p>文件名含有ph过滤 文件内容含有php过滤 [audio loop&#x3D;”ture” mp3&#x3D;”<a href="http://www.anyiblog.top/music/Dime.mp3&quot;]">http://www.anyiblog.top/music/Dime.mp3&quot;]</a> read代码如下： </p>
+<p>文件名含有ph过滤 文件内容含有php过滤 read代码如下： </p>
 <pre><code>&lt;?php
 error_reporting(0);
 $a=$_GET[&quot;filename&quot;];
