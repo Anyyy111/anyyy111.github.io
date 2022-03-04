@@ -59,6 +59,84 @@
       </tags>
   </entry>
   <entry>
+    <title>Bugku杂项misc writeup(1)</title>
+    <url>/2021/05/24/20210524/</url>
+    <content><![CDATA[<h1 id="Bugku杂项misc-writeup-1"><a href="#Bugku杂项misc-writeup-1" class="headerlink" title="Bugku杂项misc writeup(1)"></a>Bugku杂项misc writeup(1)</h1><p>前几天在Bugku上做misc的时候做到几道挺好的题目，想写个复盘跟大家分享下。欢迎各位大佬互相交流  1.善用工具  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/1-2-1024x615.png"> 文件如下:  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/2-2.png"> 先看看hint文件，发现png格式打不开，试试用txt文本打开  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/3-3.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/4-3-1024x485.png"> (干得漂亮)  试试用winhex打开，发现一段神秘代码   <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/5-3.png"> 在查询一番资料过后得知这是UUEncode+base85加密  Uuencode解密网址: <a href="http://www.mxcz.net/tools/UUEncode.aspx">http://www.mxcz.net/tools/UUEncode.aspx</a> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/6-3.png"> 再将”keyis”去除进行base85解密: <a href="http://www.atoolbox.net/Tool.php?Id=934">http://www.atoolbox.net/Tool.php?Id=934</a> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/7-3.png"> 联系下标题&lt;善用工具&gt;，百读搜索下Camouflage软件，发现是个用AES加密算法把隐藏的文件存放到jpg图片中的软件  那意思很明确了,就是把那张水晶的图片放进去解一下  (下载地址：<a href="https://www.onlinedown.net/soft/94324.htm">https://www.onlinedown.net/soft/94324.htm</a>)  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/8-3.png"> 是一个docx文档，放到winhex看看  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/9-3.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/10-3.png"> 看到PK果断改后缀为zip  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/11-3.png"> 是一个xml文件，在一番遍历后，word文件夹下的document.xml找到了密码  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/12-4.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/13-4-1024x676.png"> 密码为XiAo_1U  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/14-3.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/15-4.png"> 我们用kali下的file看一下是什么格式的文件  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/16-4.png"> riff(用画图打开)或者webp(用浏览器打开)格式都可以  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/17-3-1024x646.png"> (WDNMD)  之后可以用python的stegpy的脚本解码解密  pip install stegpy  stegpy csgo.webp(csgo.riff)  拿下  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/18-2.png"> 2.Photo的自我修养  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/19-2.png"> 压缩包含有以下文件：  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/20-2.png"> 第一眼看去应该是要先分别解出001和002的给的密码再解出keyAB就能拿flag了  先看001压缩包  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/21-3.png"> 这里有可能是_<strong>伪加密</strong>_ 所谓伪加密就是将压缩包中全局方式位标记更改，00为无加密，其余为加密  详细可参考<a href="https://blog.csdn.net/qq_26187985/article/details/83654197">https://blog.csdn.net/qq_26187985/article/details/83654197</a>  一般 全局方式位标记的位置 在 压缩包的文件头标记 或 结束标记 旁边(比如504B0102、504B0304、504B0506)，所以我们先用winhex打开看看，用HEX搜索压缩包的文件头(504B)  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/22-1.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/23-2.png"></p>
+<h2 id="Comments"><a href="#Comments" class="headerlink" title="Comments"></a>Comments</h2><p><strong><a href="#20" title="2021-06-01 10:10:28">BLiss</a>:</strong> 牛牛牛</p>
+]]></content>
+      <categories>
+        <category>刷题笔记</category>
+        <category>Writeup</category>
+      </categories>
+      <tags>
+        <tag>刷题</tag>
+        <tag>CTF</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Bugku杂项misc writeup(2)</title>
+    <url>/2021/05/28/20210528/</url>
+    <content><![CDATA[<h1 id="Bugku杂项misc-writeup-2"><a href="#Bugku杂项misc-writeup-2" class="headerlink" title="Bugku杂项misc writeup(2)"></a>Bugku杂项misc writeup(2)</h1><p>题目(Mumumisc&amp;只有黑棋的棋盘&amp;北有楠木)</p>
+<p>涉及到的网站和工具:</p>
+<p>Wbs43open-win32链接: <a href="https://pan.baidu.com/s/1g8AbhV1EVDuiZS7PpcFUzw">https://pan.baidu.com/s/1g8AbhV1EVDuiZS7PpcFUzw</a>  密码: svhi</p>
+<p>音符解码网址: <a href="https://www.qqxiuzi.cn/bianma/wenbenjiami.php?s=yinyue">https://www.qqxiuzi.cn/bianma/wenbenjiami.php?s=yinyue</a></p>
+<p>1.mumumisc</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/1-4.png"></p>
+<p>提示:</p>
+<p>连续加了两天班又经历了2021.3.14 AWD线上赛的后MuMuMisc内心黑化程度到达了100%，他决定出一个套娃题目来与大家进行较♂量。<br>MuMuMisc先是构造了一串flag，然后在他的外国网友霍夫曼的指导下进行了最原始的编码加密，最后层层套娃将其藏进了一张图片里。<br>霍夫曼在完成工♂作后靠在树上与MuMuMisc进行了视频对话，他说MuMuMisc出的题目也就有他指导的那一层还有点意思，但整体还是简单得不能看。钥匙都给你了，聪明的你最后一定能够得到flag。  </p>
+<h2 id><a href="#" class="headerlink" title></a></h2><p>感谢套神mumuzi发现的题目的一点小瑕疵，mumuzi yyds orz。</p>
+<p>—————————————-</p>
+<p>先用winhex打开private.key</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/2-5.png"></p>
+<p>FFD8文件头，说明是jpg文件，将其后缀改为jpg</p>
+<p>打开发现是一张 哈夫曼树的图片</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/3-6-1024x780.png"></p>
+<p>(这里感谢下volcano师傅的指导)</p>
+<p>本来我以为是二叉树，结果它更高级，是哈夫曼树</p>
+<p>关于哈夫曼树其原理和构造方法可参考blog:<a href="https://blog.csdn.net/qq_29519041/article/details/81428934">https://blog.csdn.net/qq_29519041/article/details/81428934</a></p>
+<p>先从最上面的圆圈看，向左的枝干为0，向右的为1，依次写出每个字母所代表的二进制</p>
+<p>如    字母”l”代表00000    字母”i”代表0001</p>
+<p>我写出了各个字母代表的二进制</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/%E5%9B%BE%E7%89%874-2.png"></p>
+<p>有了二进制的编码，还需要一段二进制的字符串进行解码，这个时候看文件mumumisc.png</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/%E5%9B%BE%E7%89%875-1.png"></p>
+<p>(这里用Stegsolve分析不出来)</p>
+<p>这张图左侧有一串黑白相间的字符串(不是什么神奇的加密方式)，黑的代表数字0，白的代表数字1</p>
+<p>写脚本跑一下<strong>from</strong> PIL <strong>import</strong> Image<strong>import</strong> binascii<strong>import</strong> base64<strong>def</strong> decode(path): image &#x3D; Image.open(path) flag &#x3D; ‘’ <strong>for</strong> x <strong>in</strong> range(5): <strong>for</strong> y <strong>in</strong> range(400): p &#x3D; image.getpixel((x,y)) <strong>if</strong> p &#x3D;&#x3D; (0, 0, 0): flag +&#x3D; ‘1’ <strong>elif</strong> p &#x3D;&#x3D; (255, 255, 255): flag +&#x3D; ‘0’ #2进制转16进制 a&#x3D;(hex(int(flag,2))[2:]) #16进制转字符串 b&#x3D;(binascii.unhexlify(a)) #base64解码 print(“结果如下:\n”+str(base64.b64decode(b)))<strong>if</strong> <strong>name</strong>&#x3D;&#x3D;”<strong>main</strong>“: path&#x3D;str(input(“请输入mumumisc的路径\n&gt;&gt;&gt;”)) decode(path)</p>
+<p>这里用win10自带的画图3D看一下白条的高宽大概在5px,400px的位置</p>
+<p>所以x,y取在5和400</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/%E5%9B%BE%E7%89%876-1.png"></p>
+<p>最后跑出来的是一个2进制的字符串(注意这个时候还不是flag)先将其转换为16进制再转为字符串</p>
+<p>字符串是一段base64加密的，解出来的结果为</p>
+<p>“110001 00000 010 0110 11001 101 0111 101 0111 101 0001 001 110000 100 0001 001 100 0110 1111 1111 1101 100 010 11101 1101 100 00001 010 11101 1101 001 1111 101 111001 111000”</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/%E5%9B%BE%E7%89%877-1.png"></p>
+<p>对应之前写的字母和二进制对应关系的表(我是一个个看的，有能力的师傅可以写个脚本跑),最后的结果为:</p>
+<p>“flag{mumumisc**********nd_handsome}“</p>
+<p>二进制01真是无处不在啊。</p>
+<p>2.只有黑棋的棋盘</p>
+<p>Mumuzi(套套子)的题，好耶(精神错乱)</p>
+<p>文件如下:</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/8-5.png"></p>
+<p>Flag要密码，先用winhex看看棋盘</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/1-5.png"></p>
+<p>一手搜索PK，反手改后缀为zip</p>
+<p>欸嘿嘿嘿</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/2-6.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/3-7.png"></p>
+<p>谢谢，血压已经上来了</p>
+<p>再用winhex看一看</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/4-5.png"></p>
+<p>原来是头写错了，把0506改成0304</p>
+]]></content>
+      <categories>
+        <category>刷题笔记</category>
+        <category>Writeup</category>
+      </categories>
+      <tags>
+        <tag>刷题</tag>
+        <tag>CTF</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>-安利-个人觉得几款在misc中冷门而好用的工具</title>
     <url>/2021/06/01/20210601/</url>
     <content><![CDATA[<h1 id="安利-个人觉得几款在misc中冷门而好用的工具"><a href="#安利-个人觉得几款在misc中冷门而好用的工具" class="headerlink" title="[安利]个人觉得几款在misc中冷门而好用的工具"></a>[安利]个人觉得几款在misc中冷门而好用的工具</h1><h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><p>最近做了不少的misc题，很多冷知识触及到我的知识盲区。我找了相应的工具，挺适合于解密或者出题，分享一下。</p>
@@ -131,62 +209,71 @@
       </tags>
   </entry>
   <entry>
-    <title>Bugku杂项misc writeup(2)</title>
-    <url>/2021/05/28/20210528/</url>
-    <content><![CDATA[<h1 id="Bugku杂项misc-writeup-2"><a href="#Bugku杂项misc-writeup-2" class="headerlink" title="Bugku杂项misc writeup(2)"></a>Bugku杂项misc writeup(2)</h1><p>题目(Mumumisc&amp;只有黑棋的棋盘&amp;北有楠木)</p>
-<p>涉及到的网站和工具:</p>
-<p>Wbs43open-win32链接: <a href="https://pan.baidu.com/s/1g8AbhV1EVDuiZS7PpcFUzw">https://pan.baidu.com/s/1g8AbhV1EVDuiZS7PpcFUzw</a>  密码: svhi</p>
-<p>音符解码网址: <a href="https://www.qqxiuzi.cn/bianma/wenbenjiami.php?s=yinyue">https://www.qqxiuzi.cn/bianma/wenbenjiami.php?s=yinyue</a></p>
-<p>1.mumumisc</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/1-4.png"></p>
-<p>提示:</p>
-<p>连续加了两天班又经历了2021.3.14 AWD线上赛的后MuMuMisc内心黑化程度到达了100%，他决定出一个套娃题目来与大家进行较♂量。<br>MuMuMisc先是构造了一串flag，然后在他的外国网友霍夫曼的指导下进行了最原始的编码加密，最后层层套娃将其藏进了一张图片里。<br>霍夫曼在完成工♂作后靠在树上与MuMuMisc进行了视频对话，他说MuMuMisc出的题目也就有他指导的那一层还有点意思，但整体还是简单得不能看。钥匙都给你了，聪明的你最后一定能够得到flag。  </p>
-<h2 id><a href="#" class="headerlink" title></a></h2><p>感谢套神mumuzi发现的题目的一点小瑕疵，mumuzi yyds orz。</p>
-<p>—————————————-</p>
-<p>先用winhex打开private.key</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/2-5.png"></p>
-<p>FFD8文件头，说明是jpg文件，将其后缀改为jpg</p>
-<p>打开发现是一张 哈夫曼树的图片</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/3-6-1024x780.png"></p>
-<p>(这里感谢下volcano师傅的指导)</p>
-<p>本来我以为是二叉树，结果它更高级，是哈夫曼树</p>
-<p>关于哈夫曼树其原理和构造方法可参考blog:<a href="https://blog.csdn.net/qq_29519041/article/details/81428934">https://blog.csdn.net/qq_29519041/article/details/81428934</a></p>
-<p>先从最上面的圆圈看，向左的枝干为0，向右的为1，依次写出每个字母所代表的二进制</p>
-<p>如    字母”l”代表00000    字母”i”代表0001</p>
-<p>我写出了各个字母代表的二进制</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/%E5%9B%BE%E7%89%874-2.png"></p>
-<p>有了二进制的编码，还需要一段二进制的字符串进行解码，这个时候看文件mumumisc.png</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/%E5%9B%BE%E7%89%875-1.png"></p>
-<p>(这里用Stegsolve分析不出来)</p>
-<p>这张图左侧有一串黑白相间的字符串(不是什么神奇的加密方式)，黑的代表数字0，白的代表数字1</p>
-<p>写脚本跑一下<strong>from</strong> PIL <strong>import</strong> Image<strong>import</strong> binascii<strong>import</strong> base64<strong>def</strong> decode(path): image &#x3D; Image.open(path) flag &#x3D; ‘’ <strong>for</strong> x <strong>in</strong> range(5): <strong>for</strong> y <strong>in</strong> range(400): p &#x3D; image.getpixel((x,y)) <strong>if</strong> p &#x3D;&#x3D; (0, 0, 0): flag +&#x3D; ‘1’ <strong>elif</strong> p &#x3D;&#x3D; (255, 255, 255): flag +&#x3D; ‘0’ #2进制转16进制 a&#x3D;(hex(int(flag,2))[2:]) #16进制转字符串 b&#x3D;(binascii.unhexlify(a)) #base64解码 print(“结果如下:\n”+str(base64.b64decode(b)))<strong>if</strong> <strong>name</strong>&#x3D;&#x3D;”<strong>main</strong>“: path&#x3D;str(input(“请输入mumumisc的路径\n&gt;&gt;&gt;”)) decode(path)</p>
-<p>这里用win10自带的画图3D看一下白条的高宽大概在5px,400px的位置</p>
-<p>所以x,y取在5和400</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/%E5%9B%BE%E7%89%876-1.png"></p>
-<p>最后跑出来的是一个2进制的字符串(注意这个时候还不是flag)先将其转换为16进制再转为字符串</p>
-<p>字符串是一段base64加密的，解出来的结果为</p>
-<p>“110001 00000 010 0110 11001 101 0111 101 0111 101 0001 001 110000 100 0001 001 100 0110 1111 1111 1101 100 010 11101 1101 100 00001 010 11101 1101 001 1111 101 111001 111000”</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/%E5%9B%BE%E7%89%877-1.png"></p>
-<p>对应之前写的字母和二进制对应关系的表(我是一个个看的，有能力的师傅可以写个脚本跑),最后的结果为:</p>
-<p>“flag{mumumisc**********nd_handsome}“</p>
-<p>二进制01真是无处不在啊。</p>
-<p>2.只有黑棋的棋盘</p>
-<p>Mumuzi(套套子)的题，好耶(精神错乱)</p>
-<p>文件如下:</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/8-5.png"></p>
-<p>Flag要密码，先用winhex看看棋盘</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/1-5.png"></p>
-<p>一手搜索PK，反手改后缀为zip</p>
-<p>欸嘿嘿嘿</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/2-6.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/3-7.png"></p>
-<p>谢谢，血压已经上来了</p>
-<p>再用winhex看一看</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/4-5.png"></p>
-<p>原来是头写错了，把0506改成0304</p>
+    <title>记一次文件上传之过滤php绕过</title>
+    <url>/2021/10/14/20211014/</url>
+    <content><![CDATA[<!--今天在群里看到群友发的一道题 想试试 解了一个多小时 过程挺有趣 就记录一下了 学到新的绕过姿势-->
+
+<h1 id="记一次文件上传之过滤php绕过"><a href="#记一次文件上传之过滤php绕过" class="headerlink" title="记一次文件上传之过滤php绕过"></a>记一次文件上传之过滤php绕过</h1><p>今天在群里看到群友发的一道题 想试试 解了一个多小时 过程挺有趣 就记录一下了 学到新的绕过姿势 <img src="http://www.anyiblog.top/uploads/2021/12/874dc429460d889cb885cedef68b295f.png"> 看题； <img src="http://www.anyiblog.top/uploads/2021/12/095c93515297178510c14a9120098f25.png"> 一道文件上传+文件包含的题目 bp上传如下 <img src="http://www.anyiblog.top/uploads/2021/12/d9f1c83b950af13dfad37c95aeb45370.png"> 经过测试文件名含有ph过滤 文件内容含有php过滤 上传后发现注释  <!--read.php?filename=  --> 访问后尝试进行文件包含，如下 <img src="http://www.anyiblog.top/uploads/2021/12/5a0326775979e47db80f3c4998383744.png"> 显然 这是文件包含没错 试着读取flag <img src="http://www.anyiblog.top/uploads/2021/12/c198b7c7b96a0704084d72521b2f06c8.png"> 被过滤了 目前思路是通过上传jpg或者txt 然后内容写入php代码 即使文件不是以php后缀结尾，仍可以利用include特性执行代码 因此，我们需要绕过对内容的过滤 在此之前，我们可以用php:filter伪协议读取文件源码 <img src="http://www.anyiblog.top/uploads/2021/12/64ef029d9501da7bbb688967abd0cf86.png"> base64解码后代码如下： </p>
+<pre><code>&lt;div class=&quot;light&quot;&gt;&lt;span class=&quot;glow&quot;&gt;
+            &lt;form enctype=&quot;multipart/form-data&quot; method=&quot;post&quot; onsubmit=&quot;return checkFile()&quot;&gt;
+                嘿伙计，传个火？！
+                &lt;input class=&quot;input_file&quot; type=&quot;file&quot; name=&quot;upload_file&quot;/&gt;
+                &lt;input class=&quot;button&quot; type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;upload&quot;/&gt;
+            &lt;/form&gt;
+      &lt;/span&gt;&lt;span class=&quot;flare&quot;&gt;&lt;/span&gt;&lt;div&gt;
+      &lt;!--read.php?filename=  --&gt;
+&lt;?php
+    error_reporting(0);
+    //设置上传目录
+    define(&quot;UPLOAD_PATH&quot;, &quot;./uplo4d&quot;);
+    $msg = &quot;Upload Success!&quot;;
+    if (isset($_POST[&#39;submit&#39;])) &#123;
+        $temp_file = $_FILES[&#39;upload_file&#39;][&#39;tmp_name&#39;];
+        $file_name = $_FILES[&#39;upload_file&#39;][&#39;name&#39;];
+        $ext = pathinfo($file_name,PATHINFO_EXTENSION);
+      if(preg_match(&quot;/ph/i&quot;, strtolower($ext)))&#123;
+        die(&quot;这可不能上传啊！&quot;);
+    &#125;
+       
+            $content = file_get_contents($temp_file);
+            if(preg_match(&quot;/php/i&quot;, $content))&#123;
+                die(&quot;诶，被我发现了吧&quot;);
+            &#125;
+
+
+        $new_file_name = md5($file_name).&quot;.&quot;.$ext;
+        $img_path = UPLOAD_PATH . &#39;/&#39; . $new_file_name;
+
+
+
+
+        if (move_uploaded_file($temp_file, $img_path))&#123;
+            $is_upload = true;
+        &#125; else &#123;
+            $msg = &#39;Upload Failed!&#39;;
+        &#125;
+        echo &#39;&lt;div style=&quot;color:#F00&quot;&gt;&#39;.$msg.&quot; Look here~ &quot;.$img_path.&quot;&lt;/div&gt;&quot;;
+    &#125;
+?&gt;
+</code></pre>
+<p>文件名含有ph过滤 文件内容含有php过滤 read代码如下： </p>
+<pre><code>&lt;?php
+error_reporting(0);
+$a=$_GET[&quot;filename&quot;];
+if(preg_match(&#39;/flag/i&#39;,$a))&#123;
+  exit(&quot;nononono&quot;);
+&#125;
+include($a);
+
+
+?&gt;
+</code></pre>
+<p>因为php被过滤了 所以我们无法构造<?php 所以要绕过<?php 这里我想了好久 要用<?短标签绕过 ![](http://www.anyiblog.top/uploads/2021/12/17cfe83cfcc4d4733df8162065ed2856.png) 成功上传，尝试文件包含 ![](http://www.anyiblog.top/uploads/2021/12/d77745df0f14983e0bd546c504f46f1f.png) 成功执行   构造payload：<? eval($_POST['a']); ?> 注意这里不要用GET传参 因为是图片所以传不上去 <img src="http://www.anyiblog.top/uploads/2021/12/94711007e09edef7a2276f459807a7cd.png"> cat flag <img src="http://www.anyiblog.top/uploads/2021/12/2fe5ef89275ffe1f39492bf944b8ef78.png"> flag在环境变量里    因此flag在phpinfo里或者用printenv看环境变量   <img src="http://www.anyiblog.top/uploads/2021/12/30de87fae1f8e2a428e5cd5689ffe77d.png"> <img src="http://www.anyiblog.top/uploads/2021/12/99b73c79693a47c89d105891eaf7c4f4.png"> 0xGame{upl0ad_f1le_causes_danger!!!}   解法2： 上传一个<? phpinfo() ?>的图片或文本，然后访问， 要注意的是 如果要用<? phpinfo() ?>查看的话，因为包含php会被过滤 因此要用base64解密   payload：<? eval(base64_decode('cGhwaW5mbygpOw=='));?> <img src="http://www.anyiblog.top/uploads/2021/12/5bd0f17be130c8f4e27fd06ea81f7254.png"> <img src="http://www.anyiblog.top/uploads/2021/12/bf9b554dd3c9cce05be78b0b56f0a055.png"> End</p>
 ]]></content>
       <categories>
         <category>刷题笔记</category>
-        <category>Writeup</category>
+        <category>CTF</category>
+        <category>Web</category>
       </categories>
       <tags>
         <tag>刷题</tag>
@@ -219,386 +306,6 @@
       </categories>
       <tags>
         <tag>干货</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Bugku杂项misc writeup(1)</title>
-    <url>/2021/05/24/20210524/</url>
-    <content><![CDATA[<h1 id="Bugku杂项misc-writeup-1"><a href="#Bugku杂项misc-writeup-1" class="headerlink" title="Bugku杂项misc writeup(1)"></a>Bugku杂项misc writeup(1)</h1><p>前几天在Bugku上做misc的时候做到几道挺好的题目，想写个复盘跟大家分享下。欢迎各位大佬互相交流  1.善用工具  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/1-2-1024x615.png"> 文件如下:  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/2-2.png"> 先看看hint文件，发现png格式打不开，试试用txt文本打开  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/3-3.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/4-3-1024x485.png"> (干得漂亮)  试试用winhex打开，发现一段神秘代码   <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/5-3.png"> 在查询一番资料过后得知这是UUEncode+base85加密  Uuencode解密网址: <a href="http://www.mxcz.net/tools/UUEncode.aspx">http://www.mxcz.net/tools/UUEncode.aspx</a> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/6-3.png"> 再将”keyis”去除进行base85解密: <a href="http://www.atoolbox.net/Tool.php?Id=934">http://www.atoolbox.net/Tool.php?Id=934</a> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/7-3.png"> 联系下标题&lt;善用工具&gt;，百读搜索下Camouflage软件，发现是个用AES加密算法把隐藏的文件存放到jpg图片中的软件  那意思很明确了,就是把那张水晶的图片放进去解一下  (下载地址：<a href="https://www.onlinedown.net/soft/94324.htm">https://www.onlinedown.net/soft/94324.htm</a>)  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/8-3.png"> 是一个docx文档，放到winhex看看  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/9-3.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/10-3.png"> 看到PK果断改后缀为zip  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/11-3.png"> 是一个xml文件，在一番遍历后，word文件夹下的document.xml找到了密码  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/12-4.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/13-4-1024x676.png"> 密码为XiAo_1U  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/14-3.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/15-4.png"> 我们用kali下的file看一下是什么格式的文件  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/16-4.png"> riff(用画图打开)或者webp(用浏览器打开)格式都可以  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/17-3-1024x646.png"> (WDNMD)  之后可以用python的stegpy的脚本解码解密  pip install stegpy  stegpy csgo.webp(csgo.riff)  拿下  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/18-2.png"> 2.Photo的自我修养  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/19-2.png"> 压缩包含有以下文件：  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/20-2.png"> 第一眼看去应该是要先分别解出001和002的给的密码再解出keyAB就能拿flag了  先看001压缩包  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/21-3.png"> 这里有可能是_<strong>伪加密</strong>_ 所谓伪加密就是将压缩包中全局方式位标记更改，00为无加密，其余为加密  详细可参考<a href="https://blog.csdn.net/qq_26187985/article/details/83654197">https://blog.csdn.net/qq_26187985/article/details/83654197</a>  一般 全局方式位标记的位置 在 压缩包的文件头标记 或 结束标记 旁边(比如504B0102、504B0304、504B0506)，所以我们先用winhex打开看看，用HEX搜索压缩包的文件头(504B)  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/22-1.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/23-2.png"></p>
-<h2 id="Comments"><a href="#Comments" class="headerlink" title="Comments"></a>Comments</h2><p><strong><a href="#20" title="2021-06-01 10:10:28">BLiss</a>:</strong> 牛牛牛</p>
-]]></content>
-      <categories>
-        <category>刷题笔记</category>
-        <category>Writeup</category>
-      </categories>
-      <tags>
-        <tag>刷题</tag>
-        <tag>CTF</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>摸鱼大闯关 1-40关 writeup</title>
-    <url>/2021/12/04/20211204/</url>
-    <content><![CDATA[<p>昨天玩了下摸鱼大闯关 一共54关 目前是40关</p>
-<p>网站是<a href="https://p.hancel.org/">https://p.hancel.org/</a> 题目质量可以 烧脑。解了一天就写个writeup吧</p>
-<p>内容偏ctf吧，前期是前端 后面就是烧脑的图片、编码。。</p>
-<p>writeup只提供思路 不提供url。有关的地方会打码。</p>
-<p>卡在了40 有思路的朋友可以评论分享奥</p>
-<p><img src="/uploads/2021/12/d31760c8581a607230c35419dfbe8b46.png"></p>
-<h4 id="目录-gt"><a href="#目录-gt" class="headerlink" title="目录&gt;"></a>目录&gt;</h4><h5 id="stage0"><a href="#stage0" class="headerlink" title="stage0"></a><a href="#Stage0">stage0</a></h5><h5 id="stage1"><a href="#stage1" class="headerlink" title="stage1"></a><a href="#Stage1">stage1</a></h5><h5 id="stage2"><a href="#stage2" class="headerlink" title="stage2"></a><a href="#Stage2">stage2</a></h5><h5 id="stage3"><a href="#stage3" class="headerlink" title="stage3"></a><a href="#Stage3">stage3</a></h5><h5 id="stage4"><a href="#stage4" class="headerlink" title="stage4"></a><a href="#Stage4">stage4</a></h5><h5 id="stage5"><a href="#stage5" class="headerlink" title="stage5"></a><a href="#Stage5">stage5</a></h5><h5 id="stage6"><a href="#stage6" class="headerlink" title="stage6"></a><a href="#Stage6">stage6</a></h5><h5 id="stage7"><a href="#stage7" class="headerlink" title="stage7"></a><a href="#Stage7">stage7</a></h5><h5 id="stage8"><a href="#stage8" class="headerlink" title="stage8"></a><a href="#Stage8">stage8</a></h5><h5 id="stage9"><a href="#stage9" class="headerlink" title="stage9"></a><a href="#Stage9">stage9</a></h5><h5 id="stage10"><a href="#stage10" class="headerlink" title="stage10"></a><a href="#Stage10">stage10</a></h5><h5 id="stage11"><a href="#stage11" class="headerlink" title="stage11"></a><a href="#Stage11">stage11</a></h5><h5 id="stage12"><a href="#stage12" class="headerlink" title="stage12"></a><a href="#Stage12">stage12</a></h5><h5 id="stage13"><a href="#stage13" class="headerlink" title="stage13"></a><a href="#Stage13">stage13</a></h5><h5 id="stage14"><a href="#stage14" class="headerlink" title="stage14"></a><a href="#Stage14">stage14</a></h5><h5 id="stage15"><a href="#stage15" class="headerlink" title="stage15"></a><a href="#Stage15">stage15</a></h5><h5 id="stage16"><a href="#stage16" class="headerlink" title="stage16"></a><a href="#Stage16">stage16</a></h5><h5 id="stage17"><a href="#stage17" class="headerlink" title="stage17"></a><a href="#Stage17">stage17</a></h5><h5 id="stage18"><a href="#stage18" class="headerlink" title="stage18"></a><a href="#Stage18">stage18</a></h5><h5 id="stage19"><a href="#stage19" class="headerlink" title="stage19"></a><a href="#Stage19">stage19</a></h5><h5 id="stage20"><a href="#stage20" class="headerlink" title="stage20"></a><a href="#Stage20">stage20</a></h5><h5 id="stage21"><a href="#stage21" class="headerlink" title="stage21"></a><a href="#Stage21">stage21</a></h5><h5 id="stage22"><a href="#stage22" class="headerlink" title="stage22"></a><a href="#Stage22">stage22</a></h5><h5 id="stage23"><a href="#stage23" class="headerlink" title="stage23"></a><a href="#Stage23">stage23</a></h5><h5 id="stage24"><a href="#stage24" class="headerlink" title="stage24"></a><a href="#Stage24">stage24</a></h5><h5 id="stage25"><a href="#stage25" class="headerlink" title="stage25"></a><a href="#Stage25">stage25</a></h5><h5 id="stage26"><a href="#stage26" class="headerlink" title="stage26"></a><a href="#Stage26">stage26</a></h5><h5 id="stage27"><a href="#stage27" class="headerlink" title="stage27"></a><a href="#Stage27">stage27</a></h5><h5 id="stage28"><a href="#stage28" class="headerlink" title="stage28"></a><a href="#Stage28">stage28</a></h5><h5 id="stage29"><a href="#stage29" class="headerlink" title="stage29"></a><a href="#Stage29">stage29</a></h5><h5 id="stage30"><a href="#stage30" class="headerlink" title="stage30"></a><a href="#Stage30">stage30</a></h5><h5 id="stage31"><a href="#stage31" class="headerlink" title="stage31"></a><a href="#Stage31">stage31</a></h5><h5 id="stage32"><a href="#stage32" class="headerlink" title="stage32"></a><a href="#Stage32">stage32</a></h5><h5 id="stage33"><a href="#stage33" class="headerlink" title="stage33"></a><a href="#Stage33">stage33</a></h5><h5 id="stage34"><a href="#stage34" class="headerlink" title="stage34"></a><a href="#Stage34">stage34</a></h5><h5 id="stage35"><a href="#stage35" class="headerlink" title="stage35"></a><a href="#Stage35">stage35</a></h5><h5 id="stage36"><a href="#stage36" class="headerlink" title="stage36"></a><a href="#Stage36">stage36</a></h5><h5 id="stage37"><a href="#stage37" class="headerlink" title="stage37"></a><a href="#Stage37">stage37</a></h5><h5 id="stage38"><a href="#stage38" class="headerlink" title="stage38"></a><a href="#Stage38">stage38</a></h5><h5 id="stage39"><a href="#stage39" class="headerlink" title="stage39"></a><a href="#Stage39">stage39</a></h5><h5 id="stage40"><a href="#stage40" class="headerlink" title="stage40"></a><a href="#Stage40">stage40</a></h5><hr>
-<blockquote>
-<p><a id="Stage0"><span style="font-size: 16pt;">1、Stage 0:</span></a><br><span style="font-size: 16pt;">点击图片即可下一关</span></p>
-</blockquote>
-<blockquote>
-<p><a id="Stage1"><span style="font-size: 16pt;"><img src="/uploads/2021/12/4f6a24032d535abe5d279686ca0b6840.png"></span><span style="font-size: 16pt;">2、Stage 1:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/384c13a935f1176f2c6c199991864e6b.png"></span><br><span style="font-size: 16pt;">根据url:</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/2d37baa89f5ab5f1dc1e5559bd1d1af1.png"></span><br><span style="font-size: 16pt;">直接修改为2即可下一关</span></p>
-<blockquote>
-<p><a id="Stage2"><span style="font-size: 16pt;">3、Stage 2:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/ea9381c5a24e7cbf33bd45df98dd8e9d.png"></span><br><span style="font-size: 16pt;">尝试改成3</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/1db0cc4f126acdb5c2285f11ea2f2859.png"></span><br><span style="font-size: 16pt;">不行，就看源代码</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/46aa68257ad22c8ae8065054cd52cb84.png"></span><br><span style="font-size: 16pt;">直接跳转即可。</span></p>
-<blockquote>
-<p><a id="Stage3"><span style="font-size: 16pt;">4、Stage 3:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/2ac2e933b4708a88b58560f2a2fd8a58.png"></span><br><span style="font-size: 16pt;">Ctrl+U看源码</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/dbe2489066b76faf78dc98686c50b5fd.png"></span><br><span style="font-size: 16pt;">跳转下一关。</span></p>
-<blockquote>
-<p><a id="Stage4"><span style="font-size: 16pt;">5、Stage 4:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/a33823c148aeb0ffbe0b9ba665eb7f90.png"></span><br><span style="font-size: 16pt;">看源代码：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/371c7442fd790a1b41988991a7917c27.png"></span><br><span style="font-size: 16pt;">这里说实话不细心可能会卡很久 页面就在最下面的注释中：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/b2e7d252e043ce7ec664066db052beff.png"></span><br><span style="font-size: 16pt;">访问url跳转下一关。</span></p>
-<blockquote>
-<p><a id="Stage5"><span style="font-size: 16pt;">6、Stage 5:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/7c460f298587a904d3786b5f56e804b0.png"></span><br><span style="font-size: 16pt;">上面的windows 下面的图片学过计算机的都知道是linux 因此访问linux.html</span></p>
-<p><span style="font-size: 16pt;">（这里没有啥图片隐写 还没那么难哦）</span></p>
-<blockquote>
-<p><a id="Stage6"><span style="font-size: 16pt;">7、Stage 6:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/2f5c2707f7a60676fe0aefa6c6e5733c.png"></span><br><span style="font-size: 16pt;">直接看源代码：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/de1facc3580606669d58b4fdb84f7614.png"></span><br><span style="font-size: 16pt;">发现是有图片 直接访问图片url：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/c3c4060d13c7612a668d211d4b298fbb.png"></span><br><span style="font-size: 16pt;">跳转即可。</span></p>
-<blockquote>
-<p><a id="Stage7"><span style="font-size: 16pt;">8、Stage 7:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/94d07d2e8faa9eee78b2a01cfc774961.png"></span><br><span style="font-size: 16pt;">遇到这些啥都没的 就先看源代码：</span></p>
-<p><span style="font-size: 16pt;">在标题中找到密码</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/8ce9565c7d7a6b739a238936d091df3f.png"></span><br><span style="font-size: 16pt;">输入here直接下一关。</span></p>
-<blockquote>
-<p><a id="Stage8"><span style="font-size: 16pt;">9、Stage 8:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/7ae713a678063a495561a00ff15fd582.png"></span><br><span style="font-size: 16pt;">说实话这题刚开始看的时候有一点点迷惑 可能是表述有点看不懂吧。</span></p>
-<p><span style="font-size: 16pt;">看源码：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/5be01415eac8547b4e6a4e86517d1a37.png"></span><br><span style="font-size: 16pt;">结合注释的提示和标题提示 得知这是html字符实体 然后再看url</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/6e8f7ad7bd7fdffd3aa33306857ec492.png"></span><br><span style="font-size: 16pt;">&amp;nbsp 学过html的我知道这是空格 结合题目说密码是五个字母的单词。因此密码是space</span></p>
-<p><span style="font-size: 16pt;">或者说去在线网站解html编码</span></p>
-<p><span style="font-size: 16pt;">输入space即可。</span></p>
-<blockquote>
-<p><a id="Stage9"><span style="font-size: 16pt;">10、Stage 9:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/8424ac3e6a87ada92edb4aaf35b97246.png"></span><br><span style="font-size: 16pt;">源码中提示：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/7bb3ec9bfdf47e1d1247ecd0dfe5bd42.png"></span><br><span style="font-size: 16pt;">一看就知道是凯撒 爆破一下</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/d5aed0d9665917cd0392bba28130618c.png"></span><br><span style="font-size: 16pt;">访问即可。</span></p>
-<blockquote>
-<p><a id="Stage10"><span style="font-size: 16pt;">11、Stage 10:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/96199a0a8611ae7a5f0a841c9756cdca.png"></span><br><span style="font-size: 16pt;">题目给了个十进制 做过misc多 就会尝试去把十进制转成十六进制 然后转文字</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/1654c6de47dff5316dbd5e4ae78e02db.png"></span><br><span style="font-size: 16pt;">结果一转十六进制就找到了</span></p>
-<p><span style="font-size: 16pt;">访问effaced.html即可</span></p>
-<blockquote>
-<p><a id="Stage11"><span style="font-size: 16pt;">12、Stage 11:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/d92529535f54cc9c85d10da575e0ce3f.png"></span><br><span style="font-size: 16pt;">给了密文</span>VGhlIHBhc3N3b3JkIGlzIHN0b3JhZ2Uu</p>
-<p><span style="font-size: 16pt;">明显是base64 尝试解密</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/375102aca2fe54fb2287a990a4d31198.png"></span><br><span style="font-size: 16pt;">输入storage 即可跳转下一关。</span></p>
-<blockquote>
-<p><a id="Stage12"><span style="font-size: 16pt;">13、Stage 12:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/10741092c44739ee62d409dee63b624b.png"></span><br><span style="font-size: 16pt;">这个是经纬度 </span>39°54’32.3”N 116°23’51.1”E 前面的是北纬 后面的是东经</p>
-<p>先把经纬度换算了先</p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/9f6b0724d18aea0161686cfd4d9de69c.png"></span><br><span style="font-size: 16pt;"><img src="/uploads/2021/12/0f5be2aa64a904f0806d765469fb326e.png"></span><br><span style="font-size: 16pt;">约在</span> 39.908972222222225和116.39752777777778度</p>
-<p>然后去经纬度查询度数<a href="https://www.qvdv.com/tools/qvdv-coordinate.html">https://www.qvdv.com/tools/qvdv-coordinate.html</a></p>
-<p><img src="/uploads/2021/12/aa14fcb3f69cb59f7313d1253f536b9b.png"><br>这里是天安门广场 所以密码是其拼写tiananmen</p>
-<p><span style="font-size: 16pt;">输入即可。</span></p>
-<blockquote>
-<p><a id="Stage13"><span style="font-size: 16pt;">14、Stage 13:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/8b7c71d6cb8ea111fa54de3033e57af6.png"></span><br><span style="font-size: 16pt;">密文是</span> <span style="font-size: 16pt;">····　·　·-··　·-··　—　·-·-·-　–　—　·-·　···　·　</span></p>
-<p><span style="font-size: 16pt;">显然这是摩斯密码</span></p>
-<p><span style="font-size: 16pt;">找个在线网站解码即可：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/7794200938e3f57a18554bfd73c702e8.png"></span><br><span style="font-size: 16pt;">注意这里的空格要复制到间隔里 不是一个空格 不然会解密错误</span></p>
-<p><span style="font-size: 16pt;">最后解得到：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/b2056db4b040a540c5de0a0b56d260fe.png"></span><br><span style="font-size: 16pt;">密码是hello.morse输入即可。</span></p>
-<blockquote>
-<p><a id="Stage14"><span style="font-size: 16pt;">15、Stage 14:</span></a><br><span style="font-size: 16pt;">（接下来是密码关卡 提升了一些难度）</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;">页面如下：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/b848ea3f3cc13e7c0d649fb9efb4044b.png"></span><br><span style="font-size: 16pt;">先看源码：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/d5c9aaf8e11355b317ef737a2df5f514.png"></span><br><span style="font-size: 16pt;">当时我看到这题 就去搜了下</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/7c2a4033c3b5ab96a2499ab7c21776ce.png"></span><br><span style="font-size: 16pt;">一看到标题 再结合关卡14 我想 是4 14？草。。</span></p>
-<p><span style="font-size: 16pt;">密码应该是4。。。（谐音梗扣钱）</span></p>
-<p><span style="font-size: 16pt;">输入即可。</span></p>
-<blockquote>
-<p><a id="Stage15"><span style="font-size: 16pt;">16、Stage 15:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/c2bd02b3826bc7baf7afb02ae708703f.png"></span><br><span style="font-size: 16pt;">先看源码：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/eed41b898f977b66272b5525e78e1902.png"></span><br><span style="font-size: 16pt;">源代码有这么一段代码 无论你输入啥都是false</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/18f00bc8feed7754973ca6a1f0df17d2.png"></span><br><span style="font-size: 16pt;"><img src="/uploads/2021/12/c4600d859a4abf9f66f96a607f418999.png"></span><br><span style="font-size: 16pt;">当时卡了一段时间</span></p>
-<p><span style="font-size: 16pt;">后来我看到了这一段：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/7164e188ecfbd470b6c89eff0b384d86.png"></span><br><span style="font-size: 16pt;">当我们点击确认密码的按钮时 会去check()函数获得值</span></p>
-<p><span style="font-size: 16pt;">而check函数不论输入啥都会return false 所以不可能为true 因此我们输入啥都没有用</span></p>
-<p><span style="font-size: 16pt;">我的办法就是把这题Ctrl+S下载到本地 把false改成true即可。</span></p>
-<p><span style="font-size: 16pt;">（这里要用谷歌保存下来 不知道什么原因火狐保存本地打开好像没用）</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/04c03237356063ae62cda4a7d2adaeb7.png"></span><br><span style="font-size: 16pt;">改成true后保存 本地打开。</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/e03ba055d6af932bf7d91e7f25dcac2f.png"></span><br><span style="font-size: 16pt;">直接点击确认，会先报错，然后再把我们跳转到新页面：</span></p>
-<blockquote>
-<p><a id="Stage16"><span style="font-size: 16pt;"><img src="/uploads/2021/12/0608d8fa00683302067a0bb329a59492.png"></span><span style="font-size: 16pt;">17、Stage 16:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/77bfeff7cc20cb45494e6a058c189564.png"></span><br><span style="font-size: 16pt;">少了个按钮 和上题同理，本地添加一个按钮 然后本地打开即可。</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/eec979085896dc54ca46702e6ff04cac.png"></span><br><span style="font-size: 16pt;"><img src="/uploads/2021/12/849bc79a1d2bd62cd0048474faf4a98b.png"></span><br><span style="font-size: 16pt;">点击即可跳转下一关。</span></p>
-<blockquote>
-<p><a id="Stage17"><span style="font-size: 16pt;">18、Stage 17:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/ab997b8d7c93cee54468581b3ac0c287.png"></span><br><span style="font-size: 16pt;">这里直接输入密码 发现错误</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/9e7344477aadcd03dd48cea87feb0155.png"></span><br><span style="font-size: 16pt;">看源码发现是把输入框的输入长度给限制了：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/5247860dba238509f2001f5b4479e4f5.png"></span><br><span style="font-size: 16pt;">把maxlength改高点在输入就可以了</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/2bed9fa0123482bbc27d341aa340d0f1.png"></span><br><span style="font-size: 16pt;">输入即可下一关。</span></p>
-<blockquote>
-<p><a id="Stage18"><span style="font-size: 16pt;">19、Stage 18:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/6f173c9cba5440ea2d3dfbaf82f9530b.png"></span><br><span style="font-size: 16pt;">依旧是谷歌保存页面 然后本地添加按钮即可。</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/b8d7bbaa397a486f47ca7fff68571858.png"></span><br><span style="font-size: 16pt;"><img src="/uploads/2021/12/fdc4b0f8aabab9d2bd1c92944bf1242c.png"></span><br><span style="font-size: 16pt;">点击按钮即可。</span></p>
-<blockquote>
-<p><a id="Stage19"><span style="font-size: 16pt;">20、Stage 19:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/e33678df179fb2edd093836c71ce2662.png"></span><br><span style="font-size: 16pt;">提示说根据前三关密码得出本关密码</span></p>
-<p><span style="font-size: 16pt;">我们整理前面的md5值：</span></p>
-<p><span style="font-size: 16pt;">18：</span><span style="font-size: 16pt;">6f4922f45568161a8cdf4ad2299f6d23</span></p>
-<p><span style="font-size: 16pt;">17：</span><span style="font-size: 16pt;">70efdf2ec9b086079795c442636b55fb</span></p>
-<p><span style="font-size: 16pt;">16：</span><span style="font-size: 16pt;">c74d97b01eae257e44aa9d5bade97baf</span></p>
-<p><span style="font-size: 16pt;">去somd5在线解密一下。</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/2dd26c46f0421a0e823b991d60b44ed9.png"></span><br><span style="font-size: 16pt;"><img src="/uploads/2021/12/7542f2576dd35be4df02088e044c94e0.png"></span><br><span style="font-size: 16pt;">这里其实就可以知道了 题目是以关卡数作为md5密码</span></p>
-<p><span style="font-size: 16pt;">因此我们只要加密下19的md5 就是本关密码了：</span></p>
-<p><span style="font-size: 16pt;">（用php或者python都可以）</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/cf58c1b7649b32681bdf05f383253262.png"></span><br><span style="font-size: 16pt;">密码为：</span><span style="font-size: 16pt;">1f0e3dad99908345f7439f8ffabdffc4</span></p>
-<p><span style="font-size: 16pt;">输入即可下一关。</span></p>
-<blockquote>
-<p><a id="Stage20"><span style="font-size: 16pt;">21、Stage 20:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/9cbee0116ba5d82669a67f5417c16893.png"></span><br><span style="font-size: 16pt;">先看源代码：</span></p>
-<p><span style="font-size: 16pt;">有这么一段js代码</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/b5ef5e6c8b076c462ca78d0a15bd83cc.png"></span><br><span style="font-size: 16pt;">让我们计算a的值 然后跳转到a.html就可以了</span></p>
-<p><span style="font-size: 16pt;">直接把js代码复制到python运行：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/55dc7f0c10004f411a89e01829521cdf.png"></span><br><span style="font-size: 16pt;"><img src="/uploads/2021/12/466c1f662cb25f4ff4ef18f506d80ff5.png"></span><br><span style="font-size: 16pt;">输入即可：</span></p>
-<blockquote>
-<p><a id="Stage21"><span style="font-size: 16pt;"><img src="/uploads/2021/12/a9bf3e599644fe9040c4fbc6cde42e13.png"></span><span style="font-size: 16pt;">22、Stage 21:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/65dee3ee64129f28803960d7b3dd9ad4.png"></span><br><span style="font-size: 16pt;">看源码：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/854cffbd0a59da6c6d47fb502f3e3bd6.png"></span><br><span style="font-size: 16pt;">（上一关还可以绕过控制台）</span></p>
-<p><span style="font-size: 16pt;">这里给出的是一堆ascii码 依旧用python解码</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/6775d5040672aa0e519211d42450c41a.png"></span><br><span style="font-size: 16pt;">得到：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/2761f0f6fd2969126bdafb7347291f01.png"></span><br><span style="font-size: 16pt;">直接访问</span><span style="font-size: 16pt;">vuejs.html</span><span style="font-size: 16pt;">即可。</span></p>
-<blockquote>
-<p><a id="Stage22"><span style="font-size: 16pt;">23、Stage 22:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/745233a3d272b31275a44a4e7e0e8ce8.png"></span><br><span style="font-size: 16pt;">源代码：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/6e0444293d27c522e764d03c2583866b.png"></span><br><span style="font-size: 16pt;">这题卡了我很久 源代码没给一点提示 标题也没有 尝试了很久的密码都没找到 还在上一关找线索 最后也是无果。</span></p>
-<p><span style="font-size: 16pt;">在网友的帮助下 得知这题的password藏在了cookie中</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/fec3c6a784f117d3007d259dc6656b84.png"></span><br><span style="font-size: 16pt;">真的是没想到啊 所以说题目还挺烧脑洞的。</span></p>
-<p><span style="font-size: 16pt;">同时也就是说 接下来要看页面的属性了。</span></p>
-<p><span style="font-size: 16pt;">输入密码即可下一关。</span></p>
-<blockquote>
-<p><a id="Stage23"><span style="font-size: 16pt;">24、Stage 23:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/510a1c89b535453fa32cb2b481ca8a83.png"></span><br><span style="font-size: 16pt;">经过教训 这次先看属性：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/47f13be0aed52809ea0d67689bc53e7c.png"></span><br><span style="font-size: 16pt;">这次不在cookie中 看其他信息：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/e1ba9c074474f6ce6bb4d962284d931e.png"></span><br><span style="font-size: 16pt;">最后在 本地存储中找到密码</span></p>
-<p><span style="font-size: 16pt;">输入密码即可。</span></p>
-<blockquote>
-<p><a id="Stage24"><span style="font-size: 16pt;">25、Stage 24:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/e5e3efd3cedff6e5d7a0e0e55e459125.png"></span><br><span style="font-size: 16pt;">在一番查找后 不在存储类中了，尝试看看header头信息</span></p>
-<p><span style="font-size: 16pt;">这里用postman访问网站：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/c30a75557007116af6d4de7f7771dca8.png"></span><br><span style="font-size: 16pt;">在header中找到密码</span></p>
-<p><span style="font-size: 16pt;">输入即可。</span></p>
-<blockquote>
-<p><a id="Stage25"><span style="font-size: 16pt;">26、Stage 25:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/30f200cd814612e23c316851b8bd4712.png"></span><br><span style="font-size: 16pt;">题目给了一串数字。</span><span style="font-size: 16pt; color: unset; font-family: unset;">5 11 14 22 4 17</span></p>
-<p><span style="font-size: 16pt;">先看源代码：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/725b2542c35f69d17d46f38721faf3ae.png"></span><br><span style="font-size: 16pt;">结合标题letter字母 和 本题url abc猜测这串数字可能是字母表中顺序</span></p>
-<p><span style="font-size: 16pt;">用python写：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/b544949a6c42317de5724f11f15451d0.png"></span><br><span style="font-size: 16pt;">得到密码flower：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/cceef4ca203cbc60bdd9ba867b1a8d40.png"></span><br><span style="font-size: 16pt;">输入即可。</span></p>
-<blockquote>
-<p><a id="Stage26"><span style="font-size: 16pt;">27、Stage 26:</span></a><br><span style="font-size: 16pt;">（这里开始偏向misc了 隐写 图片分析等等）</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;">页面如下：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/f5142800af82d93d2686fc8118d8d629.png"></span><br><span style="font-size: 16pt;">看源代码：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/b9f42708e310dbdbc71701ac5c87274c.png"></span><br><span style="font-size: 16pt;">标题提示图片中有东西 又是一张rar图片。</span></p>
-<p><span style="font-size: 16pt;">先将图片保存到本地</span></p>
-<p><span style="font-size: 16pt;">用winhex分析 </span><span style="font-size: 16pt; color: unset; font-family: unset;">直接拖到尾部看额外数据：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/b9e65f7aa9a05a16ed12e89706b63a4b.png"></span><br><span style="font-size: 16pt;">明显图片中有压缩包 可以直接改后缀（吐槽一下图片是rar为什么给的zip的头 虽然也是能打开）：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/df4246db40efe9d8976e91909709eef8.png"></span><br><span style="font-size: 16pt;"><img src="/uploads/2021/12/80973a8dc4a16bc4084ce9c18c6985e8.png"></span><br><span style="font-size: 16pt;">访问即可。</span></p>
-<blockquote>
-<p><a id="Stage27"><span style="font-size: 16pt;">28、Stage 27:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/760d015c5248ae75af68e6c75d14f40e.png"></span><br><span style="font-size: 16pt;">提示说在图片中：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/35210e5d07728ccad602cf5ed650824b.png"></span><br><span style="font-size: 16pt;">直接保存 分析</span></p>
-<p><span style="font-size: 16pt;">拉到尾部：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/bb516c5c15dc1bfb1dd8866e5a511c59.png"></span><br><span style="font-size: 16pt;">访问即可。</span></p>
-<blockquote>
-<p><a id="Stage28"><span style="font-size: 16pt;">29、Stage 28:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/3072f9148c8da8823260c8d6643c3212.png"></span><br><span style="font-size: 16pt;">这里是刚开始是一张图片 然后又替换成另一张图片了（图片中藏着五个半透明字母）：</span></p>
-<p><span style="font-size: 16pt;">（这是首页图片）</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/2cf2373f107c70af3a485153401cfc8c.png"></span><br><span style="font-size: 16pt;">（隐藏的图片）</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/c2161cb3c7b522e8b242853ffa20356e.png"></span><br><span style="font-size: 16pt;">两者少了一个&#x2F; 差的很多。</span></p>
-<p><span style="font-size: 16pt;">图片能零零散散看到几个字母：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/e05355c5a75a27175658ef976ea60243.png"></span><br><span style="font-size: 16pt;">这里可以把两张图片保存下来然后用stegsolve对比一下 更清晰</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/c965be454b0e8a6f131e77c95aad8a5e.png"></span><br><span style="font-size: 16pt;">字母是h u r t t</span></p>
-<p><span style="font-size: 16pt;">这里又是一个坑 顺序呢？</span></p>
-<p><span style="font-size: 16pt;">也是卡了一会 然后找到了一个字母组成单词的网站：</span></p>
-<p><span style="font-size: 16pt;"><a href="http://wordsolver.net/#">http://wordsolver.net/#</a></span></p>
-<p><img src="/uploads/2021/12/efd2c65572a0e26abd20624ef2f0620f.png"><br>所以是truth.html</p>
-<p><span style="font-size: 16pt;">访问即可。</span></p>
-<blockquote>
-<p><a id="Stage29"><span style="font-size: 16pt;">30、Stage 29:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/a061bbde6c4a4847a1f6634ecd2a3f4f.png"></span><br><span style="font-size: 16pt;">保存图片 直接用winhex分析：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/a6fdf06df9ba7d020ee60c8bf055966e.png"></span><br><span style="font-size: 16pt;">这里搜索FFD9（jpg文件的结尾头） 发现有额外数据</span></p>
-<p><span style="font-size: 16pt;">结合提示：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/8ed4d5cc17493cd926334d692cc4596b.png"></span><br><span style="font-size: 16pt;">这是base64的data数据流</span></p>
-<p><span style="font-size: 16pt;">这里</span><span style="font-size: 16pt;">写html或者在线解码</span></p>
-<p><span style="font-size: 16pt;">直接写html：（<img src="/2021/12/04/20211204/png;base64,xxxx">）</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/7aa420a66e24d2525b7ff040b29ae9be.png"></span><br><span style="font-size: 16pt;">得到图片：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/dd374bd9d1b4b09619d9474bc4abd64a.png"></span><br><span style="font-size: 16pt;">输入即可。</span></p>
-<blockquote>
-<p><a id="Stage30"><span style="font-size: 16pt;">31、Stage 30:</span></a><br><span style="font-size: 16pt;">又是密码题</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;">页面如下：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/261b550aa1f63884d8ee3a4b088baa74.png"></span><br><span style="font-size: 16pt;">看源码：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/4998c9a4a9dcf36e4654ce211e6d38fc.png"></span><br><span style="font-size: 16pt;">标题说提交按钮有密码</span></p>
-<p><span style="font-size: 16pt;">F12看元素 这里一个技巧是可以直接搜索passwd</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/bef45596fbaa0cef0882351aa568afd5.png"></span><br><span style="font-size: 16pt;">得到密码为 content的内容</span></p>
-<p><span style="font-size: 16pt; color: unset; font-family: unset;">提交即可。</span></p>
-<blockquote>
-<p><a id="Stage31"><span style="font-size: 16pt;">32、Stage 31:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/dae67a7ec5e3ed43f5b0135987ed3e97.png"></span><br><span style="font-size: 16pt;">本来是html 但是l的部分被划掉了</span></p>
-<p><span style="font-size: 16pt;">烧脑洞的地方是要想到把html 去掉 l</span></p>
-<p><span style="font-size: 16pt;">访问xx.htm</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/54125278c01908b7dce75bd59d7ec079.png"></span><br><span style="font-size: 16pt;">结果被跳转到了首页：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/a4434d7af2b26e9abd91eda93cd8fa14.png"></span><br><span style="font-size: 16pt;">用postman 或者 python截取网站内容：</span><span style="font-size: 16pt;"><img src="/uploads/2021/12/2bfc3c7bd95e13af93962acecd32101b.png"></span><br><span style="font-size: 16pt;">访问url即可。</span></p>
-<blockquote>
-<p><a id="Stage32"><span style="font-size: 16pt;">33、Stage 32:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/07c518105d5d74a796e19839230c398a.png"></span><br><span style="font-size: 16pt;">源码：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/126fd691b7a31e18083a7f8b579f0b0d.png"></span><br><span style="font-size: 16pt;">标题提示说找到Big Monster</span></p>
-<p><span style="font-size: 16pt;">这里结合网友提示 这是电影《神秘博士》中反派Davros</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/b6938beb502e17111b5359d2e008a95d.png"></span><br><span style="font-size: 16pt;">因此访问Davros.html即可。</span></p>
-<blockquote>
-<p><a id="Stage33"><span style="font-size: 16pt;">34、Stage 33:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/07623053722c44effd4f226ee3f73baf.png"></span><br><span style="font-size: 16pt;">这里访问url就会跳转到首页</span></p>
-<p><span style="font-size: 16pt;">源码：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/6e43ffaf4773acde1448f76dce6fa32a.png"></span><br><span style="font-size: 16pt;">访问即可。</span></p>
-<blockquote>
-<p><a id="Stage34"><span style="font-size: 16pt;">35、Stage 34:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/5aca21fd9efce762a1f4bcd5d29f4291.png"></span><br><span style="font-size: 16pt;">源码：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/3022ab8d39bad80fe749624400246f18.png"></span><br><span style="font-size: 16pt;">百度搜下OSK</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/3bc748d8c1c743673fc9be91e6b770d0.png"></span><br><span style="font-size: 16pt;">这是qwerty键盘密码 跟字母表对应即可。</span></p>
-<p><span style="font-size: 16pt;">写python脚本：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/5b3437d26d1055e5bebb5686f04dabdd.png"></span><br><span style="font-size: 16pt;"><img src="/uploads/2021/12/6d18b0d0c359726f3629a40333354e41.png"></span><br><span style="font-size: 16pt;">访问即可。</span></p>
-<blockquote>
-<p><a id="Stage35"><span style="font-size: 16pt;">36、Stage 35:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/4b43e89811e468501826ef8cd34cd2f2.png"></span><br><span style="font-size: 16pt;">网页给了一张gif</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/7c119a39bb9c5394be162ade16b39036.png"></span><br><span style="font-size: 16pt;">直接保存到本地 用stegsolve跳到最后一帧</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/9648df3b92e5a72ad2094f20f315a71b.png"></span><br><span style="font-size: 16pt;"><img src="/uploads/2021/12/0a24d8faf5c13e397f4dddd064edb42c.png"></span><br><span style="font-size: 16pt;">最后访问即可。</span></p>
-<blockquote>
-<p><a id="Stage36"><span style="font-size: 16pt;">37、Stage 36:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/4ce742ceb85726046ee91701c9f1aa17.png"></span><br><span style="font-size: 16pt;">这个是数独 用9x9数独解</span><span style="font-size: 16pt;"><a href="https://www.toycl.com/sudu/sudoku.php">https://www.toycl.com/sudu/sudoku.php</a></span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/c3f3dd21d3071d6bb4d9a12b9afa2ece.png"></span><br><span style="font-size: 16pt;"><img src="/uploads/2021/12/214836613dbadc2c81925a752aa230ae.png"></span><br><span style="font-size: 16pt;">根据图中黄色部分 猜测密码为1983</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/0b0b1b28b60f1ffacb289ec332ad4517.png"></span><br><span style="font-size: 16pt;">报错了 但是提示我们用在图片上</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/ba97a191bc12fbb895e434c6e250c0cb.png"></span><br><span style="font-size: 16pt;">所以就访问url:</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/3b600acef331b7381d526f2379a11970.png"></span><br><span style="font-size: 16pt;">得到一张图片：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/e29e6205d3605b66c21da4e6c17bdca5.png"></span><br><span style="font-size: 16pt;">通过百度识图 在一张文章中找到线索</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/adbaa94bd3fe38c6c38722d73ad59ba4.png"></span><br><span style="font-size: 16pt;">这台电脑叫做lisa 所以尝试访问lisa.jpg</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/b45f50932920f23e3830ee3249d04328.png"></span><br><span style="font-size: 16pt;">这里有一个坑就是你找到这个人的人名是不对的，因为这张图片还藏有一张图片</span></p>
-<p><span style="font-size: 16pt;">先本地保存</span></p>
-<p><span style="font-size: 16pt;">在图片备注处发现：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/26ea20c0af4a7016d225d84d4a0d3cef.png"></span><br><span style="font-size: 16pt;">让我们用win7查看 所以启动虚拟机</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/82aafd9f8fdf28aa40c74536ba5fb14c.png"></span><br><span style="font-size: 16pt;">在缩略图中发现不一样。找到这个人就是密码了。</span></p>
-<p><span style="font-size: 16pt;">在网友的帮助下得知这是川宝</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/d3a460ebed3f3f99dedc422e5ea51f9b.png"></span><br><span style="font-size: 16pt;">Donald就是密码了</span></p>
-<p><span style="font-size: 16pt;">输入即可。</span></p>
-<blockquote>
-<p><a id="Stage37"><span style="font-size: 16pt;">38、Stage 37:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/11821a388f5368489ac9d8ca4791ede9.png"></span><br><span style="font-size: 16pt;">这题不会看三维图的我直接放弃了，</span></p>
-<p><span style="font-size: 16pt;">这种裸眼3d图真的看不出来。。。</span></p>
-<p><span style="font-size: 16pt;">好在网友帮助下 得知这好像是三体 图片中的内容是三体的logo</span></p>
-<p><span style="font-size: 16pt;">以三体英文名作为url访问即可</span></p>
-<blockquote>
-<p><a id="Stage38"><span style="font-size: 16pt;">39、Stage 38:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/ac1f62f379e58d2dccfb119080b43beb.png"></span><br><span style="font-size: 16pt;">密文：ADDFADAFAG</span></p>
-<p><span style="font-size: 16pt;">先看源码：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/4ebcf577c4666eb3bcc0bbb4515c90b8.png"></span><br><span style="font-size: 16pt;">标题提示ADFGX 先了解下这个东西</span></p>
-<p><span style="font-size: 16pt;">利用google或者wiki查询资料</span></p>
-<p><span style="font-size: 16pt;">可参考</span><span style="font-size: 16pt;"><a href="https://xz.aliyun.com/t/3603">https://xz.aliyun.com/t/3603</a> 讲的很细</span></p>
-<p><span style="font-size: 16pt;">但是这里的ADFGX是没有所谓的移位密钥和密钥的。也就是说对着表就可以找到单词了。</span></p>
-<p><span style="font-size: 16pt;">要注意的是 不同的表的结果是不一样的。这里参考wiki的表就可以解出来</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/0bf9114e37095eeecd338b4caf1d3149.png"></span><br><span style="font-size: 16pt;">AD DF AD AF AG</span></p>
-<p><span style="font-size: 16pt;">得到 t o t a l</span></p>
-<p><span style="font-size: 16pt;">使用total作为密码输入即可。</span></p>
-<blockquote>
-<p><a id="Stage39"><span style="font-size: 16pt;">40、Stage 39:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/daafb328548f060b367239cef43fa79b.png"></span><br><span style="font-size: 16pt;">密文：GDVFXVAX AAFFVGFX</span></p>
-<p><span style="font-size: 16pt;">这题和上题相似 只不过是ADFGX的变种 ADFGVX加密</span></p>
-<p><span style="font-size: 16pt;">区别就是表从5x5变为6x6 并且密文中含有字母V</span></p>
-<p><span style="font-size: 16pt;">这题我卡了十几个小时 因为呢这题直接找表是不可行的 大多数的表都是不对的 因为题目用的表不是常规的</span></p>
-<p><span style="font-size: 16pt;">当时我去找自己写了个爆破脚本 遍历移位密钥和表 最后也是无果 因为表不一样结果就是不一样的。</span></p>
-<p><span style="font-size: 16pt;">昨晚也是做的很无奈 匆匆下了班。</span></p>
-<p><span style="font-size: 16pt;">早上我来的时候 出窍了。</span></p>
-<p><span style="font-size: 16pt;">一番信息搜索过后，</span></p>
-<p><span style="font-size: 16pt;">根据网友提示说图片很重要</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/2eb5ecf6319c7cce38a35e77886566b8.png"></span><br><span style="font-size: 16pt;">既然有encode 那有没有decode呢？？？</span></p>
-<p><span style="font-size: 16pt;">直接访问url</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/e148a5a4829d877c749babddd7f68567.png"></span><br><span style="font-size: 16pt;">我去，果然有。。。</span></p>
-<p><span style="font-size: 16pt;">所以说 这是信息搜集能力吗 算是吧？</span></p>
-<p><span style="font-size: 16pt;">然后把密文对照表 一一对应</span></p>
-<p><span style="font-size: 16pt;">GD&#x3D;L VF&#x3D;E XV&#x3D;F AX&#x3D;T AA&#x3D;H FF&#x3D;A VG&#x3D;N FX&#x3D;D</span></p>
-<p><span style="font-size: 16pt;">最后LEFT HAND 作为密码提交即可</span></p>
-<p><span style="font-size: 16pt;">卡了半天的题 总算是做出来了，也算是功夫不负有心人呐</span></p>
-<blockquote>
-<p><a id="Stage40"><span style="font-size: 16pt;">41、Stage 40:</span></a><br><span style="font-size: 16pt;">这题没做出来 只有一点点思路 有想法的师傅可以交流</span></p>
-</blockquote>
-<p><span style="font-size: 16pt;">页面如下：</span></p>
-<p><span style="font-size: 16pt;"><span style="text-decoration: line-through;"><img src="/uploads/2021/12/bb01ca675f3257b868b5e5e72767f1d6.png"></span></span><br><span style="font-size: 16pt;">源码中发现：</span></p>
-<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/636164a3f826a0ce6201c7638ffcfe2c.png"></span><br><span style="font-size: 16pt;"><img src="/uploads/2021/12/23df81a512203845a3d822a8d03ef0de.png"></span><br><span style="font-size: 16pt;">这个图片看得出来是</span> <span style="font-size: 16pt;">Dvorak键盘布局 但是就没思路了。</span></p>
-<p><span style="font-size: 16pt;">将密文qwerty转换？ left right转换？我是解不出来。。</span></p>
-<hr>
-<p><span style="font-size: 16pt;">就记录到这先吧，后面做出来了继续更新。</span></p>
-<p><span style="font-size: 16pt;">题目挺难的 卡的也挺难受的 还是自己太菜了</span></p>
-<p><span style="font-size: 16pt;">复盘一下 感觉都还是会做的。</span></p>
-<p><span style="font-size: 16pt;">欢迎师傅评论交流。</span></p>
-]]></content>
-      <categories>
-        <category>刷题笔记</category>
-        <category>Writeup</category>
-      </categories>
-      <tags>
-        <tag>刷题</tag>
-        <tag>CTF</tag>
       </tags>
   </entry>
   <entry>
@@ -1996,71 +1703,364 @@ decode()
       </tags>
   </entry>
   <entry>
-    <title>记一次文件上传之过滤php绕过</title>
-    <url>/2021/10/14/20211014/</url>
-    <content><![CDATA[<!--今天在群里看到群友发的一道题 想试试 解了一个多小时 过程挺有趣 就记录一下了 学到新的绕过姿势-->
-
-<h1 id="记一次文件上传之过滤php绕过"><a href="#记一次文件上传之过滤php绕过" class="headerlink" title="记一次文件上传之过滤php绕过"></a>记一次文件上传之过滤php绕过</h1><p>今天在群里看到群友发的一道题 想试试 解了一个多小时 过程挺有趣 就记录一下了 学到新的绕过姿势 <img src="http://www.anyiblog.top/uploads/2021/12/874dc429460d889cb885cedef68b295f.png"> 看题； <img src="http://www.anyiblog.top/uploads/2021/12/095c93515297178510c14a9120098f25.png"> 一道文件上传+文件包含的题目 bp上传如下 <img src="http://www.anyiblog.top/uploads/2021/12/d9f1c83b950af13dfad37c95aeb45370.png"> 经过测试文件名含有ph过滤 文件内容含有php过滤 上传后发现注释  <!--read.php?filename=  --> 访问后尝试进行文件包含，如下 <img src="http://www.anyiblog.top/uploads/2021/12/5a0326775979e47db80f3c4998383744.png"> 显然 这是文件包含没错 试着读取flag <img src="http://www.anyiblog.top/uploads/2021/12/c198b7c7b96a0704084d72521b2f06c8.png"> 被过滤了 目前思路是通过上传jpg或者txt 然后内容写入php代码 即使文件不是以php后缀结尾，仍可以利用include特性执行代码 因此，我们需要绕过对内容的过滤 在此之前，我们可以用php:filter伪协议读取文件源码 <img src="http://www.anyiblog.top/uploads/2021/12/64ef029d9501da7bbb688967abd0cf86.png"> base64解码后代码如下： </p>
-<pre><code>&lt;div class=&quot;light&quot;&gt;&lt;span class=&quot;glow&quot;&gt;
-            &lt;form enctype=&quot;multipart/form-data&quot; method=&quot;post&quot; onsubmit=&quot;return checkFile()&quot;&gt;
-                嘿伙计，传个火？！
-                &lt;input class=&quot;input_file&quot; type=&quot;file&quot; name=&quot;upload_file&quot;/&gt;
-                &lt;input class=&quot;button&quot; type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;upload&quot;/&gt;
-            &lt;/form&gt;
-      &lt;/span&gt;&lt;span class=&quot;flare&quot;&gt;&lt;/span&gt;&lt;div&gt;
-      &lt;!--read.php?filename=  --&gt;
-&lt;?php
-    error_reporting(0);
-    //设置上传目录
-    define(&quot;UPLOAD_PATH&quot;, &quot;./uplo4d&quot;);
-    $msg = &quot;Upload Success!&quot;;
-    if (isset($_POST[&#39;submit&#39;])) &#123;
-        $temp_file = $_FILES[&#39;upload_file&#39;][&#39;tmp_name&#39;];
-        $file_name = $_FILES[&#39;upload_file&#39;][&#39;name&#39;];
-        $ext = pathinfo($file_name,PATHINFO_EXTENSION);
-      if(preg_match(&quot;/ph/i&quot;, strtolower($ext)))&#123;
-        die(&quot;这可不能上传啊！&quot;);
-    &#125;
-       
-            $content = file_get_contents($temp_file);
-            if(preg_match(&quot;/php/i&quot;, $content))&#123;
-                die(&quot;诶，被我发现了吧&quot;);
-            &#125;
-
-
-        $new_file_name = md5($file_name).&quot;.&quot;.$ext;
-        $img_path = UPLOAD_PATH . &#39;/&#39; . $new_file_name;
-
-
-
-
-        if (move_uploaded_file($temp_file, $img_path))&#123;
-            $is_upload = true;
-        &#125; else &#123;
-            $msg = &#39;Upload Failed!&#39;;
-        &#125;
-        echo &#39;&lt;div style=&quot;color:#F00&quot;&gt;&#39;.$msg.&quot; Look here~ &quot;.$img_path.&quot;&lt;/div&gt;&quot;;
-    &#125;
-?&gt;
-</code></pre>
-<p>文件名含有ph过滤 文件内容含有php过滤 read代码如下： </p>
-<pre><code>&lt;?php
-error_reporting(0);
-$a=$_GET[&quot;filename&quot;];
-if(preg_match(&#39;/flag/i&#39;,$a))&#123;
-  exit(&quot;nononono&quot;);
-&#125;
-include($a);
-
-
-?&gt;
-</code></pre>
-<p>因为php被过滤了 所以我们无法构造<?php 所以要绕过<?php 这里我想了好久 要用<?短标签绕过 ![](http://www.anyiblog.top/uploads/2021/12/17cfe83cfcc4d4733df8162065ed2856.png) 成功上传，尝试文件包含 ![](http://www.anyiblog.top/uploads/2021/12/d77745df0f14983e0bd546c504f46f1f.png) 成功执行   构造payload：<? eval($_POST['a']); ?> 注意这里不要用GET传参 因为是图片所以传不上去 <img src="http://www.anyiblog.top/uploads/2021/12/94711007e09edef7a2276f459807a7cd.png"> cat flag <img src="http://www.anyiblog.top/uploads/2021/12/2fe5ef89275ffe1f39492bf944b8ef78.png"> flag在环境变量里    因此flag在phpinfo里或者用printenv看环境变量   <img src="http://www.anyiblog.top/uploads/2021/12/30de87fae1f8e2a428e5cd5689ffe77d.png"> <img src="http://www.anyiblog.top/uploads/2021/12/99b73c79693a47c89d105891eaf7c4f4.png"> 0xGame{upl0ad_f1le_causes_danger!!!}   解法2： 上传一个<? phpinfo() ?>的图片或文本，然后访问， 要注意的是 如果要用<? phpinfo() ?>查看的话，因为包含php会被过滤 因此要用base64解密   payload：<? eval(base64_decode('cGhwaW5mbygpOw=='));?> <img src="http://www.anyiblog.top/uploads/2021/12/5bd0f17be130c8f4e27fd06ea81f7254.png"> <img src="http://www.anyiblog.top/uploads/2021/12/bf9b554dd3c9cce05be78b0b56f0a055.png"> End</p>
+    <title>摸鱼大闯关 1-40关 writeup</title>
+    <url>/2021/12/04/20211204/</url>
+    <content><![CDATA[<p>昨天玩了下摸鱼大闯关 一共54关 目前是40关</p>
+<p>网站是<a href="https://p.hancel.org/">https://p.hancel.org/</a> 题目质量可以 烧脑。解了一天就写个writeup吧</p>
+<p>内容偏ctf吧，前期是前端 后面就是烧脑的图片、编码。。</p>
+<p>writeup只提供思路 不提供url。有关的地方会打码。</p>
+<p>卡在了40 有思路的朋友可以评论分享奥</p>
+<p><img src="/uploads/2021/12/d31760c8581a607230c35419dfbe8b46.png"></p>
+<h4 id="目录-gt"><a href="#目录-gt" class="headerlink" title="目录&gt;"></a>目录&gt;</h4><h5 id="stage0"><a href="#stage0" class="headerlink" title="stage0"></a><a href="#Stage0">stage0</a></h5><h5 id="stage1"><a href="#stage1" class="headerlink" title="stage1"></a><a href="#Stage1">stage1</a></h5><h5 id="stage2"><a href="#stage2" class="headerlink" title="stage2"></a><a href="#Stage2">stage2</a></h5><h5 id="stage3"><a href="#stage3" class="headerlink" title="stage3"></a><a href="#Stage3">stage3</a></h5><h5 id="stage4"><a href="#stage4" class="headerlink" title="stage4"></a><a href="#Stage4">stage4</a></h5><h5 id="stage5"><a href="#stage5" class="headerlink" title="stage5"></a><a href="#Stage5">stage5</a></h5><h5 id="stage6"><a href="#stage6" class="headerlink" title="stage6"></a><a href="#Stage6">stage6</a></h5><h5 id="stage7"><a href="#stage7" class="headerlink" title="stage7"></a><a href="#Stage7">stage7</a></h5><h5 id="stage8"><a href="#stage8" class="headerlink" title="stage8"></a><a href="#Stage8">stage8</a></h5><h5 id="stage9"><a href="#stage9" class="headerlink" title="stage9"></a><a href="#Stage9">stage9</a></h5><h5 id="stage10"><a href="#stage10" class="headerlink" title="stage10"></a><a href="#Stage10">stage10</a></h5><h5 id="stage11"><a href="#stage11" class="headerlink" title="stage11"></a><a href="#Stage11">stage11</a></h5><h5 id="stage12"><a href="#stage12" class="headerlink" title="stage12"></a><a href="#Stage12">stage12</a></h5><h5 id="stage13"><a href="#stage13" class="headerlink" title="stage13"></a><a href="#Stage13">stage13</a></h5><h5 id="stage14"><a href="#stage14" class="headerlink" title="stage14"></a><a href="#Stage14">stage14</a></h5><h5 id="stage15"><a href="#stage15" class="headerlink" title="stage15"></a><a href="#Stage15">stage15</a></h5><h5 id="stage16"><a href="#stage16" class="headerlink" title="stage16"></a><a href="#Stage16">stage16</a></h5><h5 id="stage17"><a href="#stage17" class="headerlink" title="stage17"></a><a href="#Stage17">stage17</a></h5><h5 id="stage18"><a href="#stage18" class="headerlink" title="stage18"></a><a href="#Stage18">stage18</a></h5><h5 id="stage19"><a href="#stage19" class="headerlink" title="stage19"></a><a href="#Stage19">stage19</a></h5><h5 id="stage20"><a href="#stage20" class="headerlink" title="stage20"></a><a href="#Stage20">stage20</a></h5><h5 id="stage21"><a href="#stage21" class="headerlink" title="stage21"></a><a href="#Stage21">stage21</a></h5><h5 id="stage22"><a href="#stage22" class="headerlink" title="stage22"></a><a href="#Stage22">stage22</a></h5><h5 id="stage23"><a href="#stage23" class="headerlink" title="stage23"></a><a href="#Stage23">stage23</a></h5><h5 id="stage24"><a href="#stage24" class="headerlink" title="stage24"></a><a href="#Stage24">stage24</a></h5><h5 id="stage25"><a href="#stage25" class="headerlink" title="stage25"></a><a href="#Stage25">stage25</a></h5><h5 id="stage26"><a href="#stage26" class="headerlink" title="stage26"></a><a href="#Stage26">stage26</a></h5><h5 id="stage27"><a href="#stage27" class="headerlink" title="stage27"></a><a href="#Stage27">stage27</a></h5><h5 id="stage28"><a href="#stage28" class="headerlink" title="stage28"></a><a href="#Stage28">stage28</a></h5><h5 id="stage29"><a href="#stage29" class="headerlink" title="stage29"></a><a href="#Stage29">stage29</a></h5><h5 id="stage30"><a href="#stage30" class="headerlink" title="stage30"></a><a href="#Stage30">stage30</a></h5><h5 id="stage31"><a href="#stage31" class="headerlink" title="stage31"></a><a href="#Stage31">stage31</a></h5><h5 id="stage32"><a href="#stage32" class="headerlink" title="stage32"></a><a href="#Stage32">stage32</a></h5><h5 id="stage33"><a href="#stage33" class="headerlink" title="stage33"></a><a href="#Stage33">stage33</a></h5><h5 id="stage34"><a href="#stage34" class="headerlink" title="stage34"></a><a href="#Stage34">stage34</a></h5><h5 id="stage35"><a href="#stage35" class="headerlink" title="stage35"></a><a href="#Stage35">stage35</a></h5><h5 id="stage36"><a href="#stage36" class="headerlink" title="stage36"></a><a href="#Stage36">stage36</a></h5><h5 id="stage37"><a href="#stage37" class="headerlink" title="stage37"></a><a href="#Stage37">stage37</a></h5><h5 id="stage38"><a href="#stage38" class="headerlink" title="stage38"></a><a href="#Stage38">stage38</a></h5><h5 id="stage39"><a href="#stage39" class="headerlink" title="stage39"></a><a href="#Stage39">stage39</a></h5><h5 id="stage40"><a href="#stage40" class="headerlink" title="stage40"></a><a href="#Stage40">stage40</a></h5><hr>
+<blockquote>
+<p><a id="Stage0"><span style="font-size: 16pt;">1、Stage 0:</span></a><br><span style="font-size: 16pt;">点击图片即可下一关</span></p>
+</blockquote>
+<blockquote>
+<p><a id="Stage1"><span style="font-size: 16pt;"><img src="/uploads/2021/12/4f6a24032d535abe5d279686ca0b6840.png"></span><span style="font-size: 16pt;">2、Stage 1:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/384c13a935f1176f2c6c199991864e6b.png"></span><br><span style="font-size: 16pt;">根据url:</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/2d37baa89f5ab5f1dc1e5559bd1d1af1.png"></span><br><span style="font-size: 16pt;">直接修改为2即可下一关</span></p>
+<blockquote>
+<p><a id="Stage2"><span style="font-size: 16pt;">3、Stage 2:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/ea9381c5a24e7cbf33bd45df98dd8e9d.png"></span><br><span style="font-size: 16pt;">尝试改成3</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/1db0cc4f126acdb5c2285f11ea2f2859.png"></span><br><span style="font-size: 16pt;">不行，就看源代码</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/46aa68257ad22c8ae8065054cd52cb84.png"></span><br><span style="font-size: 16pt;">直接跳转即可。</span></p>
+<blockquote>
+<p><a id="Stage3"><span style="font-size: 16pt;">4、Stage 3:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/2ac2e933b4708a88b58560f2a2fd8a58.png"></span><br><span style="font-size: 16pt;">Ctrl+U看源码</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/dbe2489066b76faf78dc98686c50b5fd.png"></span><br><span style="font-size: 16pt;">跳转下一关。</span></p>
+<blockquote>
+<p><a id="Stage4"><span style="font-size: 16pt;">5、Stage 4:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/a33823c148aeb0ffbe0b9ba665eb7f90.png"></span><br><span style="font-size: 16pt;">看源代码：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/371c7442fd790a1b41988991a7917c27.png"></span><br><span style="font-size: 16pt;">这里说实话不细心可能会卡很久 页面就在最下面的注释中：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/b2e7d252e043ce7ec664066db052beff.png"></span><br><span style="font-size: 16pt;">访问url跳转下一关。</span></p>
+<blockquote>
+<p><a id="Stage5"><span style="font-size: 16pt;">6、Stage 5:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/7c460f298587a904d3786b5f56e804b0.png"></span><br><span style="font-size: 16pt;">上面的windows 下面的图片学过计算机的都知道是linux 因此访问linux.html</span></p>
+<p><span style="font-size: 16pt;">（这里没有啥图片隐写 还没那么难哦）</span></p>
+<blockquote>
+<p><a id="Stage6"><span style="font-size: 16pt;">7、Stage 6:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/2f5c2707f7a60676fe0aefa6c6e5733c.png"></span><br><span style="font-size: 16pt;">直接看源代码：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/de1facc3580606669d58b4fdb84f7614.png"></span><br><span style="font-size: 16pt;">发现是有图片 直接访问图片url：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/c3c4060d13c7612a668d211d4b298fbb.png"></span><br><span style="font-size: 16pt;">跳转即可。</span></p>
+<blockquote>
+<p><a id="Stage7"><span style="font-size: 16pt;">8、Stage 7:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/94d07d2e8faa9eee78b2a01cfc774961.png"></span><br><span style="font-size: 16pt;">遇到这些啥都没的 就先看源代码：</span></p>
+<p><span style="font-size: 16pt;">在标题中找到密码</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/8ce9565c7d7a6b739a238936d091df3f.png"></span><br><span style="font-size: 16pt;">输入here直接下一关。</span></p>
+<blockquote>
+<p><a id="Stage8"><span style="font-size: 16pt;">9、Stage 8:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/7ae713a678063a495561a00ff15fd582.png"></span><br><span style="font-size: 16pt;">说实话这题刚开始看的时候有一点点迷惑 可能是表述有点看不懂吧。</span></p>
+<p><span style="font-size: 16pt;">看源码：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/5be01415eac8547b4e6a4e86517d1a37.png"></span><br><span style="font-size: 16pt;">结合注释的提示和标题提示 得知这是html字符实体 然后再看url</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/6e8f7ad7bd7fdffd3aa33306857ec492.png"></span><br><span style="font-size: 16pt;">&amp;nbsp 学过html的我知道这是空格 结合题目说密码是五个字母的单词。因此密码是space</span></p>
+<p><span style="font-size: 16pt;">或者说去在线网站解html编码</span></p>
+<p><span style="font-size: 16pt;">输入space即可。</span></p>
+<blockquote>
+<p><a id="Stage9"><span style="font-size: 16pt;">10、Stage 9:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/8424ac3e6a87ada92edb4aaf35b97246.png"></span><br><span style="font-size: 16pt;">源码中提示：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/7bb3ec9bfdf47e1d1247ecd0dfe5bd42.png"></span><br><span style="font-size: 16pt;">一看就知道是凯撒 爆破一下</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/d5aed0d9665917cd0392bba28130618c.png"></span><br><span style="font-size: 16pt;">访问即可。</span></p>
+<blockquote>
+<p><a id="Stage10"><span style="font-size: 16pt;">11、Stage 10:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/96199a0a8611ae7a5f0a841c9756cdca.png"></span><br><span style="font-size: 16pt;">题目给了个十进制 做过misc多 就会尝试去把十进制转成十六进制 然后转文字</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/1654c6de47dff5316dbd5e4ae78e02db.png"></span><br><span style="font-size: 16pt;">结果一转十六进制就找到了</span></p>
+<p><span style="font-size: 16pt;">访问effaced.html即可</span></p>
+<blockquote>
+<p><a id="Stage11"><span style="font-size: 16pt;">12、Stage 11:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/d92529535f54cc9c85d10da575e0ce3f.png"></span><br><span style="font-size: 16pt;">给了密文</span>VGhlIHBhc3N3b3JkIGlzIHN0b3JhZ2Uu</p>
+<p><span style="font-size: 16pt;">明显是base64 尝试解密</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/375102aca2fe54fb2287a990a4d31198.png"></span><br><span style="font-size: 16pt;">输入storage 即可跳转下一关。</span></p>
+<blockquote>
+<p><a id="Stage12"><span style="font-size: 16pt;">13、Stage 12:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/10741092c44739ee62d409dee63b624b.png"></span><br><span style="font-size: 16pt;">这个是经纬度 </span>39°54’32.3”N 116°23’51.1”E 前面的是北纬 后面的是东经</p>
+<p>先把经纬度换算了先</p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/9f6b0724d18aea0161686cfd4d9de69c.png"></span><br><span style="font-size: 16pt;"><img src="/uploads/2021/12/0f5be2aa64a904f0806d765469fb326e.png"></span><br><span style="font-size: 16pt;">约在</span> 39.908972222222225和116.39752777777778度</p>
+<p>然后去经纬度查询度数<a href="https://www.qvdv.com/tools/qvdv-coordinate.html">https://www.qvdv.com/tools/qvdv-coordinate.html</a></p>
+<p><img src="/uploads/2021/12/aa14fcb3f69cb59f7313d1253f536b9b.png"><br>这里是天安门广场 所以密码是其拼写tiananmen</p>
+<p><span style="font-size: 16pt;">输入即可。</span></p>
+<blockquote>
+<p><a id="Stage13"><span style="font-size: 16pt;">14、Stage 13:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/8b7c71d6cb8ea111fa54de3033e57af6.png"></span><br><span style="font-size: 16pt;">密文是</span> <span style="font-size: 16pt;">····　·　·-··　·-··　—　·-·-·-　–　—　·-·　···　·　</span></p>
+<p><span style="font-size: 16pt;">显然这是摩斯密码</span></p>
+<p><span style="font-size: 16pt;">找个在线网站解码即可：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/7794200938e3f57a18554bfd73c702e8.png"></span><br><span style="font-size: 16pt;">注意这里的空格要复制到间隔里 不是一个空格 不然会解密错误</span></p>
+<p><span style="font-size: 16pt;">最后解得到：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/b2056db4b040a540c5de0a0b56d260fe.png"></span><br><span style="font-size: 16pt;">密码是hello.morse输入即可。</span></p>
+<blockquote>
+<p><a id="Stage14"><span style="font-size: 16pt;">15、Stage 14:</span></a><br><span style="font-size: 16pt;">（接下来是密码关卡 提升了一些难度）</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;">页面如下：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/b848ea3f3cc13e7c0d649fb9efb4044b.png"></span><br><span style="font-size: 16pt;">先看源码：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/d5c9aaf8e11355b317ef737a2df5f514.png"></span><br><span style="font-size: 16pt;">当时我看到这题 就去搜了下</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/7c2a4033c3b5ab96a2499ab7c21776ce.png"></span><br><span style="font-size: 16pt;">一看到标题 再结合关卡14 我想 是4 14？草。。</span></p>
+<p><span style="font-size: 16pt;">密码应该是4。。。（谐音梗扣钱）</span></p>
+<p><span style="font-size: 16pt;">输入即可。</span></p>
+<blockquote>
+<p><a id="Stage15"><span style="font-size: 16pt;">16、Stage 15:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/c2bd02b3826bc7baf7afb02ae708703f.png"></span><br><span style="font-size: 16pt;">先看源码：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/eed41b898f977b66272b5525e78e1902.png"></span><br><span style="font-size: 16pt;">源代码有这么一段代码 无论你输入啥都是false</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/18f00bc8feed7754973ca6a1f0df17d2.png"></span><br><span style="font-size: 16pt;"><img src="/uploads/2021/12/c4600d859a4abf9f66f96a607f418999.png"></span><br><span style="font-size: 16pt;">当时卡了一段时间</span></p>
+<p><span style="font-size: 16pt;">后来我看到了这一段：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/7164e188ecfbd470b6c89eff0b384d86.png"></span><br><span style="font-size: 16pt;">当我们点击确认密码的按钮时 会去check()函数获得值</span></p>
+<p><span style="font-size: 16pt;">而check函数不论输入啥都会return false 所以不可能为true 因此我们输入啥都没有用</span></p>
+<p><span style="font-size: 16pt;">我的办法就是把这题Ctrl+S下载到本地 把false改成true即可。</span></p>
+<p><span style="font-size: 16pt;">（这里要用谷歌保存下来 不知道什么原因火狐保存本地打开好像没用）</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/04c03237356063ae62cda4a7d2adaeb7.png"></span><br><span style="font-size: 16pt;">改成true后保存 本地打开。</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/e03ba055d6af932bf7d91e7f25dcac2f.png"></span><br><span style="font-size: 16pt;">直接点击确认，会先报错，然后再把我们跳转到新页面：</span></p>
+<blockquote>
+<p><a id="Stage16"><span style="font-size: 16pt;"><img src="/uploads/2021/12/0608d8fa00683302067a0bb329a59492.png"></span><span style="font-size: 16pt;">17、Stage 16:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/77bfeff7cc20cb45494e6a058c189564.png"></span><br><span style="font-size: 16pt;">少了个按钮 和上题同理，本地添加一个按钮 然后本地打开即可。</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/eec979085896dc54ca46702e6ff04cac.png"></span><br><span style="font-size: 16pt;"><img src="/uploads/2021/12/849bc79a1d2bd62cd0048474faf4a98b.png"></span><br><span style="font-size: 16pt;">点击即可跳转下一关。</span></p>
+<blockquote>
+<p><a id="Stage17"><span style="font-size: 16pt;">18、Stage 17:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/ab997b8d7c93cee54468581b3ac0c287.png"></span><br><span style="font-size: 16pt;">这里直接输入密码 发现错误</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/9e7344477aadcd03dd48cea87feb0155.png"></span><br><span style="font-size: 16pt;">看源码发现是把输入框的输入长度给限制了：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/5247860dba238509f2001f5b4479e4f5.png"></span><br><span style="font-size: 16pt;">把maxlength改高点在输入就可以了</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/2bed9fa0123482bbc27d341aa340d0f1.png"></span><br><span style="font-size: 16pt;">输入即可下一关。</span></p>
+<blockquote>
+<p><a id="Stage18"><span style="font-size: 16pt;">19、Stage 18:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/6f173c9cba5440ea2d3dfbaf82f9530b.png"></span><br><span style="font-size: 16pt;">依旧是谷歌保存页面 然后本地添加按钮即可。</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/b8d7bbaa397a486f47ca7fff68571858.png"></span><br><span style="font-size: 16pt;"><img src="/uploads/2021/12/fdc4b0f8aabab9d2bd1c92944bf1242c.png"></span><br><span style="font-size: 16pt;">点击按钮即可。</span></p>
+<blockquote>
+<p><a id="Stage19"><span style="font-size: 16pt;">20、Stage 19:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/e33678df179fb2edd093836c71ce2662.png"></span><br><span style="font-size: 16pt;">提示说根据前三关密码得出本关密码</span></p>
+<p><span style="font-size: 16pt;">我们整理前面的md5值：</span></p>
+<p><span style="font-size: 16pt;">18：</span><span style="font-size: 16pt;">6f4922f45568161a8cdf4ad2299f6d23</span></p>
+<p><span style="font-size: 16pt;">17：</span><span style="font-size: 16pt;">70efdf2ec9b086079795c442636b55fb</span></p>
+<p><span style="font-size: 16pt;">16：</span><span style="font-size: 16pt;">c74d97b01eae257e44aa9d5bade97baf</span></p>
+<p><span style="font-size: 16pt;">去somd5在线解密一下。</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/2dd26c46f0421a0e823b991d60b44ed9.png"></span><br><span style="font-size: 16pt;"><img src="/uploads/2021/12/7542f2576dd35be4df02088e044c94e0.png"></span><br><span style="font-size: 16pt;">这里其实就可以知道了 题目是以关卡数作为md5密码</span></p>
+<p><span style="font-size: 16pt;">因此我们只要加密下19的md5 就是本关密码了：</span></p>
+<p><span style="font-size: 16pt;">（用php或者python都可以）</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/cf58c1b7649b32681bdf05f383253262.png"></span><br><span style="font-size: 16pt;">密码为：</span><span style="font-size: 16pt;">1f0e3dad99908345f7439f8ffabdffc4</span></p>
+<p><span style="font-size: 16pt;">输入即可下一关。</span></p>
+<blockquote>
+<p><a id="Stage20"><span style="font-size: 16pt;">21、Stage 20:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/9cbee0116ba5d82669a67f5417c16893.png"></span><br><span style="font-size: 16pt;">先看源代码：</span></p>
+<p><span style="font-size: 16pt;">有这么一段js代码</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/b5ef5e6c8b076c462ca78d0a15bd83cc.png"></span><br><span style="font-size: 16pt;">让我们计算a的值 然后跳转到a.html就可以了</span></p>
+<p><span style="font-size: 16pt;">直接把js代码复制到python运行：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/55dc7f0c10004f411a89e01829521cdf.png"></span><br><span style="font-size: 16pt;"><img src="/uploads/2021/12/466c1f662cb25f4ff4ef18f506d80ff5.png"></span><br><span style="font-size: 16pt;">输入即可：</span></p>
+<blockquote>
+<p><a id="Stage21"><span style="font-size: 16pt;"><img src="/uploads/2021/12/a9bf3e599644fe9040c4fbc6cde42e13.png"></span><span style="font-size: 16pt;">22、Stage 21:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/65dee3ee64129f28803960d7b3dd9ad4.png"></span><br><span style="font-size: 16pt;">看源码：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/854cffbd0a59da6c6d47fb502f3e3bd6.png"></span><br><span style="font-size: 16pt;">（上一关还可以绕过控制台）</span></p>
+<p><span style="font-size: 16pt;">这里给出的是一堆ascii码 依旧用python解码</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/6775d5040672aa0e519211d42450c41a.png"></span><br><span style="font-size: 16pt;">得到：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/2761f0f6fd2969126bdafb7347291f01.png"></span><br><span style="font-size: 16pt;">直接访问</span><span style="font-size: 16pt;">vuejs.html</span><span style="font-size: 16pt;">即可。</span></p>
+<blockquote>
+<p><a id="Stage22"><span style="font-size: 16pt;">23、Stage 22:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/745233a3d272b31275a44a4e7e0e8ce8.png"></span><br><span style="font-size: 16pt;">源代码：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/6e0444293d27c522e764d03c2583866b.png"></span><br><span style="font-size: 16pt;">这题卡了我很久 源代码没给一点提示 标题也没有 尝试了很久的密码都没找到 还在上一关找线索 最后也是无果。</span></p>
+<p><span style="font-size: 16pt;">在网友的帮助下 得知这题的password藏在了cookie中</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/fec3c6a784f117d3007d259dc6656b84.png"></span><br><span style="font-size: 16pt;">真的是没想到啊 所以说题目还挺烧脑洞的。</span></p>
+<p><span style="font-size: 16pt;">同时也就是说 接下来要看页面的属性了。</span></p>
+<p><span style="font-size: 16pt;">输入密码即可下一关。</span></p>
+<blockquote>
+<p><a id="Stage23"><span style="font-size: 16pt;">24、Stage 23:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/510a1c89b535453fa32cb2b481ca8a83.png"></span><br><span style="font-size: 16pt;">经过教训 这次先看属性：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/47f13be0aed52809ea0d67689bc53e7c.png"></span><br><span style="font-size: 16pt;">这次不在cookie中 看其他信息：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/e1ba9c074474f6ce6bb4d962284d931e.png"></span><br><span style="font-size: 16pt;">最后在 本地存储中找到密码</span></p>
+<p><span style="font-size: 16pt;">输入密码即可。</span></p>
+<blockquote>
+<p><a id="Stage24"><span style="font-size: 16pt;">25、Stage 24:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/e5e3efd3cedff6e5d7a0e0e55e459125.png"></span><br><span style="font-size: 16pt;">在一番查找后 不在存储类中了，尝试看看header头信息</span></p>
+<p><span style="font-size: 16pt;">这里用postman访问网站：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/c30a75557007116af6d4de7f7771dca8.png"></span><br><span style="font-size: 16pt;">在header中找到密码</span></p>
+<p><span style="font-size: 16pt;">输入即可。</span></p>
+<blockquote>
+<p><a id="Stage25"><span style="font-size: 16pt;">26、Stage 25:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/30f200cd814612e23c316851b8bd4712.png"></span><br><span style="font-size: 16pt;">题目给了一串数字。</span><span style="font-size: 16pt; color: unset; font-family: unset;">5 11 14 22 4 17</span></p>
+<p><span style="font-size: 16pt;">先看源代码：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/725b2542c35f69d17d46f38721faf3ae.png"></span><br><span style="font-size: 16pt;">结合标题letter字母 和 本题url abc猜测这串数字可能是字母表中顺序</span></p>
+<p><span style="font-size: 16pt;">用python写：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/b544949a6c42317de5724f11f15451d0.png"></span><br><span style="font-size: 16pt;">得到密码flower：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/cceef4ca203cbc60bdd9ba867b1a8d40.png"></span><br><span style="font-size: 16pt;">输入即可。</span></p>
+<blockquote>
+<p><a id="Stage26"><span style="font-size: 16pt;">27、Stage 26:</span></a><br><span style="font-size: 16pt;">（这里开始偏向misc了 隐写 图片分析等等）</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;">页面如下：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/f5142800af82d93d2686fc8118d8d629.png"></span><br><span style="font-size: 16pt;">看源代码：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/b9f42708e310dbdbc71701ac5c87274c.png"></span><br><span style="font-size: 16pt;">标题提示图片中有东西 又是一张rar图片。</span></p>
+<p><span style="font-size: 16pt;">先将图片保存到本地</span></p>
+<p><span style="font-size: 16pt;">用winhex分析 </span><span style="font-size: 16pt; color: unset; font-family: unset;">直接拖到尾部看额外数据：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/b9e65f7aa9a05a16ed12e89706b63a4b.png"></span><br><span style="font-size: 16pt;">明显图片中有压缩包 可以直接改后缀（吐槽一下图片是rar为什么给的zip的头 虽然也是能打开）：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/df4246db40efe9d8976e91909709eef8.png"></span><br><span style="font-size: 16pt;"><img src="/uploads/2021/12/80973a8dc4a16bc4084ce9c18c6985e8.png"></span><br><span style="font-size: 16pt;">访问即可。</span></p>
+<blockquote>
+<p><a id="Stage27"><span style="font-size: 16pt;">28、Stage 27:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/760d015c5248ae75af68e6c75d14f40e.png"></span><br><span style="font-size: 16pt;">提示说在图片中：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/35210e5d07728ccad602cf5ed650824b.png"></span><br><span style="font-size: 16pt;">直接保存 分析</span></p>
+<p><span style="font-size: 16pt;">拉到尾部：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/bb516c5c15dc1bfb1dd8866e5a511c59.png"></span><br><span style="font-size: 16pt;">访问即可。</span></p>
+<blockquote>
+<p><a id="Stage28"><span style="font-size: 16pt;">29、Stage 28:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/3072f9148c8da8823260c8d6643c3212.png"></span><br><span style="font-size: 16pt;">这里是刚开始是一张图片 然后又替换成另一张图片了（图片中藏着五个半透明字母）：</span></p>
+<p><span style="font-size: 16pt;">（这是首页图片）</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/2cf2373f107c70af3a485153401cfc8c.png"></span><br><span style="font-size: 16pt;">（隐藏的图片）</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/c2161cb3c7b522e8b242853ffa20356e.png"></span><br><span style="font-size: 16pt;">两者少了一个&#x2F; 差的很多。</span></p>
+<p><span style="font-size: 16pt;">图片能零零散散看到几个字母：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/e05355c5a75a27175658ef976ea60243.png"></span><br><span style="font-size: 16pt;">这里可以把两张图片保存下来然后用stegsolve对比一下 更清晰</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/c965be454b0e8a6f131e77c95aad8a5e.png"></span><br><span style="font-size: 16pt;">字母是h u r t t</span></p>
+<p><span style="font-size: 16pt;">这里又是一个坑 顺序呢？</span></p>
+<p><span style="font-size: 16pt;">也是卡了一会 然后找到了一个字母组成单词的网站：</span></p>
+<p><span style="font-size: 16pt;"><a href="http://wordsolver.net/#">http://wordsolver.net/#</a></span></p>
+<p><img src="/uploads/2021/12/efd2c65572a0e26abd20624ef2f0620f.png"><br>所以是truth.html</p>
+<p><span style="font-size: 16pt;">访问即可。</span></p>
+<blockquote>
+<p><a id="Stage29"><span style="font-size: 16pt;">30、Stage 29:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/a061bbde6c4a4847a1f6634ecd2a3f4f.png"></span><br><span style="font-size: 16pt;">保存图片 直接用winhex分析：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/a6fdf06df9ba7d020ee60c8bf055966e.png"></span><br><span style="font-size: 16pt;">这里搜索FFD9（jpg文件的结尾头） 发现有额外数据</span></p>
+<p><span style="font-size: 16pt;">结合提示：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/8ed4d5cc17493cd926334d692cc4596b.png"></span><br><span style="font-size: 16pt;">这是base64的data数据流</span></p>
+<p><span style="font-size: 16pt;">这里</span><span style="font-size: 16pt;">写html或者在线解码</span></p>
+<p><span style="font-size: 16pt;">直接写html：（<img src="/2021/12/04/20211204/png;base64,xxxx">）</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/7aa420a66e24d2525b7ff040b29ae9be.png"></span><br><span style="font-size: 16pt;">得到图片：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/dd374bd9d1b4b09619d9474bc4abd64a.png"></span><br><span style="font-size: 16pt;">输入即可。</span></p>
+<blockquote>
+<p><a id="Stage30"><span style="font-size: 16pt;">31、Stage 30:</span></a><br><span style="font-size: 16pt;">又是密码题</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;">页面如下：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/261b550aa1f63884d8ee3a4b088baa74.png"></span><br><span style="font-size: 16pt;">看源码：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/4998c9a4a9dcf36e4654ce211e6d38fc.png"></span><br><span style="font-size: 16pt;">标题说提交按钮有密码</span></p>
+<p><span style="font-size: 16pt;">F12看元素 这里一个技巧是可以直接搜索passwd</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/bef45596fbaa0cef0882351aa568afd5.png"></span><br><span style="font-size: 16pt;">得到密码为 content的内容</span></p>
+<p><span style="font-size: 16pt; color: unset; font-family: unset;">提交即可。</span></p>
+<blockquote>
+<p><a id="Stage31"><span style="font-size: 16pt;">32、Stage 31:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/dae67a7ec5e3ed43f5b0135987ed3e97.png"></span><br><span style="font-size: 16pt;">本来是html 但是l的部分被划掉了</span></p>
+<p><span style="font-size: 16pt;">烧脑洞的地方是要想到把html 去掉 l</span></p>
+<p><span style="font-size: 16pt;">访问xx.htm</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/54125278c01908b7dce75bd59d7ec079.png"></span><br><span style="font-size: 16pt;">结果被跳转到了首页：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/a4434d7af2b26e9abd91eda93cd8fa14.png"></span><br><span style="font-size: 16pt;">用postman 或者 python截取网站内容：</span><span style="font-size: 16pt;"><img src="/uploads/2021/12/2bfc3c7bd95e13af93962acecd32101b.png"></span><br><span style="font-size: 16pt;">访问url即可。</span></p>
+<blockquote>
+<p><a id="Stage32"><span style="font-size: 16pt;">33、Stage 32:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/07c518105d5d74a796e19839230c398a.png"></span><br><span style="font-size: 16pt;">源码：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/126fd691b7a31e18083a7f8b579f0b0d.png"></span><br><span style="font-size: 16pt;">标题提示说找到Big Monster</span></p>
+<p><span style="font-size: 16pt;">这里结合网友提示 这是电影《神秘博士》中反派Davros</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/b6938beb502e17111b5359d2e008a95d.png"></span><br><span style="font-size: 16pt;">因此访问Davros.html即可。</span></p>
+<blockquote>
+<p><a id="Stage33"><span style="font-size: 16pt;">34、Stage 33:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/07623053722c44effd4f226ee3f73baf.png"></span><br><span style="font-size: 16pt;">这里访问url就会跳转到首页</span></p>
+<p><span style="font-size: 16pt;">源码：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/6e43ffaf4773acde1448f76dce6fa32a.png"></span><br><span style="font-size: 16pt;">访问即可。</span></p>
+<blockquote>
+<p><a id="Stage34"><span style="font-size: 16pt;">35、Stage 34:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/5aca21fd9efce762a1f4bcd5d29f4291.png"></span><br><span style="font-size: 16pt;">源码：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/3022ab8d39bad80fe749624400246f18.png"></span><br><span style="font-size: 16pt;">百度搜下OSK</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/3bc748d8c1c743673fc9be91e6b770d0.png"></span><br><span style="font-size: 16pt;">这是qwerty键盘密码 跟字母表对应即可。</span></p>
+<p><span style="font-size: 16pt;">写python脚本：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/5b3437d26d1055e5bebb5686f04dabdd.png"></span><br><span style="font-size: 16pt;"><img src="/uploads/2021/12/6d18b0d0c359726f3629a40333354e41.png"></span><br><span style="font-size: 16pt;">访问即可。</span></p>
+<blockquote>
+<p><a id="Stage35"><span style="font-size: 16pt;">36、Stage 35:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/4b43e89811e468501826ef8cd34cd2f2.png"></span><br><span style="font-size: 16pt;">网页给了一张gif</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/7c119a39bb9c5394be162ade16b39036.png"></span><br><span style="font-size: 16pt;">直接保存到本地 用stegsolve跳到最后一帧</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/9648df3b92e5a72ad2094f20f315a71b.png"></span><br><span style="font-size: 16pt;"><img src="/uploads/2021/12/0a24d8faf5c13e397f4dddd064edb42c.png"></span><br><span style="font-size: 16pt;">最后访问即可。</span></p>
+<blockquote>
+<p><a id="Stage36"><span style="font-size: 16pt;">37、Stage 36:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/4ce742ceb85726046ee91701c9f1aa17.png"></span><br><span style="font-size: 16pt;">这个是数独 用9x9数独解</span><span style="font-size: 16pt;"><a href="https://www.toycl.com/sudu/sudoku.php">https://www.toycl.com/sudu/sudoku.php</a></span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/c3f3dd21d3071d6bb4d9a12b9afa2ece.png"></span><br><span style="font-size: 16pt;"><img src="/uploads/2021/12/214836613dbadc2c81925a752aa230ae.png"></span><br><span style="font-size: 16pt;">根据图中黄色部分 猜测密码为1983</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/0b0b1b28b60f1ffacb289ec332ad4517.png"></span><br><span style="font-size: 16pt;">报错了 但是提示我们用在图片上</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/ba97a191bc12fbb895e434c6e250c0cb.png"></span><br><span style="font-size: 16pt;">所以就访问url:</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/3b600acef331b7381d526f2379a11970.png"></span><br><span style="font-size: 16pt;">得到一张图片：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/e29e6205d3605b66c21da4e6c17bdca5.png"></span><br><span style="font-size: 16pt;">通过百度识图 在一张文章中找到线索</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/adbaa94bd3fe38c6c38722d73ad59ba4.png"></span><br><span style="font-size: 16pt;">这台电脑叫做lisa 所以尝试访问lisa.jpg</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/b45f50932920f23e3830ee3249d04328.png"></span><br><span style="font-size: 16pt;">这里有一个坑就是你找到这个人的人名是不对的，因为这张图片还藏有一张图片</span></p>
+<p><span style="font-size: 16pt;">先本地保存</span></p>
+<p><span style="font-size: 16pt;">在图片备注处发现：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/26ea20c0af4a7016d225d84d4a0d3cef.png"></span><br><span style="font-size: 16pt;">让我们用win7查看 所以启动虚拟机</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/82aafd9f8fdf28aa40c74536ba5fb14c.png"></span><br><span style="font-size: 16pt;">在缩略图中发现不一样。找到这个人就是密码了。</span></p>
+<p><span style="font-size: 16pt;">在网友的帮助下得知这是川宝</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/d3a460ebed3f3f99dedc422e5ea51f9b.png"></span><br><span style="font-size: 16pt;">Donald就是密码了</span></p>
+<p><span style="font-size: 16pt;">输入即可。</span></p>
+<blockquote>
+<p><a id="Stage37"><span style="font-size: 16pt;">38、Stage 37:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/11821a388f5368489ac9d8ca4791ede9.png"></span><br><span style="font-size: 16pt;">这题不会看三维图的我直接放弃了，</span></p>
+<p><span style="font-size: 16pt;">这种裸眼3d图真的看不出来。。。</span></p>
+<p><span style="font-size: 16pt;">好在网友帮助下 得知这好像是三体 图片中的内容是三体的logo</span></p>
+<p><span style="font-size: 16pt;">以三体英文名作为url访问即可</span></p>
+<blockquote>
+<p><a id="Stage38"><span style="font-size: 16pt;">39、Stage 38:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/ac1f62f379e58d2dccfb119080b43beb.png"></span><br><span style="font-size: 16pt;">密文：ADDFADAFAG</span></p>
+<p><span style="font-size: 16pt;">先看源码：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/4ebcf577c4666eb3bcc0bbb4515c90b8.png"></span><br><span style="font-size: 16pt;">标题提示ADFGX 先了解下这个东西</span></p>
+<p><span style="font-size: 16pt;">利用google或者wiki查询资料</span></p>
+<p><span style="font-size: 16pt;">可参考</span><span style="font-size: 16pt;"><a href="https://xz.aliyun.com/t/3603">https://xz.aliyun.com/t/3603</a> 讲的很细</span></p>
+<p><span style="font-size: 16pt;">但是这里的ADFGX是没有所谓的移位密钥和密钥的。也就是说对着表就可以找到单词了。</span></p>
+<p><span style="font-size: 16pt;">要注意的是 不同的表的结果是不一样的。这里参考wiki的表就可以解出来</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/0bf9114e37095eeecd338b4caf1d3149.png"></span><br><span style="font-size: 16pt;">AD DF AD AF AG</span></p>
+<p><span style="font-size: 16pt;">得到 t o t a l</span></p>
+<p><span style="font-size: 16pt;">使用total作为密码输入即可。</span></p>
+<blockquote>
+<p><a id="Stage39"><span style="font-size: 16pt;">40、Stage 39:</span></a><br><span style="font-size: 16pt;">页面如下：</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/daafb328548f060b367239cef43fa79b.png"></span><br><span style="font-size: 16pt;">密文：GDVFXVAX AAFFVGFX</span></p>
+<p><span style="font-size: 16pt;">这题和上题相似 只不过是ADFGX的变种 ADFGVX加密</span></p>
+<p><span style="font-size: 16pt;">区别就是表从5x5变为6x6 并且密文中含有字母V</span></p>
+<p><span style="font-size: 16pt;">这题我卡了十几个小时 因为呢这题直接找表是不可行的 大多数的表都是不对的 因为题目用的表不是常规的</span></p>
+<p><span style="font-size: 16pt;">当时我去找自己写了个爆破脚本 遍历移位密钥和表 最后也是无果 因为表不一样结果就是不一样的。</span></p>
+<p><span style="font-size: 16pt;">昨晚也是做的很无奈 匆匆下了班。</span></p>
+<p><span style="font-size: 16pt;">早上我来的时候 出窍了。</span></p>
+<p><span style="font-size: 16pt;">一番信息搜索过后，</span></p>
+<p><span style="font-size: 16pt;">根据网友提示说图片很重要</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/2eb5ecf6319c7cce38a35e77886566b8.png"></span><br><span style="font-size: 16pt;">既然有encode 那有没有decode呢？？？</span></p>
+<p><span style="font-size: 16pt;">直接访问url</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/e148a5a4829d877c749babddd7f68567.png"></span><br><span style="font-size: 16pt;">我去，果然有。。。</span></p>
+<p><span style="font-size: 16pt;">所以说 这是信息搜集能力吗 算是吧？</span></p>
+<p><span style="font-size: 16pt;">然后把密文对照表 一一对应</span></p>
+<p><span style="font-size: 16pt;">GD&#x3D;L VF&#x3D;E XV&#x3D;F AX&#x3D;T AA&#x3D;H FF&#x3D;A VG&#x3D;N FX&#x3D;D</span></p>
+<p><span style="font-size: 16pt;">最后LEFT HAND 作为密码提交即可</span></p>
+<p><span style="font-size: 16pt;">卡了半天的题 总算是做出来了，也算是功夫不负有心人呐</span></p>
+<blockquote>
+<p><a id="Stage40"><span style="font-size: 16pt;">41、Stage 40:</span></a><br><span style="font-size: 16pt;">这题没做出来 只有一点点思路 有想法的师傅可以交流</span></p>
+</blockquote>
+<p><span style="font-size: 16pt;">页面如下：</span></p>
+<p><span style="font-size: 16pt;"><span style="text-decoration: line-through;"><img src="/uploads/2021/12/bb01ca675f3257b868b5e5e72767f1d6.png"></span></span><br><span style="font-size: 16pt;">源码中发现：</span></p>
+<p><span style="font-size: 16pt;"><img src="/uploads/2021/12/636164a3f826a0ce6201c7638ffcfe2c.png"></span><br><span style="font-size: 16pt;"><img src="/uploads/2021/12/23df81a512203845a3d822a8d03ef0de.png"></span><br><span style="font-size: 16pt;">这个图片看得出来是</span> <span style="font-size: 16pt;">Dvorak键盘布局 但是就没思路了。</span></p>
+<p><span style="font-size: 16pt;">将密文qwerty转换？ left right转换？我是解不出来。。</span></p>
+<hr>
+<p><span style="font-size: 16pt;">就记录到这先吧，后面做出来了继续更新。</span></p>
+<p><span style="font-size: 16pt;">题目挺难的 卡的也挺难受的 还是自己太菜了</span></p>
+<p><span style="font-size: 16pt;">复盘一下 感觉都还是会做的。</span></p>
+<p><span style="font-size: 16pt;">欢迎师傅评论交流。</span></p>
 ]]></content>
       <categories>
         <category>刷题笔记</category>
-        <category>CTF</category>
-        <category>Web</category>
+        <category>Writeup</category>
       </categories>
       <tags>
         <tag>刷题</tag>
