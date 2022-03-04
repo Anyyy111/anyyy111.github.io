@@ -321,7 +321,7 @@ include($a);
 <p>证书是前50%就能拿到的，尽管是这样师傅们也没放弃做题，这种做题的精神是提倡和支持的，比赛最重要的就是竞技精神。</p>
 <p>以下分享由我和另一位师傅HuMoLix 组成战队0x04的解题思路</p>
 <p><span style="font-size: 12pt">解题思路&gt;</span></p>
-<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目一&amp;nbsp;&amp;nbsp;八卦迷宫</span></span></p>
+<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目一八卦迷宫</span></span></p>
 <p><span style="font-size: 12pt">题目附件如下：</span></p>
 <p><span style="font-size: 12pt"><img src="/uploads/2022/01/681df6392af383881eddadc4a4d5cf62.png"></span></p>
 <p><span style="font-size: 12pt">走迷宫 再把路过的格子对应的字填入即可</span></p>
