@@ -4,6 +4,35 @@
   
     
     <entry>
+      <title>Bugku S2收官赛AWD解析&amp;如何打AWD?</title>
+      <link href="/2022/03/05/20220305/"/>
+      <url>/2022/03/05/20220305/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>随着Bugku awd的举办 S2排位赛走向了尾声。我们的战队An1s_team是从S2的第7场比赛开始打起的，到收官赛我们的排行是第四，我个人十分满意这个成绩 虽然说我的目标是前三 但因为打的比较迟 所以这个成绩我觉得也很不错。</p><p><img src="https://c.img.dasctf.com/images/202235/1646483612418-c7b1dfb2-be58-42d3-a553-139412f82316.png"></p><p>总的来说我的队友都很不错 像是火神 还有ztop师傅等他们都挺积极的 每一次的排位赛基本都有参加 也会在我们的战队群里积极交流哪里有漏洞 分享找到的参考文章我们之间进行交流学习 我觉得这样的团队就很有意义 互相学习，互相进步。</p><p>这次我们在S2收官赛成绩是第三 我知道自己的水平有限 所以这个成绩我觉得不错。<br><img src="https://c.img.dasctf.com/images/202235/1646483612225-7400aa6c-6f0f-4846-a982-5eccc29ece78.png"></p><p>总结就是这个赛季不错 我们下个赛季继续加油 并且我打算重新改进下目前的shell脚本 因为存在较多的问题 再接再厉 学习为主！</p><h1 id="收官赛解析"><a href="#收官赛解析" class="headerlink" title="收官赛解析"></a>收官赛解析</h1><p>已将全程的录像视频投至bilibili：xxx</p><p>以下是总结 之后我会一一解析：</p><p>Web :</p><p>存在自带的木马 assert($_GET[s]) ：\public\common\images\1.jpg.php</p><p>后台存在弱口令：admin&#x2F;?c&#x3D;index 账号密码：admin admin123</p><p>cms是5iSNS 好像cms的漏洞很少或者说是没有</p><p>Pwn：</p><p>是一个经典的堆题 以及菜单题</p><p>太菜了做不出来</p><hr><p>网站首页：</p><p><img src="https://c.img.dasctf.com/images/202235/1646485206896-666cdd51-ef14-4473-b69b-e1c77d34da51.png"></p><h2 id="Web漏洞："><a href="#Web漏洞：" class="headerlink" title="Web漏洞："></a>Web漏洞：</h2><h3 id="漏洞1："><a href="#漏洞1：" class="headerlink" title="漏洞1："></a>漏洞1：</h3><p>网站存在自带木马</p><p>首先用filezilla将网站源码拷贝到本地(bugku是&#x2F;var&#x2F;www&#x2F;html或&#x2F;app)</p><p><img src="https://c.img.dasctf.com/images/202235/1646484572231-4db459c8-a42e-467c-a507-419da4d2b82e.png"></p><p>然后使用D盾扫描源码 得到以下漏洞：</p><p><img src="https://c.img.dasctf.com/images/202235/1646484623699-f1e29384-02d0-4769-a57a-ef2d7fba6a99.png"></p><p>两个级别为1的漏洞可以不用管 看严重漏洞是一个自带的木马 显然这是网站源码存在的高级别漏洞 内容是一个变种的assert马(类似eval) 是可以RCE的</p><p><img src="https://c.img.dasctf.com/images/202235/1646484869292-6cbf3f26-0a9d-4cbe-8735-d3d240842d8a.png"></p><p>访问漏洞url &#x2F;public&#x2F;common&#x2F;images&#x2F;1.jpg.php?s&#x3D;phpinfo()显然RCE了</p><p><img src="https://c.img.dasctf.com/images/202235/1646484921704-6de2e0c3-c442-4f5b-a775-44445b98475f.png"></p><p>?s后带php函数都会实现 所以可以用eval(system(xxx))进行系统的rce 就可以获取flag了 这里我是用我自己的脚本实现的。</p><p>修复建议：连接到ssh删除相应木马</p><h3 id="漏洞2："><a href="#漏洞2：" class="headerlink" title="漏洞2："></a>漏洞2：</h3><p>网站后台存在弱口令</p><p>访问后台&#x2F;admin&#x2F;?c&#x3D;index(ztop师傅找到的哈哈哈我自己找半天没找着)</p><p><img src="https://c.img.dasctf.com/images/202235/1646485114623-bd1da979-a152-4fc9-a845-97930cf36df9.png"></p><p>一般用户都是admin 测试密码得出为admin123 弱口令</p><p>进入后台我自己没找到有什么功能是可以进行渗透的(像文件上传、改文件)</p><p>其中文件上传有一处是在页面编辑里 有一个功能是上传图片 然后会检测是否符合后缀 以及内容</p><p>burpsuite测试后得到图片内容如果为空不允许上传、没有文件头不允许上传(可以加GIF89a)内容可以绕过 但是后缀改成php就会报错</p><p>因为时间原因就没有过多测试 有兴趣可以自己搭一个复现</p><p>修复建议：登录后台更改管理员密码 或使用数据库更改</p><p><img src="https://c.img.dasctf.com/images/202235/1646485487114-7f9aa885-be0b-42b9-af6d-fc2d417416a6.png"></p><p>这一套CMS是5iSNS 网上查找一番就找到一个sql利用脚本 但是也利用不起来哈哈哈 漏洞应该挺少的</p><h2 id="Pwn漏洞"><a href="#Pwn漏洞" class="headerlink" title="Pwn漏洞"></a>Pwn漏洞</h2><p>64位程序，保护如下：<br><img src="https://c.img.dasctf.com/images/202235/1646485935169-07699ac8-1e26-44aa-ada9-35c15126faa1.png"></p><p>是一个菜单堆题 貌似是UAF漏洞 太菜了不会做 尝试在网上找exp无果hhh</p><p>有一道类似的题目我拿来套用 最后也是没打通 害</p><p>main函数如下：</p><p><img src="https://c.img.dasctf.com/images/202235/1646486140524-55e434af-481a-4a7b-846e-9457b7c9ad48.png"></p><p>pwn堆题真的好难啊</p><h2 id="脚本利用"><a href="#脚本利用" class="headerlink" title="脚本利用"></a>脚本利用</h2><p>这次脚本可以就后台弱口令和自带木马进行利用 通过requests库进行漏洞url构造实现批量利用木马 以及post内容发送实现检测后台弱口令</p><p>因为后台没有验证码 所以直接可以利用，</p><p>使用burpsuite拦截后台登录的包</p><p><img src="https://c.img.dasctf.com/images/202235/1646486501263-45de9baf-71f9-4b21-9cbc-29bbbf48a42a.png"></p><p>参数为usermail和password 用requests中post的data&#x3D;{‘usermail’:xxx,’password’：xxx}就可以发送这个包 实现检测的效果</p><p>我自己脚本跑的效果如下：</p><p><img src="https://c.img.dasctf.com/images/202235/1646486618798-a4587fe4-6127-46d9-ad6f-4357194f7cf0.png"></p><p>自带木马的漏洞也可以直接用request访问实现获取flag 先构造好payload：?s&#x3D;eval(system(‘cat &#x2F;flag’))) 之后用request访问即可。</p><p>最后附上一张获取flag的图片 效果没那么好了hhh</p><p><img src="https://c.img.dasctf.com/images/202235/1646486773031-998450a8-16ac-4e5c-a092-770f10912fe3.png"></p><p>题外话：</p><p>观战席看到的hhh 关于木马密码泄露这件事<br><img src="https://c.img.dasctf.com/images/202235/1646487123540-da83d3e1-e147-4e79-b2f7-bef679097eb0.png"></p><h1 id="如何打AWD"><a href="#如何打AWD" class="headerlink" title="如何打AWD?"></a>如何打AWD?</h1><p>就Bugku的awd模式写一下我一般的做法</p><p>以下是我的思路 仅供参考XD：</p><p>首先开始前可以将token之类的写进自己的脚本 用于提交flag等 并且写一个扫描网段ip的脚本 这样的批量会大幅提升效率</p><p>还有使用filezilla或者xshell等ssh连接工具进行连接服务器 将源码下载到自己电脑里(一般都是&#x2F;var&#x2F;www&#x2F;html的网站文件 pwn附件在&#x2F;home&#x2F;ctf&#x2F;pwn)</p><p>web利用可以使用D盾扫描看看有没有高危的漏洞 例如自带马等 如果有可以自己先访问url试一试phpinfo能不能实现</p><p>能的话最好用脚本批量帮你获取flag 实在不行就手工</p><p>然后网站后台也会存在漏洞 一般是弱口令admin admin或者别的 自己多试试就可以进去 后台进去后可以找下各种功能</p><p>一般来说如果可以直接在后台改允许上传的后缀 再加上有文件上传的功能 那么基本都能上传木马getshell</p><p>还有就是可以直接更改模板、页面等内容的 改php代码进去 再访问修改的文件url进行RCE</p><p>最后有了能得到flag的一堆exp 再用bugku提供的api进行批量提交flag 这样效率就会快很多很多</p><p>还有bugku的所有cms的mysql都有弱口令 就是root root 但是每个人靶机的mysql端口是不开的 也就是说远程连接不了</p><p>所以如果你打的这套cms有phpmyadmin 就可以通过phpmyadmin连接mysql，那也是漏洞 只要你能连接到别人的mysql就可以用mysql语句写一句话木马（或者直接获取flag）再通过木马获取flag</p><p>最后你可以去了解一下不死马 写不死马是最吃香的 比方说如果你的木马被别人删掉你就利用不了 那么你写一个不死马他是一直存在的 包括删站 因为它是一直维持权限的 删除要杀进程才能杀死 所以是一个比较麻烦的存在 因此如果你能RCE并且时间还来得及 那么建议你写一个不死马进去 再用不死马获取flag比较保险~~</p><p>pwn的话是最好拿分的 也是最难的</p><p>如果你能就给的pwn附件在自己的靶机打通 再写一个脚本实现pwn漏洞利用结合批量获取ip和提交flag 那么分数会拿的十分的快和轻松</p><p>所以pwn手很吃香呀 对了 本人战队招收pwn手噢~~只需提供exp即可 脚本我们来帮你写！哈哈哈哈</p><hr><p>继续学习 继续努力！备战S3赛季 加油</p><p>另外有学习Pwn的师傅可以私聊我进入战队一起学习噢~</p><p>QQ1395980247</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 刷题笔记 </category>
+          
+          <category> Writeup </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 刷题 </tag>
+            
+            <tag> CTF </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>2022长安战&quot;疫&quot;WriteUp</title>
       <link href="/2022/01/09/20220109/"/>
       <url>/2022/01/09/20220109/</url>
