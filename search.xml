@@ -2157,4 +2157,39 @@ flag3 = 6859390560180138873
         <tag>CTF</tag>
       </tags>
   </entry>
+  <entry>
+    <title>DirtyPipe-Linux内核提权漏洞 CVE-2022-0847</title>
+    <url>/2022/03/08/20220308/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><h1 id="关于"><a href="#关于" class="headerlink" title="关于"></a>关于</h1><p>CVE-2022-0847-DirtyPipe-Exploit CVE-2022-0847 是存在于 Linux内核 5.8 及之后版本中的本地提权漏洞。攻击者通过利用此漏洞，可覆盖重写任意可读文件中的数据，从而可将普通权限的用户提升到特权 root。 CVE-2022-0847 的漏洞原理类似于 CVE-2016-5195 脏牛漏洞（Dirty Cow），但它更容易被利用。漏洞作者将此漏洞命名为“Dirty Pipe”</p>
+<p>披露老哥原文地址：<a href="https://dirtypipe.cm4all.com/">https://dirtypipe.cm4all.com/</a></p>
+<p>参考文章<a href="https://github.com/imfiver/CVE-2022-0847">https://github.com/imfiver/CVE-2022-0847</a></p>
+<h1 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h1><blockquote>
+<p>注意事项<br>该漏洞已在 Linux 5.16.11 5.15.25 和 5.10.102 中修复。<br>用uname -a 查看当前linux版本<br><img src="https://c.img.dasctf.com/images/202238/1646717540021-96f1579a-9c88-4299-8afe-c740118167f0.png"></p>
+</blockquote>
+<blockquote>
+<p>复现环境<br>(成功)Linux Anyyy 5.10.0-kali6-amd64 #1 SMP Debian 5.10.26-1kali2 (2021-04-01) x86_64 GNU&#x2F;Linux<br>(失败)Linux localhost.localdomain 5.10.0-kali3-amd64 #1 SMP Debian 5.10.13-1kali1 (2021-02-08) x86_64 GNU&#x2F;Linux</p>
+</blockquote>
+<blockquote>
+<p>依赖<br>gcc</p>
+</blockquote>
+<h2 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h2><pre><code>git clone https://github.com/imfiver/CVE-2022-0847.git
+cd CVE-2022-0847
+chmod +x Dirty-Pipe.sh
+bash Dirty-Pipe.sh
+</code></pre>
+<h3 id="5-10-26版本"><a href="#5-10-26版本" class="headerlink" title="5.10.26版本"></a>5.10.26版本</h3><p><img src="https://c.img.dasctf.com/images/202238/1646717540021-96f1579a-9c88-4299-8afe-c740118167f0.png"></p>
+<p><img src="https://c.img.dasctf.com/images/202238/1646717545983-e0982820-719b-4d7b-ba07-f9e6616fa943.png"></p>
+<p>成功提权 复现成功</p>
+<h3 id="5-10-13版本"><a href="#5-10-13版本" class="headerlink" title="5.10.13版本"></a>5.10.13版本</h3><p><img src="https://c.img.dasctf.com/images/202238/1646717285465-225f3679-23b2-41cc-94d2-27d691c34ab7.png"></p>
+<p><img src="https://c.img.dasctf.com/images/202238/1646717329362-d2d9c817-75ae-4fd8-a3c2-023c09df3b75.png"></p>
+<p>需要密码 提权失败</p>
+]]></content>
+      <categories>
+        <category>CVE漏洞</category>
+        <category>0day</category>
+      </categories>
+      <tags>
+        <tag>干货</tag>
+      </tags>
+  </entry>
 </search>
