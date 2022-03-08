@@ -1,6 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>利用xpath爬取edu漏洞列表</title>
+    <url>/2021/05/07/20210507/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><h1 id="利用xpath爬取edu漏洞列表"><a href="#利用xpath爬取edu漏洞列表" class="headerlink" title="利用xpath爬取edu漏洞列表"></a>利用xpath爬取edu漏洞列表</h1><p>EduSrcSelect用了xpath爬取了某edu平台的漏洞列表大学(阿这,主要是正则不会)，包括标题、时间、作者。可通过输入cookie、查询页数和查找内容进行查询，可以看看有木有重复吧(应该)，下载地址在最底下。</p>
+<p>上图</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/1-1-1024x357.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/2-1-1024x484.png"> </p>
+<p><strong>效果还阔以嘛</strong></p>
+<p><strong>脚本分析:</strong></p>
+<p>整体&gt;</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/3-1-1024x555.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/4-1-1024x555.png"></p>
+<p>Step1(title)&gt;</p>
+<p>该部分包含使用说明，和作者声明。借鉴了佩奇师傅写脚本的格式，可以关注下他的文库(<a href="http://wiki.peiqi.tech/)%E9%92%88%E4%B8%8D%E6%88%B3">http://wiki.peiqi.tech/)针不戳</a></p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/5-1.png"></p>
+<p>Step2(start)&gt;</p>
+<p>我们先讲讲运行部分，把重要的留在后面。</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/6-1.png"></p>
+<p>这里先会运行title部分，之后定义cookie值为用户键入的Cookie      “str(input(“xxxxxx”))” ，之后会将cookie值代入header中进行用户伪装。</p>
+<p>之后定义两个值page1，page2作为要查询的起始页和结束页，并用’-’分开 “map(int,input(“xxxxxxx”))” 的方法可使用户输入的值为数字，然后后面会判断page1或者page2是否为0进行报错提示。</p>
+<p>最后select值为要查询的关键字，进行标题查询。然后结束会运行下个函数config。</p>
+<p>Step3(config)&gt;</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/7-1.png"></p>
+<p>这里我用了for循环来给i,k定义两个值。</p>
+<p>首先先给i定义区间range(page1-page2),这里要注意的是page1一定要转化为int类型，否则会报错，其次就是page2要比实际输入的值大1，因为range中第二个值会少1。例如range(1,4)，实际为1,2,3。</p>
+<p>k定的区间为1到15，因为每页显示15个漏洞。</p>
+<p>然后用的就是threading线程，如果嫌运行慢的话，可以将time.sleep()的值改小点，不过越快越不稳定。</p>
+<p><strong><em>Step4(core)&gt;</em></strong></p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/8-1-1024x324.png"></p>
+<ol>
+<li>首先设置目标URL以及header构造(写法参考了HuMoLix师傅，TQL)</li>
+</ol>
+<p>先用PoolManager()创建实例，用于处理对象，然后构造header和url以及传参方式r &#x3D; http.request( ‘GET’, “<a href="https://src.sjtu.edu.cn/list/?page=&quot;+str(i)">https://src.sjtu.edu.cn/list/?page=&quot;+str(i)</a>, headers&#x3D; { ‘User-Agent’:”Mozilla&#x2F;5.0 (Windows NT 10.0; Win64; x64; rv:88.0) Gecko&#x2F;20100101 Firefox&#x2F;88.0”, ‘Host’:”src.sjtu.edu.cn”, ‘Cookie’:”sessionid&#x3D;”+str(cookie) }, timeout &#x3D; 4.0 )</p>
+<p>header方面我是用burpsuite抓edu登陆后首页的包</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/9-1-1024x803.png"></p>
+<p>Cookie上只用sessionid就可以进行身份验证了。</p>
+<p>之后用r.data.decode(‘utf-8’,’ignore’)就可以将爬出的内容显示出来了，这里如果不用utf-8解码会出现汉字显示不出来</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/10-1-1024x127.png"></p>
+<p>至此爬取网页的部分已经成功，接下来要做的就是将爬取的内容进行筛选我们想要的内容</p>
+<p>2）在讲xpath前，推荐大家chrome安装个xpath helper插件，可以直接在chrome应用市场下载</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/11-1-1024x494.png"></p>
+<p>点击xpath helper插件，选取想要的内容，按Shift+X就可以显示内容在整个网页的位置了</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/12-2-1024x370.png"></p>
+<p>这里只用tr的部分，前面的都可以忽略不要(注意前面删除好要在”&#x2F;tr”前加&#x2F;)</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/13-2-1024x70.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/14-1-1024x86.png"></p>
+<p>有了目标的path后，一切都好办辽。</p>
+<p>先用etree.HTML(html)将html的字符串解析为HTML文档对象，将字符串转变成_Element对象。再用lxml中_element的xpath来将文本内容转化为值</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/15-2.png"></p>
+<p>这里要注意的是在我们原有的路径上要加上”&#x2F;text()”否则识别不出来，其次是用normalize-space将爬取的内容中的空格去除，保证文本准确性。然后根据不同漏洞的标题、时间、作者中”[]”的变化，用我们之前定义的’str(k)’来代替。</p>
+<p>最后出来的就是完整的标题、时间和作者了。</p>
+]]></content>
+      <categories>
+        <category>Python</category>
+        <category>教程</category>
+      </categories>
+      <tags>
+        <tag>教程</tag>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Bugku杂项misc writeup(2)</title>
+    <url>/2021/05/28/20210528/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><h1 id="Bugku杂项misc-writeup-2"><a href="#Bugku杂项misc-writeup-2" class="headerlink" title="Bugku杂项misc writeup(2)"></a>Bugku杂项misc writeup(2)</h1><p>题目(Mumumisc&amp;只有黑棋的棋盘&amp;北有楠木)</p>
+<p>涉及到的网站和工具:</p>
+<p>Wbs43open-win32链接: <a href="https://pan.baidu.com/s/1g8AbhV1EVDuiZS7PpcFUzw">https://pan.baidu.com/s/1g8AbhV1EVDuiZS7PpcFUzw</a>  密码: svhi</p>
+<p>音符解码网址: <a href="https://www.qqxiuzi.cn/bianma/wenbenjiami.php?s=yinyue">https://www.qqxiuzi.cn/bianma/wenbenjiami.php?s=yinyue</a></p>
+<p>1.mumumisc</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/1-4.png"></p>
+<p>提示:</p>
+<p>连续加了两天班又经历了2021.3.14 AWD线上赛的后MuMuMisc内心黑化程度到达了100%，他决定出一个套娃题目来与大家进行较♂量。<br>MuMuMisc先是构造了一串flag，然后在他的外国网友霍夫曼的指导下进行了最原始的编码加密，最后层层套娃将其藏进了一张图片里。<br>霍夫曼在完成工♂作后靠在树上与MuMuMisc进行了视频对话，他说MuMuMisc出的题目也就有他指导的那一层还有点意思，但整体还是简单得不能看。钥匙都给你了，聪明的你最后一定能够得到flag。  </p>
+<h2 id><a href="#" class="headerlink" title></a></h2><p>感谢套神mumuzi发现的题目的一点小瑕疵，mumuzi yyds orz。</p>
+<p>—————————————-</p>
+<p>先用winhex打开private.key</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/2-5.png"></p>
+<p>FFD8文件头，说明是jpg文件，将其后缀改为jpg</p>
+<p>打开发现是一张 哈夫曼树的图片</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/3-6-1024x780.png"></p>
+<p>(这里感谢下volcano师傅的指导)</p>
+<p>本来我以为是二叉树，结果它更高级，是哈夫曼树</p>
+<p>关于哈夫曼树其原理和构造方法可参考blog:<a href="https://blog.csdn.net/qq_29519041/article/details/81428934">https://blog.csdn.net/qq_29519041/article/details/81428934</a></p>
+<p>先从最上面的圆圈看，向左的枝干为0，向右的为1，依次写出每个字母所代表的二进制</p>
+<p>如    字母”l”代表00000    字母”i”代表0001</p>
+<p>我写出了各个字母代表的二进制</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/%E5%9B%BE%E7%89%874-2.png"></p>
+<p>有了二进制的编码，还需要一段二进制的字符串进行解码，这个时候看文件mumumisc.png</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/%E5%9B%BE%E7%89%875-1.png"></p>
+<p>(这里用Stegsolve分析不出来)</p>
+<p>这张图左侧有一串黑白相间的字符串(不是什么神奇的加密方式)，黑的代表数字0，白的代表数字1</p>
+<p>写脚本跑一下<strong>from</strong> PIL <strong>import</strong> Image<strong>import</strong> binascii<strong>import</strong> base64<strong>def</strong> decode(path): image &#x3D; Image.open(path) flag &#x3D; ‘’ <strong>for</strong> x <strong>in</strong> range(5): <strong>for</strong> y <strong>in</strong> range(400): p &#x3D; image.getpixel((x,y)) <strong>if</strong> p &#x3D;&#x3D; (0, 0, 0): flag +&#x3D; ‘1’ <strong>elif</strong> p &#x3D;&#x3D; (255, 255, 255): flag +&#x3D; ‘0’ #2进制转16进制 a&#x3D;(hex(int(flag,2))[2:]) #16进制转字符串 b&#x3D;(binascii.unhexlify(a)) #base64解码 print(“结果如下:\n”+str(base64.b64decode(b)))<strong>if</strong> <strong>name</strong>&#x3D;&#x3D;”<strong>main</strong>“: path&#x3D;str(input(“请输入mumumisc的路径\n&gt;&gt;&gt;”)) decode(path)</p>
+<p>这里用win10自带的画图3D看一下白条的高宽大概在5px,400px的位置</p>
+<p>所以x,y取在5和400</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/%E5%9B%BE%E7%89%876-1.png"></p>
+<p>最后跑出来的是一个2进制的字符串(注意这个时候还不是flag)先将其转换为16进制再转为字符串</p>
+<p>字符串是一段base64加密的，解出来的结果为</p>
+<p>“110001 00000 010 0110 11001 101 0111 101 0111 101 0001 001 110000 100 0001 001 100 0110 1111 1111 1101 100 010 11101 1101 100 00001 010 11101 1101 001 1111 101 111001 111000”</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/%E5%9B%BE%E7%89%877-1.png"></p>
+<p>对应之前写的字母和二进制对应关系的表(我是一个个看的，有能力的师傅可以写个脚本跑),最后的结果为:</p>
+<p>“flag{mumumisc**********nd_handsome}“</p>
+<p>二进制01真是无处不在啊。</p>
+<p>2.只有黑棋的棋盘</p>
+<p>Mumuzi(套套子)的题，好耶(精神错乱)</p>
+<p>文件如下:</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/8-5.png"></p>
+<p>Flag要密码，先用winhex看看棋盘</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/1-5.png"></p>
+<p>一手搜索PK，反手改后缀为zip</p>
+<p>欸嘿嘿嘿</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/2-6.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/3-7.png"></p>
+<p>谢谢，血压已经上来了</p>
+<p>再用winhex看一看</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/4-5.png"></p>
+<p>原来是头写错了，把0506改成0304</p>
+]]></content>
+      <categories>
+        <category>刷题笔记</category>
+        <category>Writeup</category>
+      </categories>
+      <tags>
+        <tag>刷题</tag>
+        <tag>CTF</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Bugku杂项misc writeup(1)</title>
     <url>/2021/05/24/20210524/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><h1 id="Bugku杂项misc-writeup-1"><a href="#Bugku杂项misc-writeup-1" class="headerlink" title="Bugku杂项misc writeup(1)"></a>Bugku杂项misc writeup(1)</h1><p>前几天在Bugku上做misc的时候做到几道挺好的题目，想写个复盘跟大家分享下。欢迎各位大佬互相交流  1.善用工具  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/1-2-1024x615.png"> 文件如下:  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/2-2.png"> 先看看hint文件，发现png格式打不开，试试用txt文本打开  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/3-3.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/4-3-1024x485.png"> (干得漂亮)  试试用winhex打开，发现一段神秘代码   <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/5-3.png"> 在查询一番资料过后得知这是UUEncode+base85加密  Uuencode解密网址: <a href="http://www.mxcz.net/tools/UUEncode.aspx">http://www.mxcz.net/tools/UUEncode.aspx</a> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/6-3.png"> 再将”keyis”去除进行base85解密: <a href="http://www.atoolbox.net/Tool.php?Id=934">http://www.atoolbox.net/Tool.php?Id=934</a> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/7-3.png"> 联系下标题&lt;善用工具&gt;，百读搜索下Camouflage软件，发现是个用AES加密算法把隐藏的文件存放到jpg图片中的软件  那意思很明确了,就是把那张水晶的图片放进去解一下  (下载地址：<a href="https://www.onlinedown.net/soft/94324.htm">https://www.onlinedown.net/soft/94324.htm</a>)  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/8-3.png"> 是一个docx文档，放到winhex看看  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/9-3.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/10-3.png"> 看到PK果断改后缀为zip  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/11-3.png"> 是一个xml文件，在一番遍历后，word文件夹下的document.xml找到了密码  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/12-4.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/13-4-1024x676.png"> 密码为XiAo_1U  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/14-3.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/15-4.png"> 我们用kali下的file看一下是什么格式的文件  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/16-4.png"> riff(用画图打开)或者webp(用浏览器打开)格式都可以  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/17-3-1024x646.png"> (WDNMD)  之后可以用python的stegpy的脚本解码解密  pip install stegpy  stegpy csgo.webp(csgo.riff)  拿下  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/18-2.png"> 2.Photo的自我修养  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/19-2.png"> 压缩包含有以下文件：  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/20-2.png"> 第一眼看去应该是要先分别解出001和002的给的密码再解出keyAB就能拿flag了  先看001压缩包  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/21-3.png"> 这里有可能是_<strong>伪加密</strong>_ 所谓伪加密就是将压缩包中全局方式位标记更改，00为无加密，其余为加密  详细可参考<a href="https://blog.csdn.net/qq_26187985/article/details/83654197">https://blog.csdn.net/qq_26187985/article/details/83654197</a>  一般 全局方式位标记的位置 在 压缩包的文件头标记 或 结束标记 旁边(比如504B0102、504B0304、504B0506)，所以我们先用winhex打开看看，用HEX搜索压缩包的文件头(504B)  <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/22-1.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/23-2.png"></p>
@@ -88,64 +209,6 @@
       </tags>
   </entry>
   <entry>
-    <title>利用xpath爬取edu漏洞列表</title>
-    <url>/2021/05/07/20210507/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><h1 id="利用xpath爬取edu漏洞列表"><a href="#利用xpath爬取edu漏洞列表" class="headerlink" title="利用xpath爬取edu漏洞列表"></a>利用xpath爬取edu漏洞列表</h1><p>EduSrcSelect用了xpath爬取了某edu平台的漏洞列表大学(阿这,主要是正则不会)，包括标题、时间、作者。可通过输入cookie、查询页数和查找内容进行查询，可以看看有木有重复吧(应该)，下载地址在最底下。</p>
-<p>上图</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/1-1-1024x357.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/2-1-1024x484.png"> </p>
-<p><strong>效果还阔以嘛</strong></p>
-<p><strong>脚本分析:</strong></p>
-<p>整体&gt;</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/3-1-1024x555.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/4-1-1024x555.png"></p>
-<p>Step1(title)&gt;</p>
-<p>该部分包含使用说明，和作者声明。借鉴了佩奇师傅写脚本的格式，可以关注下他的文库(<a href="http://wiki.peiqi.tech/)%E9%92%88%E4%B8%8D%E6%88%B3">http://wiki.peiqi.tech/)针不戳</a></p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/5-1.png"></p>
-<p>Step2(start)&gt;</p>
-<p>我们先讲讲运行部分，把重要的留在后面。</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/6-1.png"></p>
-<p>这里先会运行title部分，之后定义cookie值为用户键入的Cookie      “str(input(“xxxxxx”))” ，之后会将cookie值代入header中进行用户伪装。</p>
-<p>之后定义两个值page1，page2作为要查询的起始页和结束页，并用’-’分开 “map(int,input(“xxxxxxx”))” 的方法可使用户输入的值为数字，然后后面会判断page1或者page2是否为0进行报错提示。</p>
-<p>最后select值为要查询的关键字，进行标题查询。然后结束会运行下个函数config。</p>
-<p>Step3(config)&gt;</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/7-1.png"></p>
-<p>这里我用了for循环来给i,k定义两个值。</p>
-<p>首先先给i定义区间range(page1-page2),这里要注意的是page1一定要转化为int类型，否则会报错，其次就是page2要比实际输入的值大1，因为range中第二个值会少1。例如range(1,4)，实际为1,2,3。</p>
-<p>k定的区间为1到15，因为每页显示15个漏洞。</p>
-<p>然后用的就是threading线程，如果嫌运行慢的话，可以将time.sleep()的值改小点，不过越快越不稳定。</p>
-<p><strong><em>Step4(core)&gt;</em></strong></p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/8-1-1024x324.png"></p>
-<ol>
-<li>首先设置目标URL以及header构造(写法参考了HuMoLix师傅，TQL)</li>
-</ol>
-<p>先用PoolManager()创建实例，用于处理对象，然后构造header和url以及传参方式r &#x3D; http.request( ‘GET’, “<a href="https://src.sjtu.edu.cn/list/?page=&quot;+str(i)">https://src.sjtu.edu.cn/list/?page=&quot;+str(i)</a>, headers&#x3D; { ‘User-Agent’:”Mozilla&#x2F;5.0 (Windows NT 10.0; Win64; x64; rv:88.0) Gecko&#x2F;20100101 Firefox&#x2F;88.0”, ‘Host’:”src.sjtu.edu.cn”, ‘Cookie’:”sessionid&#x3D;”+str(cookie) }, timeout &#x3D; 4.0 )</p>
-<p>header方面我是用burpsuite抓edu登陆后首页的包</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/9-1-1024x803.png"></p>
-<p>Cookie上只用sessionid就可以进行身份验证了。</p>
-<p>之后用r.data.decode(‘utf-8’,’ignore’)就可以将爬出的内容显示出来了，这里如果不用utf-8解码会出现汉字显示不出来</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/10-1-1024x127.png"></p>
-<p>至此爬取网页的部分已经成功，接下来要做的就是将爬取的内容进行筛选我们想要的内容</p>
-<p>2）在讲xpath前，推荐大家chrome安装个xpath helper插件，可以直接在chrome应用市场下载</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/11-1-1024x494.png"></p>
-<p>点击xpath helper插件，选取想要的内容，按Shift+X就可以显示内容在整个网页的位置了</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/12-2-1024x370.png"></p>
-<p>这里只用tr的部分，前面的都可以忽略不要(注意前面删除好要在”&#x2F;tr”前加&#x2F;)</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/13-2-1024x70.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/14-1-1024x86.png"></p>
-<p>有了目标的path后，一切都好办辽。</p>
-<p>先用etree.HTML(html)将html的字符串解析为HTML文档对象，将字符串转变成_Element对象。再用lxml中_element的xpath来将文本内容转化为值</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/15-2.png"></p>
-<p>这里要注意的是在我们原有的路径上要加上”&#x2F;text()”否则识别不出来，其次是用normalize-space将爬取的内容中的空格去除，保证文本准确性。然后根据不同漏洞的标题、时间、作者中”[]”的变化，用我们之前定义的’str(k)’来代替。</p>
-<p>最后出来的就是完整的标题、时间和作者了。</p>
-]]></content>
-      <categories>
-        <category>Python</category>
-        <category>教程</category>
-      </categories>
-      <tags>
-        <tag>教程</tag>
-        <tag>Python</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>记一次文件上传之过滤php绕过</title>
     <url>/2021/10/14/20211014/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><!--今天在群里看到群友发的一道题 想试试 解了一个多小时 过程挺有趣 就记录一下了 学到新的绕过姿势-->
@@ -211,69 +274,6 @@ include($a);
         <category>刷题笔记</category>
         <category>CTF</category>
         <category>Web</category>
-      </categories>
-      <tags>
-        <tag>刷题</tag>
-        <tag>CTF</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Bugku杂项misc writeup(2)</title>
-    <url>/2021/05/28/20210528/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><h1 id="Bugku杂项misc-writeup-2"><a href="#Bugku杂项misc-writeup-2" class="headerlink" title="Bugku杂项misc writeup(2)"></a>Bugku杂项misc writeup(2)</h1><p>题目(Mumumisc&amp;只有黑棋的棋盘&amp;北有楠木)</p>
-<p>涉及到的网站和工具:</p>
-<p>Wbs43open-win32链接: <a href="https://pan.baidu.com/s/1g8AbhV1EVDuiZS7PpcFUzw">https://pan.baidu.com/s/1g8AbhV1EVDuiZS7PpcFUzw</a>  密码: svhi</p>
-<p>音符解码网址: <a href="https://www.qqxiuzi.cn/bianma/wenbenjiami.php?s=yinyue">https://www.qqxiuzi.cn/bianma/wenbenjiami.php?s=yinyue</a></p>
-<p>1.mumumisc</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/1-4.png"></p>
-<p>提示:</p>
-<p>连续加了两天班又经历了2021.3.14 AWD线上赛的后MuMuMisc内心黑化程度到达了100%，他决定出一个套娃题目来与大家进行较♂量。<br>MuMuMisc先是构造了一串flag，然后在他的外国网友霍夫曼的指导下进行了最原始的编码加密，最后层层套娃将其藏进了一张图片里。<br>霍夫曼在完成工♂作后靠在树上与MuMuMisc进行了视频对话，他说MuMuMisc出的题目也就有他指导的那一层还有点意思，但整体还是简单得不能看。钥匙都给你了，聪明的你最后一定能够得到flag。  </p>
-<h2 id><a href="#" class="headerlink" title></a></h2><p>感谢套神mumuzi发现的题目的一点小瑕疵，mumuzi yyds orz。</p>
-<p>—————————————-</p>
-<p>先用winhex打开private.key</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/2-5.png"></p>
-<p>FFD8文件头，说明是jpg文件，将其后缀改为jpg</p>
-<p>打开发现是一张 哈夫曼树的图片</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/3-6-1024x780.png"></p>
-<p>(这里感谢下volcano师傅的指导)</p>
-<p>本来我以为是二叉树，结果它更高级，是哈夫曼树</p>
-<p>关于哈夫曼树其原理和构造方法可参考blog:<a href="https://blog.csdn.net/qq_29519041/article/details/81428934">https://blog.csdn.net/qq_29519041/article/details/81428934</a></p>
-<p>先从最上面的圆圈看，向左的枝干为0，向右的为1，依次写出每个字母所代表的二进制</p>
-<p>如    字母”l”代表00000    字母”i”代表0001</p>
-<p>我写出了各个字母代表的二进制</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/%E5%9B%BE%E7%89%874-2.png"></p>
-<p>有了二进制的编码，还需要一段二进制的字符串进行解码，这个时候看文件mumumisc.png</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/%E5%9B%BE%E7%89%875-1.png"></p>
-<p>(这里用Stegsolve分析不出来)</p>
-<p>这张图左侧有一串黑白相间的字符串(不是什么神奇的加密方式)，黑的代表数字0，白的代表数字1</p>
-<p>写脚本跑一下<strong>from</strong> PIL <strong>import</strong> Image<strong>import</strong> binascii<strong>import</strong> base64<strong>def</strong> decode(path): image &#x3D; Image.open(path) flag &#x3D; ‘’ <strong>for</strong> x <strong>in</strong> range(5): <strong>for</strong> y <strong>in</strong> range(400): p &#x3D; image.getpixel((x,y)) <strong>if</strong> p &#x3D;&#x3D; (0, 0, 0): flag +&#x3D; ‘1’ <strong>elif</strong> p &#x3D;&#x3D; (255, 255, 255): flag +&#x3D; ‘0’ #2进制转16进制 a&#x3D;(hex(int(flag,2))[2:]) #16进制转字符串 b&#x3D;(binascii.unhexlify(a)) #base64解码 print(“结果如下:\n”+str(base64.b64decode(b)))<strong>if</strong> <strong>name</strong>&#x3D;&#x3D;”<strong>main</strong>“: path&#x3D;str(input(“请输入mumumisc的路径\n&gt;&gt;&gt;”)) decode(path)</p>
-<p>这里用win10自带的画图3D看一下白条的高宽大概在5px,400px的位置</p>
-<p>所以x,y取在5和400</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/%E5%9B%BE%E7%89%876-1.png"></p>
-<p>最后跑出来的是一个2进制的字符串(注意这个时候还不是flag)先将其转换为16进制再转为字符串</p>
-<p>字符串是一段base64加密的，解出来的结果为</p>
-<p>“110001 00000 010 0110 11001 101 0111 101 0111 101 0001 001 110000 100 0001 001 100 0110 1111 1111 1101 100 010 11101 1101 100 00001 010 11101 1101 001 1111 101 111001 111000”</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/%E5%9B%BE%E7%89%877-1.png"></p>
-<p>对应之前写的字母和二进制对应关系的表(我是一个个看的，有能力的师傅可以写个脚本跑),最后的结果为:</p>
-<p>“flag{mumumisc**********nd_handsome}“</p>
-<p>二进制01真是无处不在啊。</p>
-<p>2.只有黑棋的棋盘</p>
-<p>Mumuzi(套套子)的题，好耶(精神错乱)</p>
-<p>文件如下:</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/8-5.png"></p>
-<p>Flag要密码，先用winhex看看棋盘</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/1-5.png"></p>
-<p>一手搜索PK，反手改后缀为zip</p>
-<p>欸嘿嘿嘿</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/2-6.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/3-7.png"></p>
-<p>谢谢，血压已经上来了</p>
-<p>再用winhex看一看</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/4-5.png"></p>
-<p>原来是头写错了，把0506改成0304</p>
-]]></content>
-      <categories>
-        <category>刷题笔记</category>
-        <category>Writeup</category>
       </categories>
       <tags>
         <tag>刷题</tag>
@@ -1340,6 +1340,96 @@ decode()
       </tags>
   </entry>
   <entry>
+    <title>Bugku S2收官赛AWD解析&amp;如何打AWD?</title>
+    <url>/2022/03/05/20220305/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>随着Bugku awd的举办 S2排位赛走向了尾声。我们的战队An1s_team是从S2的第7场比赛开始打起的，到收官赛我们的排行是第四，我个人十分满意这个成绩 虽然说我的目标是前三 但因为打的比较迟 所以这个成绩我觉得也很不错。</p>
+<p><img src="https://c.img.dasctf.com/images/202235/1646483612418-c7b1dfb2-be58-42d3-a553-139412f82316.png"></p>
+<p>总的来说我的队友都很不错 像是火神 还有ztop师傅等他们都挺积极的 每一次的排位赛基本都有参加 也会在我们的战队群里积极交流哪里有漏洞 分享找到的参考文章我们之间进行交流学习 我觉得这样的团队就很有意义 互相学习，互相进步。</p>
+<p>这次我们在S2收官赛成绩是第三 我知道自己的水平有限 所以这个成绩我觉得不错。<br><img src="https://c.img.dasctf.com/images/202235/1646483612225-7400aa6c-6f0f-4846-a982-5eccc29ece78.png"></p>
+<p>总结就是这个赛季不错 我们下个赛季继续加油 并且我打算重新改进下目前的shell脚本 因为存在较多的问题 再接再厉 学习为主！</p>
+<h1 id="收官赛解析"><a href="#收官赛解析" class="headerlink" title="收官赛解析"></a>收官赛解析</h1><p>已将全程的录像视频投至bilibili：<a href="https://www.bilibili.com/video/BV1La411b7hR?spm_id_from=333.999.0.0">https://www.bilibili.com/video/BV1La411b7hR?spm_id_from=333.999.0.0</a></p>
+<p>以下是总结 之后我会一一解析：</p>
+<p>Web :</p>
+<p>存在自带的木马 assert($_GET[s]) ：\public\common\images\1.jpg.php</p>
+<p>后台存在弱口令：admin&#x2F;?c&#x3D;index 账号密码：admin admin123</p>
+<p>cms是5iSNS 好像cms的漏洞很少或者说是没有</p>
+<p>Pwn：</p>
+<p>是一个经典的堆题 以及菜单题</p>
+<p>太菜了做不出来</p>
+<hr>
+<p>网站首页：</p>
+<p><img src="https://c.img.dasctf.com/images/202235/1646485206896-666cdd51-ef14-4473-b69b-e1c77d34da51.png"></p>
+<h2 id="Web漏洞："><a href="#Web漏洞：" class="headerlink" title="Web漏洞："></a>Web漏洞：</h2><h3 id="漏洞1："><a href="#漏洞1：" class="headerlink" title="漏洞1："></a>漏洞1：</h3><p>网站存在自带木马</p>
+<p>首先用filezilla将网站源码拷贝到本地(bugku是&#x2F;var&#x2F;www&#x2F;html或&#x2F;app)</p>
+<p><img src="https://c.img.dasctf.com/images/202235/1646484572231-4db459c8-a42e-467c-a507-419da4d2b82e.png"></p>
+<p>然后使用D盾扫描源码 得到以下漏洞：</p>
+<p><img src="https://c.img.dasctf.com/images/202235/1646484623699-f1e29384-02d0-4769-a57a-ef2d7fba6a99.png"></p>
+<p>两个级别为1的漏洞可以不用管 看严重漏洞是一个自带的木马 显然这是网站源码存在的高级别漏洞 内容是一个变种的assert马(类似eval) 是可以RCE的</p>
+<p><img src="https://c.img.dasctf.com/images/202235/1646484869292-6cbf3f26-0a9d-4cbe-8735-d3d240842d8a.png"></p>
+<p>访问漏洞url &#x2F;public&#x2F;common&#x2F;images&#x2F;1.jpg.php?s&#x3D;phpinfo()显然RCE了</p>
+<p><img src="https://c.img.dasctf.com/images/202235/1646484921704-6de2e0c3-c442-4f5b-a775-44445b98475f.png"></p>
+<p>?s后带php函数都会实现 所以可以用eval(system(xxx))进行系统的rce 就可以获取flag了 这里我是用我自己的脚本实现的。</p>
+<p>修复建议：连接到ssh删除相应木马</p>
+<h3 id="漏洞2："><a href="#漏洞2：" class="headerlink" title="漏洞2："></a>漏洞2：</h3><p>网站后台存在弱口令</p>
+<p>访问后台&#x2F;admin&#x2F;?c&#x3D;index(ztop师傅找到的哈哈哈我自己找半天没找着)</p>
+<p><img src="https://c.img.dasctf.com/images/202235/1646485114623-bd1da979-a152-4fc9-a845-97930cf36df9.png"></p>
+<p>一般用户都是admin 测试密码得出为admin123 弱口令</p>
+<p>进入后台我自己没找到有什么功能是可以进行渗透的(像文件上传、改文件)</p>
+<p>其中文件上传有一处是在页面编辑里 有一个功能是上传图片 然后会检测是否符合后缀 以及内容</p>
+<p>burpsuite测试后得到图片内容如果为空不允许上传、没有文件头不允许上传(可以加GIF89a)内容可以绕过 但是后缀改成php就会报错</p>
+<p>因为时间原因就没有过多测试 有兴趣可以自己搭一个复现</p>
+<p>修复建议：登录后台更改管理员密码 或使用数据库更改</p>
+<p><img src="https://c.img.dasctf.com/images/202235/1646485487114-7f9aa885-be0b-42b9-af6d-fc2d417416a6.png"></p>
+<p>这一套CMS是5iSNS 网上查找一番就找到一个sql利用脚本 但是也利用不起来哈哈哈 漏洞应该挺少的</p>
+<h2 id="Pwn漏洞"><a href="#Pwn漏洞" class="headerlink" title="Pwn漏洞"></a>Pwn漏洞</h2><p>64位程序，保护如下：<br><img src="https://c.img.dasctf.com/images/202235/1646485935169-07699ac8-1e26-44aa-ada9-35c15126faa1.png"></p>
+<p>是一个菜单堆题 貌似是UAF漏洞 太菜了不会做 尝试在网上找exp无果hhh</p>
+<p>有一道类似的题目我拿来套用 最后也是没打通 害</p>
+<p>main函数如下：</p>
+<p><img src="https://c.img.dasctf.com/images/202235/1646486140524-55e434af-481a-4a7b-846e-9457b7c9ad48.png"></p>
+<p>pwn堆题真的好难啊</p>
+<h2 id="脚本利用"><a href="#脚本利用" class="headerlink" title="脚本利用"></a>脚本利用</h2><p>这次脚本可以就后台弱口令和自带木马进行利用 通过requests库进行漏洞url构造实现批量利用木马 以及post内容发送实现检测后台弱口令</p>
+<p>因为后台没有验证码 所以直接可以利用，</p>
+<p>使用burpsuite拦截后台登录的包</p>
+<p><img src="https://c.img.dasctf.com/images/202235/1646486501263-45de9baf-71f9-4b21-9cbc-29bbbf48a42a.png"></p>
+<p>参数为usermail和password 用requests中post的data&#x3D;{‘usermail’:xxx,’password’：xxx}就可以发送这个包 实现检测的效果</p>
+<p>我自己脚本跑的效果如下：</p>
+<p><img src="https://c.img.dasctf.com/images/202235/1646486618798-a4587fe4-6127-46d9-ad6f-4357194f7cf0.png"></p>
+<p>自带木马的漏洞也可以直接用request访问实现获取flag 先构造好payload：?s&#x3D;eval(system(‘cat &#x2F;flag’))) 之后用request访问即可。</p>
+<p>最后附上一张获取flag的图片 效果没那么好了hhh</p>
+<p><img src="https://c.img.dasctf.com/images/202235/1646486773031-998450a8-16ac-4e5c-a092-770f10912fe3.png"></p>
+<p>题外话：</p>
+<p>观战席看到的hhh 关于木马密码泄露这件事<br><img src="https://c.img.dasctf.com/images/202235/1646487123540-da83d3e1-e147-4e79-b2f7-bef679097eb0.png"></p>
+<h1 id="如何打AWD"><a href="#如何打AWD" class="headerlink" title="如何打AWD?"></a>如何打AWD?</h1><p>就Bugku的awd模式写一下我一般的做法</p>
+<p>以下是我的思路 仅供参考XD：</p>
+<p>首先开始前可以将token之类的写进自己的脚本 用于提交flag等 并且写一个扫描网段ip的脚本 这样的批量会大幅提升效率</p>
+<p>还有使用filezilla或者xshell等ssh连接工具进行连接服务器 将源码下载到自己电脑里(一般都是&#x2F;var&#x2F;www&#x2F;html的网站文件 pwn附件在&#x2F;home&#x2F;ctf&#x2F;pwn)</p>
+<p>web利用可以使用D盾扫描看看有没有高危的漏洞 例如自带马等 如果有可以自己先访问url试一试phpinfo能不能实现</p>
+<p>能的话最好用脚本批量帮你获取flag 实在不行就手工</p>
+<p>然后网站后台也会存在漏洞 一般是弱口令admin admin或者别的 自己多试试就可以进去 后台进去后可以找下各种功能</p>
+<p>一般来说如果可以直接在后台改允许上传的后缀 再加上有文件上传的功能 那么基本都能上传木马getshell</p>
+<p>还有就是可以直接更改模板、页面等内容的 改php代码进去 再访问修改的文件url进行RCE</p>
+<p>最后有了能得到flag的一堆exp 再用bugku提供的api进行批量提交flag 这样效率就会快很多很多</p>
+<p>还有bugku的所有cms的mysql都有弱口令 就是root root 但是每个人靶机的mysql端口是不开的 也就是说远程连接不了</p>
+<p>所以如果你打的这套cms有phpmyadmin 就可以通过phpmyadmin连接mysql，那也是漏洞 只要你能连接到别人的mysql就可以用mysql语句写一句话木马（或者直接获取flag）再通过木马获取flag</p>
+<p>最后你可以去了解一下不死马 写不死马是最吃香的 比方说如果你的木马被别人删掉你就利用不了 那么你写一个不死马他是一直存在的 包括删站 因为它是一直维持权限的 删除要杀进程才能杀死 所以是一个比较麻烦的存在 因此如果你能RCE并且时间还来得及 那么建议你写一个不死马进去 再用不死马获取flag比较保险~~</p>
+<p>pwn的话是最好拿分的 也是最难的</p>
+<p>如果你能就给的pwn附件在自己的靶机打通 再写一个脚本实现pwn漏洞利用结合批量获取ip和提交flag 那么分数会拿的十分的快和轻松</p>
+<p>所以pwn手很吃香呀 对了 本人战队招收pwn手噢~~只需提供exp即可 脚本我们来帮你写！哈哈哈哈</p>
+<hr>
+<p>继续学习 继续努力！备战S3赛季 加油</p>
+<p>另外有学习Pwn的师傅可以私聊我进入战队一起学习噢~</p>
+<p>QQ1395980247</p>
+]]></content>
+      <categories>
+        <category>刷题笔记</category>
+        <category>Writeup</category>
+      </categories>
+      <tags>
+        <tag>刷题</tag>
+        <tag>CTF</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>摸鱼大闯关 1-40关 writeup</title>
     <url>/2021/12/04/20211204/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><p>昨天玩了下摸鱼大闯关 一共54关 目前是40关</p>
@@ -2068,96 +2158,6 @@ flag3 = 6859390560180138873
       </tags>
   </entry>
   <entry>
-    <title>Bugku S2收官赛AWD解析&amp;如何打AWD?</title>
-    <url>/2022/03/05/20220305/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>随着Bugku awd的举办 S2排位赛走向了尾声。我们的战队An1s_team是从S2的第7场比赛开始打起的，到收官赛我们的排行是第四，我个人十分满意这个成绩 虽然说我的目标是前三 但因为打的比较迟 所以这个成绩我觉得也很不错。</p>
-<p><img src="https://c.img.dasctf.com/images/202235/1646483612418-c7b1dfb2-be58-42d3-a553-139412f82316.png"></p>
-<p>总的来说我的队友都很不错 像是火神 还有ztop师傅等他们都挺积极的 每一次的排位赛基本都有参加 也会在我们的战队群里积极交流哪里有漏洞 分享找到的参考文章我们之间进行交流学习 我觉得这样的团队就很有意义 互相学习，互相进步。</p>
-<p>这次我们在S2收官赛成绩是第三 我知道自己的水平有限 所以这个成绩我觉得不错。<br><img src="https://c.img.dasctf.com/images/202235/1646483612225-7400aa6c-6f0f-4846-a982-5eccc29ece78.png"></p>
-<p>总结就是这个赛季不错 我们下个赛季继续加油 并且我打算重新改进下目前的shell脚本 因为存在较多的问题 再接再厉 学习为主！</p>
-<h1 id="收官赛解析"><a href="#收官赛解析" class="headerlink" title="收官赛解析"></a>收官赛解析</h1><p>已将全程的录像视频投至bilibili：<a href="https://www.bilibili.com/video/BV1La411b7hR?spm_id_from=333.999.0.0">https://www.bilibili.com/video/BV1La411b7hR?spm_id_from=333.999.0.0</a></p>
-<p>以下是总结 之后我会一一解析：</p>
-<p>Web :</p>
-<p>存在自带的木马 assert($_GET[s]) ：\public\common\images\1.jpg.php</p>
-<p>后台存在弱口令：admin&#x2F;?c&#x3D;index 账号密码：admin admin123</p>
-<p>cms是5iSNS 好像cms的漏洞很少或者说是没有</p>
-<p>Pwn：</p>
-<p>是一个经典的堆题 以及菜单题</p>
-<p>太菜了做不出来</p>
-<hr>
-<p>网站首页：</p>
-<p><img src="https://c.img.dasctf.com/images/202235/1646485206896-666cdd51-ef14-4473-b69b-e1c77d34da51.png"></p>
-<h2 id="Web漏洞："><a href="#Web漏洞：" class="headerlink" title="Web漏洞："></a>Web漏洞：</h2><h3 id="漏洞1："><a href="#漏洞1：" class="headerlink" title="漏洞1："></a>漏洞1：</h3><p>网站存在自带木马</p>
-<p>首先用filezilla将网站源码拷贝到本地(bugku是&#x2F;var&#x2F;www&#x2F;html或&#x2F;app)</p>
-<p><img src="https://c.img.dasctf.com/images/202235/1646484572231-4db459c8-a42e-467c-a507-419da4d2b82e.png"></p>
-<p>然后使用D盾扫描源码 得到以下漏洞：</p>
-<p><img src="https://c.img.dasctf.com/images/202235/1646484623699-f1e29384-02d0-4769-a57a-ef2d7fba6a99.png"></p>
-<p>两个级别为1的漏洞可以不用管 看严重漏洞是一个自带的木马 显然这是网站源码存在的高级别漏洞 内容是一个变种的assert马(类似eval) 是可以RCE的</p>
-<p><img src="https://c.img.dasctf.com/images/202235/1646484869292-6cbf3f26-0a9d-4cbe-8735-d3d240842d8a.png"></p>
-<p>访问漏洞url &#x2F;public&#x2F;common&#x2F;images&#x2F;1.jpg.php?s&#x3D;phpinfo()显然RCE了</p>
-<p><img src="https://c.img.dasctf.com/images/202235/1646484921704-6de2e0c3-c442-4f5b-a775-44445b98475f.png"></p>
-<p>?s后带php函数都会实现 所以可以用eval(system(xxx))进行系统的rce 就可以获取flag了 这里我是用我自己的脚本实现的。</p>
-<p>修复建议：连接到ssh删除相应木马</p>
-<h3 id="漏洞2："><a href="#漏洞2：" class="headerlink" title="漏洞2："></a>漏洞2：</h3><p>网站后台存在弱口令</p>
-<p>访问后台&#x2F;admin&#x2F;?c&#x3D;index(ztop师傅找到的哈哈哈我自己找半天没找着)</p>
-<p><img src="https://c.img.dasctf.com/images/202235/1646485114623-bd1da979-a152-4fc9-a845-97930cf36df9.png"></p>
-<p>一般用户都是admin 测试密码得出为admin123 弱口令</p>
-<p>进入后台我自己没找到有什么功能是可以进行渗透的(像文件上传、改文件)</p>
-<p>其中文件上传有一处是在页面编辑里 有一个功能是上传图片 然后会检测是否符合后缀 以及内容</p>
-<p>burpsuite测试后得到图片内容如果为空不允许上传、没有文件头不允许上传(可以加GIF89a)内容可以绕过 但是后缀改成php就会报错</p>
-<p>因为时间原因就没有过多测试 有兴趣可以自己搭一个复现</p>
-<p>修复建议：登录后台更改管理员密码 或使用数据库更改</p>
-<p><img src="https://c.img.dasctf.com/images/202235/1646485487114-7f9aa885-be0b-42b9-af6d-fc2d417416a6.png"></p>
-<p>这一套CMS是5iSNS 网上查找一番就找到一个sql利用脚本 但是也利用不起来哈哈哈 漏洞应该挺少的</p>
-<h2 id="Pwn漏洞"><a href="#Pwn漏洞" class="headerlink" title="Pwn漏洞"></a>Pwn漏洞</h2><p>64位程序，保护如下：<br><img src="https://c.img.dasctf.com/images/202235/1646485935169-07699ac8-1e26-44aa-ada9-35c15126faa1.png"></p>
-<p>是一个菜单堆题 貌似是UAF漏洞 太菜了不会做 尝试在网上找exp无果hhh</p>
-<p>有一道类似的题目我拿来套用 最后也是没打通 害</p>
-<p>main函数如下：</p>
-<p><img src="https://c.img.dasctf.com/images/202235/1646486140524-55e434af-481a-4a7b-846e-9457b7c9ad48.png"></p>
-<p>pwn堆题真的好难啊</p>
-<h2 id="脚本利用"><a href="#脚本利用" class="headerlink" title="脚本利用"></a>脚本利用</h2><p>这次脚本可以就后台弱口令和自带木马进行利用 通过requests库进行漏洞url构造实现批量利用木马 以及post内容发送实现检测后台弱口令</p>
-<p>因为后台没有验证码 所以直接可以利用，</p>
-<p>使用burpsuite拦截后台登录的包</p>
-<p><img src="https://c.img.dasctf.com/images/202235/1646486501263-45de9baf-71f9-4b21-9cbc-29bbbf48a42a.png"></p>
-<p>参数为usermail和password 用requests中post的data&#x3D;{‘usermail’:xxx,’password’：xxx}就可以发送这个包 实现检测的效果</p>
-<p>我自己脚本跑的效果如下：</p>
-<p><img src="https://c.img.dasctf.com/images/202235/1646486618798-a4587fe4-6127-46d9-ad6f-4357194f7cf0.png"></p>
-<p>自带木马的漏洞也可以直接用request访问实现获取flag 先构造好payload：?s&#x3D;eval(system(‘cat &#x2F;flag’))) 之后用request访问即可。</p>
-<p>最后附上一张获取flag的图片 效果没那么好了hhh</p>
-<p><img src="https://c.img.dasctf.com/images/202235/1646486773031-998450a8-16ac-4e5c-a092-770f10912fe3.png"></p>
-<p>题外话：</p>
-<p>观战席看到的hhh 关于木马密码泄露这件事<br><img src="https://c.img.dasctf.com/images/202235/1646487123540-da83d3e1-e147-4e79-b2f7-bef679097eb0.png"></p>
-<h1 id="如何打AWD"><a href="#如何打AWD" class="headerlink" title="如何打AWD?"></a>如何打AWD?</h1><p>就Bugku的awd模式写一下我一般的做法</p>
-<p>以下是我的思路 仅供参考XD：</p>
-<p>首先开始前可以将token之类的写进自己的脚本 用于提交flag等 并且写一个扫描网段ip的脚本 这样的批量会大幅提升效率</p>
-<p>还有使用filezilla或者xshell等ssh连接工具进行连接服务器 将源码下载到自己电脑里(一般都是&#x2F;var&#x2F;www&#x2F;html的网站文件 pwn附件在&#x2F;home&#x2F;ctf&#x2F;pwn)</p>
-<p>web利用可以使用D盾扫描看看有没有高危的漏洞 例如自带马等 如果有可以自己先访问url试一试phpinfo能不能实现</p>
-<p>能的话最好用脚本批量帮你获取flag 实在不行就手工</p>
-<p>然后网站后台也会存在漏洞 一般是弱口令admin admin或者别的 自己多试试就可以进去 后台进去后可以找下各种功能</p>
-<p>一般来说如果可以直接在后台改允许上传的后缀 再加上有文件上传的功能 那么基本都能上传木马getshell</p>
-<p>还有就是可以直接更改模板、页面等内容的 改php代码进去 再访问修改的文件url进行RCE</p>
-<p>最后有了能得到flag的一堆exp 再用bugku提供的api进行批量提交flag 这样效率就会快很多很多</p>
-<p>还有bugku的所有cms的mysql都有弱口令 就是root root 但是每个人靶机的mysql端口是不开的 也就是说远程连接不了</p>
-<p>所以如果你打的这套cms有phpmyadmin 就可以通过phpmyadmin连接mysql，那也是漏洞 只要你能连接到别人的mysql就可以用mysql语句写一句话木马（或者直接获取flag）再通过木马获取flag</p>
-<p>最后你可以去了解一下不死马 写不死马是最吃香的 比方说如果你的木马被别人删掉你就利用不了 那么你写一个不死马他是一直存在的 包括删站 因为它是一直维持权限的 删除要杀进程才能杀死 所以是一个比较麻烦的存在 因此如果你能RCE并且时间还来得及 那么建议你写一个不死马进去 再用不死马获取flag比较保险~~</p>
-<p>pwn的话是最好拿分的 也是最难的</p>
-<p>如果你能就给的pwn附件在自己的靶机打通 再写一个脚本实现pwn漏洞利用结合批量获取ip和提交flag 那么分数会拿的十分的快和轻松</p>
-<p>所以pwn手很吃香呀 对了 本人战队招收pwn手噢~~只需提供exp即可 脚本我们来帮你写！哈哈哈哈</p>
-<hr>
-<p>继续学习 继续努力！备战S3赛季 加油</p>
-<p>另外有学习Pwn的师傅可以私聊我进入战队一起学习噢~</p>
-<p>QQ1395980247</p>
-]]></content>
-      <categories>
-        <category>刷题笔记</category>
-        <category>Writeup</category>
-      </categories>
-      <tags>
-        <tag>刷题</tag>
-        <tag>CTF</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>DirtyPipe-Linux内核提权漏洞 CVE-2022-0847</title>
     <url>/2022/03/08/20220308/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><h1 id="关于"><a href="#关于" class="headerlink" title="关于"></a>关于</h1><p>CVE-2022-0847-DirtyPipe-Exploit CVE-2022-0847 是存在于 Linux内核 5.8 及之后版本中的本地提权漏洞。攻击者通过利用此漏洞，可覆盖重写任意可读文件中的数据，从而可将普通权限的用户提升到特权 root。 CVE-2022-0847 的漏洞原理类似于 CVE-2016-5195 脏牛漏洞（Dirty Cow），但它更容易被利用。漏洞作者将此漏洞命名为“Dirty Pipe”</p>
@@ -2194,14 +2194,14 @@ bash Dirty-Pipe.sh
   </entry>
   <entry>
     <title>我与我的An1s_team</title>
-    <url>/2022/03/08/20220308-2/</url>
+    <url>/2022/03/09/20220309/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>随着Bugku的一篇公告下来 便诞生了这篇文章。</p>
 <p><img src="https://c.img.dasctf.com/images/202238/1646744042034-909e3105-9ba8-44df-976b-a6f3598c8d86.png"></p>
 <p>是的 我们的战队有幸拿了奖</p>
 <p>早上火师傅提醒了我 我才知道 属于我们的一份小惊喜hhh！</p>
 <p><img src="https://c.img.dasctf.com/images/202238/1646744106710-314ba7cb-78c0-42b0-943a-e866ccf95930.png"></p>
 <p>而我们战队排在第4名 所以奖杯我们有幸斩获！</p>
-<p><img src="https://c.img.dasctf.com/images/202238/1646744106710-314ba7cb-78c0-42b0-943a-e866ccf95930.png"></p>
+<p>(样图)<br><img src="https://c.img.dasctf.com/images/202238/1646781612717-5d983ff7-5f42-4409-8c2b-352d462451c7.jpg"></p>
 <h1 id="我的经历"><a href="#我的经历" class="headerlink" title="我的经历"></a>我的经历</h1><p>我创建这个战队的目前一是为了学习，二是为了拿奖杯。</p>
 <p>因为当初S1的奖杯是前三名才有机会获得，所以我当时就想：唉，那个奖杯多香啊</p>
 <p>于是，我建立了战队An1s_team，我的目标就是拿奖杯，当时是已经是S2的第7场排位赛了，</p>
