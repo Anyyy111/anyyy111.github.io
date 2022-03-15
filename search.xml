@@ -74,69 +74,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Bugku杂项misc writeup(2)</title>
-    <url>/2021/05/28/20210528/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><h1 id="Bugku杂项misc-writeup-2"><a href="#Bugku杂项misc-writeup-2" class="headerlink" title="Bugku杂项misc writeup(2)"></a>Bugku杂项misc writeup(2)</h1><p>题目(Mumumisc&amp;只有黑棋的棋盘&amp;北有楠木)</p>
-<p>涉及到的网站和工具:</p>
-<p>Wbs43open-win32链接: <a href="https://pan.baidu.com/s/1g8AbhV1EVDuiZS7PpcFUzw">https://pan.baidu.com/s/1g8AbhV1EVDuiZS7PpcFUzw</a>  密码: svhi</p>
-<p>音符解码网址: <a href="https://www.qqxiuzi.cn/bianma/wenbenjiami.php?s=yinyue">https://www.qqxiuzi.cn/bianma/wenbenjiami.php?s=yinyue</a></p>
-<p>1.mumumisc</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/1-4.png"></p>
-<p>提示:</p>
-<p>连续加了两天班又经历了2021.3.14 AWD线上赛的后MuMuMisc内心黑化程度到达了100%，他决定出一个套娃题目来与大家进行较♂量。<br>MuMuMisc先是构造了一串flag，然后在他的外国网友霍夫曼的指导下进行了最原始的编码加密，最后层层套娃将其藏进了一张图片里。<br>霍夫曼在完成工♂作后靠在树上与MuMuMisc进行了视频对话，他说MuMuMisc出的题目也就有他指导的那一层还有点意思，但整体还是简单得不能看。钥匙都给你了，聪明的你最后一定能够得到flag。  </p>
-<h2 id><a href="#" class="headerlink" title></a></h2><p>感谢套神mumuzi发现的题目的一点小瑕疵，mumuzi yyds orz。</p>
-<p>—————————————-</p>
-<p>先用winhex打开private.key</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/2-5.png"></p>
-<p>FFD8文件头，说明是jpg文件，将其后缀改为jpg</p>
-<p>打开发现是一张 哈夫曼树的图片</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/3-6-1024x780.png"></p>
-<p>(这里感谢下volcano师傅的指导)</p>
-<p>本来我以为是二叉树，结果它更高级，是哈夫曼树</p>
-<p>关于哈夫曼树其原理和构造方法可参考blog:<a href="https://blog.csdn.net/qq_29519041/article/details/81428934">https://blog.csdn.net/qq_29519041/article/details/81428934</a></p>
-<p>先从最上面的圆圈看，向左的枝干为0，向右的为1，依次写出每个字母所代表的二进制</p>
-<p>如    字母”l”代表00000    字母”i”代表0001</p>
-<p>我写出了各个字母代表的二进制</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/%E5%9B%BE%E7%89%874-2.png"></p>
-<p>有了二进制的编码，还需要一段二进制的字符串进行解码，这个时候看文件mumumisc.png</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/%E5%9B%BE%E7%89%875-1.png"></p>
-<p>(这里用Stegsolve分析不出来)</p>
-<p>这张图左侧有一串黑白相间的字符串(不是什么神奇的加密方式)，黑的代表数字0，白的代表数字1</p>
-<p>写脚本跑一下<strong>from</strong> PIL <strong>import</strong> Image<strong>import</strong> binascii<strong>import</strong> base64<strong>def</strong> decode(path): image &#x3D; Image.open(path) flag &#x3D; ‘’ <strong>for</strong> x <strong>in</strong> range(5): <strong>for</strong> y <strong>in</strong> range(400): p &#x3D; image.getpixel((x,y)) <strong>if</strong> p &#x3D;&#x3D; (0, 0, 0): flag +&#x3D; ‘1’ <strong>elif</strong> p &#x3D;&#x3D; (255, 255, 255): flag +&#x3D; ‘0’ #2进制转16进制 a&#x3D;(hex(int(flag,2))[2:]) #16进制转字符串 b&#x3D;(binascii.unhexlify(a)) #base64解码 print(“结果如下:\n”+str(base64.b64decode(b)))<strong>if</strong> <strong>name</strong>&#x3D;&#x3D;”<strong>main</strong>“: path&#x3D;str(input(“请输入mumumisc的路径\n&gt;&gt;&gt;”)) decode(path)</p>
-<p>这里用win10自带的画图3D看一下白条的高宽大概在5px,400px的位置</p>
-<p>所以x,y取在5和400</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/%E5%9B%BE%E7%89%876-1.png"></p>
-<p>最后跑出来的是一个2进制的字符串(注意这个时候还不是flag)先将其转换为16进制再转为字符串</p>
-<p>字符串是一段base64加密的，解出来的结果为</p>
-<p>“110001 00000 010 0110 11001 101 0111 101 0111 101 0001 001 110000 100 0001 001 100 0110 1111 1111 1101 100 010 11101 1101 100 00001 010 11101 1101 001 1111 101 111001 111000”</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/%E5%9B%BE%E7%89%877-1.png"></p>
-<p>对应之前写的字母和二进制对应关系的表(我是一个个看的，有能力的师傅可以写个脚本跑),最后的结果为:</p>
-<p>“flag{mumumisc**********nd_handsome}“</p>
-<p>二进制01真是无处不在啊。</p>
-<p>2.只有黑棋的棋盘</p>
-<p>Mumuzi(套套子)的题，好耶(精神错乱)</p>
-<p>文件如下:</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/8-5.png"></p>
-<p>Flag要密码，先用winhex看看棋盘</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/1-5.png"></p>
-<p>一手搜索PK，反手改后缀为zip</p>
-<p>欸嘿嘿嘿</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/2-6.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/3-7.png"></p>
-<p>谢谢，血压已经上来了</p>
-<p>再用winhex看一看</p>
-<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/4-5.png"></p>
-<p>原来是头写错了，把0506改成0304</p>
-]]></content>
-      <categories>
-        <category>刷题笔记</category>
-        <category>Writeup</category>
-      </categories>
-      <tags>
-        <tag>刷题</tag>
-        <tag>CTF</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>-安利-个人觉得几款在misc中冷门而好用的工具</title>
     <url>/2021/06/01/20210601/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><h1 id="安利-个人觉得几款在misc中冷门而好用的工具"><a href="#安利-个人觉得几款在misc中冷门而好用的工具" class="headerlink" title="[安利]个人觉得几款在misc中冷门而好用的工具"></a>[安利]个人觉得几款在misc中冷门而好用的工具</h1><h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><p>最近做了不少的misc题，很多冷知识触及到我的知识盲区。我找了相应的工具，挺适合于解密或者出题，分享一下。</p>
@@ -209,31 +146,66 @@
       </tags>
   </entry>
   <entry>
-    <title>两款包含但不限于base系列的解密工具</title>
-    <url>/2021/12/03/20211203/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><!--前言&gt;-->
-
-<h1 id="两款包含但不限于base系列的解密工具"><a href="#两款包含但不限于base系列的解密工具" class="headerlink" title="两款包含但不限于base系列的解密工具"></a>两款包含但不限于base系列的解密工具</h1><p>前言&gt; 在之前一次ctf比赛中的一个base62，因为自己工具太少，网上资源找大半天，最后解出来的还不是flag。 所以这次吸取教训，收集了两款包含但不限于base解码的工具。因为网上使用教程太过普及或太少了，所以这里附上安装方法和使用说明。   1.basecrack 工具简介： BaseCrack能够支持目前社区使用最为频繁的Base编码机制，其中包括Base16、Base32、Base36、Base58、Base62、Base64、Base64Url、Base85、Base91、Base92等等。除此之外，该工具也可以为CTF比赛，漏洞奖励计划和数据加密解密提供有效帮助。 注意：当前版本的BaseCrack可同时支持Python2和Python3环境。 </p>
-<h2 id="主要功能"><a href="#主要功能" class="headerlink" title="主要功能"></a>主要功能</h2><ul>
-<li>能够对任意模式的多重Base编码数据进行解码；</li>
-<li>能够对来自文件的多个Base编码数据进行解码；</li>
-<li>能够利用解码后的Base数据生成字典文件并输出；</li>
-<li>能够对目标Base数据的编码方案类型进行预测；<br>安装方法： 可以使用下列命令将该项目源码克隆至本地： $ git clone <a href="https://github.com/mufeedvh/basecrack.git">https://github.com/mufeedvh/basecrack.git</a> $ cd basecrack $ pip install –default-time&#x3D;100 -r requirements.txt 这里安装有个坑就是要用–default-time&#x3D;100设置超时时间，否则pip超时过久就会报错，也算是个小经验吧，在很多安装中用–default-time&#x3D;100有奇效。   然后安装完可能会报错说你还缺少一个模块   <img src="http://www.anyiblog.top/uploads/2021/12/6fa4dfd5c8e8e20d0d763b564497e489.png">   进行安装termcolor会有以下报错： <img src="http://www.anyiblog.top/uploads/2021/12/238dc579606367d19899823da7b316fb.png">   用这条即可解决 (这里target要根据报错的路径来) sudo pip install -target&#x3D;path termcolor   <img src="http://www.anyiblog.top/uploads/2021/12/3bda6fc7369361caab0502ebd997884a.png">   最后python basecrack.py即可运行   <img src="http://www.anyiblog.top/uploads/2021/12/b9a613ec4864290044958370788e425a.png"> 使用方法： 对来自用户输入的单个Base编码数据进行解码： python basecrack.py 对通过参数（-b&#x2F;–base）传递的单个Base编码数据进行解码： python basecrack.py -b SGVsbG8gV29ybGQh 对通过文件（-f&#x2F;–file）传递的多个Base编码数据进行解码： python basecrack.py -f file.txt 对任意模式的多重Base编码数据进行解码（-m&#x2F;–magic）： python basecrack.py –magic 使用解码的Base数据生成字典文件并输出（-o&#x2F;–output）： python basecrack.py -f file.txt -o output-wordlist.txt   2.ciphey 工具简介： Ciphey 是一个使用自然语言处理和人工智能的全自动解密&#x2F;解码&#x2F;破解工具。 简单地来讲，你只需要输入加密文本，它就能给你返回解密文本。 支持的解密：</li>
-</ul>
-<ol>
-<li>维吉尼亚密码</li>
-<li>凯撒加密</li>
-<li>反向密码（把明文反过来作为加密）</li>
-<li>换位密码（不过我自己试了试感觉好像不好解出来）</li>
-<li>替换密码<br>Ciphey 支持破解 6 种基础加密： <img src="http://www.anyiblog.top/uploads/2021/12/0c786c9b094b86af7eb77f7fb883073e.png"> 16 种编码： <img src="http://www.anyiblog.top/uploads/2021/12/b8ca07270cca6244371d8e914f6a8d20.png"> 哈希也支持，不过效果不可控。   安装方法：    注意!注意！！注意！！！ 不能是 python3.9版本   <strong>不能是 python 32位版本</strong> 建议使用 python 3.8 64位版本：python-3.8.10-amd64.exe    请选择以下任一种方式输入命令安装依赖： 1. Windows 环境 打开 Cmd (开始-运行-CMD)。 2. MacOS 环境 打开 Terminal (command+空格输入Terminal)。 3. 如果你用的是 VSCode编辑器 或 Pycharm，可以直接使用界面下方的Terminal. pip install -U ciphey&amp;pip install ciphey -i <a href="http://mirrors.aliyun.com/pypi/simple/">http://mirrors.aliyun.com/pypi/simple/</a> windows下安装完运行可能会报错 UnicodeDecodeError: ‘gbk’ codec can’t decode byte 0xbf 然后就是要修改 ..\envs\对应的环境名\Lib\site-packages\pywhat\regex_identifier.py 根据错误修改代码，主要是在读取文件的时候发生错误，将”r” 改为”rb”,即可。   <img src="http://www.anyiblog.top/uploads/2021/12/726b6a36f48b0f04b9ae2102517f8e1b.webp"> 使用方法：   主要以下两种用法：   (在编辑器下使用效果最佳，命令行下颜色代码显示不出来影响观感) 命令行下输入： ciphey -t “密文” ciphey -f 文件名 例如： ciphey -t ‘aGVsbG8gbXkgbmFtZSBpcyBiZWU&#x3D;’ cipyhey -f flag.txt <img src="http://www.anyiblog.top/uploads/2021/12/9c7b750415a8b62ac979b566f5e00a84.png">   <img src="http://www.anyiblog.top/uploads/2021/12/3fa55bbd28c2a7cce574fb1947068626.png"></li>
-</ol>
+    <title>Bugku杂项misc writeup(2)</title>
+    <url>/2021/05/28/20210528/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><h1 id="Bugku杂项misc-writeup-2"><a href="#Bugku杂项misc-writeup-2" class="headerlink" title="Bugku杂项misc writeup(2)"></a>Bugku杂项misc writeup(2)</h1><p>题目(Mumumisc&amp;只有黑棋的棋盘&amp;北有楠木)</p>
+<p>涉及到的网站和工具:</p>
+<p>Wbs43open-win32链接: <a href="https://pan.baidu.com/s/1g8AbhV1EVDuiZS7PpcFUzw">https://pan.baidu.com/s/1g8AbhV1EVDuiZS7PpcFUzw</a>  密码: svhi</p>
+<p>音符解码网址: <a href="https://www.qqxiuzi.cn/bianma/wenbenjiami.php?s=yinyue">https://www.qqxiuzi.cn/bianma/wenbenjiami.php?s=yinyue</a></p>
+<p>1.mumumisc</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/1-4.png"></p>
+<p>提示:</p>
+<p>连续加了两天班又经历了2021.3.14 AWD线上赛的后MuMuMisc内心黑化程度到达了100%，他决定出一个套娃题目来与大家进行较♂量。<br>MuMuMisc先是构造了一串flag，然后在他的外国网友霍夫曼的指导下进行了最原始的编码加密，最后层层套娃将其藏进了一张图片里。<br>霍夫曼在完成工♂作后靠在树上与MuMuMisc进行了视频对话，他说MuMuMisc出的题目也就有他指导的那一层还有点意思，但整体还是简单得不能看。钥匙都给你了，聪明的你最后一定能够得到flag。  </p>
+<h2 id><a href="#" class="headerlink" title></a></h2><p>感谢套神mumuzi发现的题目的一点小瑕疵，mumuzi yyds orz。</p>
+<p>—————————————-</p>
+<p>先用winhex打开private.key</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/2-5.png"></p>
+<p>FFD8文件头，说明是jpg文件，将其后缀改为jpg</p>
+<p>打开发现是一张 哈夫曼树的图片</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/3-6-1024x780.png"></p>
+<p>(这里感谢下volcano师傅的指导)</p>
+<p>本来我以为是二叉树，结果它更高级，是哈夫曼树</p>
+<p>关于哈夫曼树其原理和构造方法可参考blog:<a href="https://blog.csdn.net/qq_29519041/article/details/81428934">https://blog.csdn.net/qq_29519041/article/details/81428934</a></p>
+<p>先从最上面的圆圈看，向左的枝干为0，向右的为1，依次写出每个字母所代表的二进制</p>
+<p>如    字母”l”代表00000    字母”i”代表0001</p>
+<p>我写出了各个字母代表的二进制</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/%E5%9B%BE%E7%89%874-2.png"></p>
+<p>有了二进制的编码，还需要一段二进制的字符串进行解码，这个时候看文件mumumisc.png</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/%E5%9B%BE%E7%89%875-1.png"></p>
+<p>(这里用Stegsolve分析不出来)</p>
+<p>这张图左侧有一串黑白相间的字符串(不是什么神奇的加密方式)，黑的代表数字0，白的代表数字1</p>
+<p>写脚本跑一下<strong>from</strong> PIL <strong>import</strong> Image<strong>import</strong> binascii<strong>import</strong> base64<strong>def</strong> decode(path): image &#x3D; Image.open(path) flag &#x3D; ‘’ <strong>for</strong> x <strong>in</strong> range(5): <strong>for</strong> y <strong>in</strong> range(400): p &#x3D; image.getpixel((x,y)) <strong>if</strong> p &#x3D;&#x3D; (0, 0, 0): flag +&#x3D; ‘1’ <strong>elif</strong> p &#x3D;&#x3D; (255, 255, 255): flag +&#x3D; ‘0’ #2进制转16进制 a&#x3D;(hex(int(flag,2))[2:]) #16进制转字符串 b&#x3D;(binascii.unhexlify(a)) #base64解码 print(“结果如下:\n”+str(base64.b64decode(b)))<strong>if</strong> <strong>name</strong>&#x3D;&#x3D;”<strong>main</strong>“: path&#x3D;str(input(“请输入mumumisc的路径\n&gt;&gt;&gt;”)) decode(path)</p>
+<p>这里用win10自带的画图3D看一下白条的高宽大概在5px,400px的位置</p>
+<p>所以x,y取在5和400</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/%E5%9B%BE%E7%89%876-1.png"></p>
+<p>最后跑出来的是一个2进制的字符串(注意这个时候还不是flag)先将其转换为16进制再转为字符串</p>
+<p>字符串是一段base64加密的，解出来的结果为</p>
+<p>“110001 00000 010 0110 11001 101 0111 101 0111 101 0001 001 110000 100 0001 001 100 0110 1111 1111 1101 100 010 11101 1101 100 00001 010 11101 1101 001 1111 101 111001 111000”</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/%E5%9B%BE%E7%89%877-1.png"></p>
+<p>对应之前写的字母和二进制对应关系的表(我是一个个看的，有能力的师傅可以写个脚本跑),最后的结果为:</p>
+<p>“flag{mumumisc**********nd_handsome}“</p>
+<p>二进制01真是无处不在啊。</p>
+<p>2.只有黑棋的棋盘</p>
+<p>Mumuzi(套套子)的题，好耶(精神错乱)</p>
+<p>文件如下:</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/8-5.png"></p>
+<p>Flag要密码，先用winhex看看棋盘</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/1-5.png"></p>
+<p>一手搜索PK，反手改后缀为zip</p>
+<p>欸嘿嘿嘿</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/2-6.png"> <img src="http://www.0dayhack.net/wp-content/uploads/2021/05/3-7.png"></p>
+<p>谢谢，血压已经上来了</p>
+<p>再用winhex看一看</p>
+<p><img src="http://www.0dayhack.net/wp-content/uploads/2021/05/4-5.png"></p>
+<p>原来是头写错了，把0506改成0304</p>
 ]]></content>
       <categories>
-        <category>干货</category>
-        <category>CTF</category>
+        <category>刷题笔记</category>
+        <category>Writeup</category>
       </categories>
       <tags>
-        <tag>干货</tag>
+        <tag>刷题</tag>
+        <tag>CTF</tag>
       </tags>
   </entry>
   <entry>
@@ -306,6 +278,34 @@ include($a);
       <tags>
         <tag>刷题</tag>
         <tag>CTF</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>两款包含但不限于base系列的解密工具</title>
+    <url>/2021/12/03/20211203/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><!--前言&gt;-->
+
+<h1 id="两款包含但不限于base系列的解密工具"><a href="#两款包含但不限于base系列的解密工具" class="headerlink" title="两款包含但不限于base系列的解密工具"></a>两款包含但不限于base系列的解密工具</h1><p>前言&gt; 在之前一次ctf比赛中的一个base62，因为自己工具太少，网上资源找大半天，最后解出来的还不是flag。 所以这次吸取教训，收集了两款包含但不限于base解码的工具。因为网上使用教程太过普及或太少了，所以这里附上安装方法和使用说明。   1.basecrack 工具简介： BaseCrack能够支持目前社区使用最为频繁的Base编码机制，其中包括Base16、Base32、Base36、Base58、Base62、Base64、Base64Url、Base85、Base91、Base92等等。除此之外，该工具也可以为CTF比赛，漏洞奖励计划和数据加密解密提供有效帮助。 注意：当前版本的BaseCrack可同时支持Python2和Python3环境。 </p>
+<h2 id="主要功能"><a href="#主要功能" class="headerlink" title="主要功能"></a>主要功能</h2><ul>
+<li>能够对任意模式的多重Base编码数据进行解码；</li>
+<li>能够对来自文件的多个Base编码数据进行解码；</li>
+<li>能够利用解码后的Base数据生成字典文件并输出；</li>
+<li>能够对目标Base数据的编码方案类型进行预测；<br>安装方法： 可以使用下列命令将该项目源码克隆至本地： $ git clone <a href="https://github.com/mufeedvh/basecrack.git">https://github.com/mufeedvh/basecrack.git</a> $ cd basecrack $ pip install –default-time&#x3D;100 -r requirements.txt 这里安装有个坑就是要用–default-time&#x3D;100设置超时时间，否则pip超时过久就会报错，也算是个小经验吧，在很多安装中用–default-time&#x3D;100有奇效。   然后安装完可能会报错说你还缺少一个模块   <img src="http://www.anyiblog.top/uploads/2021/12/6fa4dfd5c8e8e20d0d763b564497e489.png">   进行安装termcolor会有以下报错： <img src="http://www.anyiblog.top/uploads/2021/12/238dc579606367d19899823da7b316fb.png">   用这条即可解决 (这里target要根据报错的路径来) sudo pip install -target&#x3D;path termcolor   <img src="http://www.anyiblog.top/uploads/2021/12/3bda6fc7369361caab0502ebd997884a.png">   最后python basecrack.py即可运行   <img src="http://www.anyiblog.top/uploads/2021/12/b9a613ec4864290044958370788e425a.png"> 使用方法： 对来自用户输入的单个Base编码数据进行解码： python basecrack.py 对通过参数（-b&#x2F;–base）传递的单个Base编码数据进行解码： python basecrack.py -b SGVsbG8gV29ybGQh 对通过文件（-f&#x2F;–file）传递的多个Base编码数据进行解码： python basecrack.py -f file.txt 对任意模式的多重Base编码数据进行解码（-m&#x2F;–magic）： python basecrack.py –magic 使用解码的Base数据生成字典文件并输出（-o&#x2F;–output）： python basecrack.py -f file.txt -o output-wordlist.txt   2.ciphey 工具简介： Ciphey 是一个使用自然语言处理和人工智能的全自动解密&#x2F;解码&#x2F;破解工具。 简单地来讲，你只需要输入加密文本，它就能给你返回解密文本。 支持的解密：</li>
+</ul>
+<ol>
+<li>维吉尼亚密码</li>
+<li>凯撒加密</li>
+<li>反向密码（把明文反过来作为加密）</li>
+<li>换位密码（不过我自己试了试感觉好像不好解出来）</li>
+<li>替换密码<br>Ciphey 支持破解 6 种基础加密： <img src="http://www.anyiblog.top/uploads/2021/12/0c786c9b094b86af7eb77f7fb883073e.png"> 16 种编码： <img src="http://www.anyiblog.top/uploads/2021/12/b8ca07270cca6244371d8e914f6a8d20.png"> 哈希也支持，不过效果不可控。   安装方法：    注意!注意！！注意！！！ 不能是 python3.9版本   <strong>不能是 python 32位版本</strong> 建议使用 python 3.8 64位版本：python-3.8.10-amd64.exe    请选择以下任一种方式输入命令安装依赖： 1. Windows 环境 打开 Cmd (开始-运行-CMD)。 2. MacOS 环境 打开 Terminal (command+空格输入Terminal)。 3. 如果你用的是 VSCode编辑器 或 Pycharm，可以直接使用界面下方的Terminal. pip install -U ciphey&amp;pip install ciphey -i <a href="http://mirrors.aliyun.com/pypi/simple/">http://mirrors.aliyun.com/pypi/simple/</a> windows下安装完运行可能会报错 UnicodeDecodeError: ‘gbk’ codec can’t decode byte 0xbf 然后就是要修改 ..\envs\对应的环境名\Lib\site-packages\pywhat\regex_identifier.py 根据错误修改代码，主要是在读取文件的时候发生错误，将”r” 改为”rb”,即可。   <img src="http://www.anyiblog.top/uploads/2021/12/726b6a36f48b0f04b9ae2102517f8e1b.webp"> 使用方法：   主要以下两种用法：   (在编辑器下使用效果最佳，命令行下颜色代码显示不出来影响观感) 命令行下输入： ciphey -t “密文” ciphey -f 文件名 例如： ciphey -t ‘aGVsbG8gbXkgbmFtZSBpcyBiZWU&#x3D;’ cipyhey -f flag.txt <img src="http://www.anyiblog.top/uploads/2021/12/9c7b750415a8b62ac979b566f5e00a84.png">   <img src="http://www.anyiblog.top/uploads/2021/12/3fa55bbd28c2a7cce574fb1947068626.png"></li>
+</ol>
+]]></content>
+      <categories>
+        <category>干货</category>
+        <category>CTF</category>
+      </categories>
+      <tags>
+        <tag>干货</tag>
       </tags>
   </entry>
   <entry>
@@ -1705,131 +1705,6 @@ decode()
       </tags>
   </entry>
   <entry>
-    <title>DirtyPipe-Linux内核提权漏洞 CVE-2022-0847</title>
-    <url>/2022/03/08/20220308/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><h1 id="关于"><a href="#关于" class="headerlink" title="关于"></a>关于</h1><p>CVE-2022-0847-DirtyPipe-Exploit CVE-2022-0847 是存在于 Linux内核 5.8 及之后版本中的本地提权漏洞。攻击者通过利用此漏洞，可覆盖重写任意可读文件中的数据，从而可将普通权限的用户提升到特权 root。 CVE-2022-0847 的漏洞原理类似于 CVE-2016-5195 脏牛漏洞（Dirty Cow），但它更容易被利用。漏洞作者将此漏洞命名为“Dirty Pipe”</p>
-<p>披露老哥原文地址：<a href="https://dirtypipe.cm4all.com/">https://dirtypipe.cm4all.com/</a></p>
-<p>参考文章<a href="https://github.com/imfiver/CVE-2022-0847">https://github.com/imfiver/CVE-2022-0847</a></p>
-<h1 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h1><blockquote>
-<p>注意事项<br>该漏洞已在 Linux 5.16.11 5.15.25 和 5.10.102 中修复。<br>用uname -a 查看当前linux版本<br><img src="https://c.img.dasctf.com/images/202238/1646717540021-96f1579a-9c88-4299-8afe-c740118167f0.png"></p>
-</blockquote>
-<blockquote>
-<p>复现环境<br>(成功)Linux Anyyy 5.10.0-kali6-amd64 #1 SMP Debian 5.10.26-1kali2 (2021-04-01) x86_64 GNU&#x2F;Linux<br>(失败)Linux localhost.localdomain 5.10.0-kali3-amd64 #1 SMP Debian 5.10.13-1kali1 (2021-02-08) x86_64 GNU&#x2F;Linux</p>
-</blockquote>
-<blockquote>
-<p>依赖<br>gcc</p>
-</blockquote>
-<h2 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h2><pre><code>git clone https://github.com/imfiver/CVE-2022-0847.git
-cd CVE-2022-0847
-chmod +x Dirty-Pipe.sh
-bash Dirty-Pipe.sh
-</code></pre>
-<h3 id="5-10-26版本"><a href="#5-10-26版本" class="headerlink" title="5.10.26版本"></a>5.10.26版本</h3><p><img src="https://c.img.dasctf.com/images/202238/1646717540021-96f1579a-9c88-4299-8afe-c740118167f0.png"></p>
-<p><img src="https://c.img.dasctf.com/images/202238/1646717545983-e0982820-719b-4d7b-ba07-f9e6616fa943.png"></p>
-<p>成功提权 复现成功</p>
-<h3 id="5-10-13版本"><a href="#5-10-13版本" class="headerlink" title="5.10.13版本"></a>5.10.13版本</h3><p><img src="https://c.img.dasctf.com/images/202238/1646717285465-225f3679-23b2-41cc-94d2-27d691c34ab7.png"></p>
-<p><img src="https://c.img.dasctf.com/images/202238/1646717329362-d2d9c817-75ae-4fd8-a3c2-023c09df3b75.png"></p>
-<p>需要密码 提权失败</p>
-]]></content>
-      <categories>
-        <category>CVE漏洞</category>
-        <category>0day</category>
-      </categories>
-      <tags>
-        <tag>干货</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Bugku S2收官赛AWD解析&amp;如何打AWD?</title>
-    <url>/2022/03/05/20220305/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>随着Bugku awd的举办 S2排位赛走向了尾声。我们的战队An1s_team是从S2的第7场比赛开始打起的，到收官赛我们的排行是第四，我个人十分满意这个成绩 虽然说我的目标是前三 但因为打的比较迟 所以这个成绩我觉得也很不错。</p>
-<p><img src="https://c.img.dasctf.com/images/202235/1646483612418-c7b1dfb2-be58-42d3-a553-139412f82316.png"></p>
-<p>总的来说我的队友都很不错 像是火神 还有ztop师傅等他们都挺积极的 每一次的排位赛基本都有参加 也会在我们的战队群里积极交流哪里有漏洞 分享找到的参考文章我们之间进行交流学习 我觉得这样的团队就很有意义 互相学习，互相进步。</p>
-<p>这次我们在S2收官赛成绩是第三 我知道自己的水平有限 所以这个成绩我觉得不错。<br><img src="https://c.img.dasctf.com/images/202235/1646483612225-7400aa6c-6f0f-4846-a982-5eccc29ece78.png"></p>
-<p>总结就是这个赛季不错 我们下个赛季继续加油 并且我打算重新改进下目前的shell脚本 因为存在较多的问题 再接再厉 学习为主！</p>
-<h1 id="收官赛解析"><a href="#收官赛解析" class="headerlink" title="收官赛解析"></a>收官赛解析</h1><p>已将全程的录像视频投至bilibili：<a href="https://www.bilibili.com/video/BV1La411b7hR?spm_id_from=333.999.0.0">https://www.bilibili.com/video/BV1La411b7hR?spm_id_from=333.999.0.0</a></p>
-<p>以下是总结 之后我会一一解析：</p>
-<p>Web :</p>
-<p>存在自带的木马 assert($_GET[s]) ：\public\common\images\1.jpg.php</p>
-<p>后台存在弱口令：admin&#x2F;?c&#x3D;index 账号密码：admin admin123</p>
-<p>cms是5iSNS 好像cms的漏洞很少或者说是没有</p>
-<p>Pwn：</p>
-<p>是一个经典的堆题 以及菜单题</p>
-<p>太菜了做不出来</p>
-<hr>
-<p>网站首页：</p>
-<p><img src="https://c.img.dasctf.com/images/202235/1646485206896-666cdd51-ef14-4473-b69b-e1c77d34da51.png"></p>
-<h2 id="Web漏洞："><a href="#Web漏洞：" class="headerlink" title="Web漏洞："></a>Web漏洞：</h2><h3 id="漏洞1："><a href="#漏洞1：" class="headerlink" title="漏洞1："></a>漏洞1：</h3><p>网站存在自带木马</p>
-<p>首先用filezilla将网站源码拷贝到本地(bugku是&#x2F;var&#x2F;www&#x2F;html或&#x2F;app)</p>
-<p><img src="https://c.img.dasctf.com/images/202235/1646484572231-4db459c8-a42e-467c-a507-419da4d2b82e.png"></p>
-<p>然后使用D盾扫描源码 得到以下漏洞：</p>
-<p><img src="https://c.img.dasctf.com/images/202235/1646484623699-f1e29384-02d0-4769-a57a-ef2d7fba6a99.png"></p>
-<p>两个级别为1的漏洞可以不用管 看严重漏洞是一个自带的木马 显然这是网站源码存在的高级别漏洞 内容是一个变种的assert马(类似eval) 是可以RCE的</p>
-<p><img src="https://c.img.dasctf.com/images/202235/1646484869292-6cbf3f26-0a9d-4cbe-8735-d3d240842d8a.png"></p>
-<p>访问漏洞url &#x2F;public&#x2F;common&#x2F;images&#x2F;1.jpg.php?s&#x3D;phpinfo()显然RCE了</p>
-<p><img src="https://c.img.dasctf.com/images/202235/1646484921704-6de2e0c3-c442-4f5b-a775-44445b98475f.png"></p>
-<p>?s后带php函数都会实现 所以可以用eval(system(xxx))进行系统的rce 就可以获取flag了 这里我是用我自己的脚本实现的。</p>
-<p>修复建议：连接到ssh删除相应木马</p>
-<h3 id="漏洞2："><a href="#漏洞2：" class="headerlink" title="漏洞2："></a>漏洞2：</h3><p>网站后台存在弱口令</p>
-<p>访问后台&#x2F;admin&#x2F;?c&#x3D;index(ztop师傅找到的哈哈哈我自己找半天没找着)</p>
-<p><img src="https://c.img.dasctf.com/images/202235/1646485114623-bd1da979-a152-4fc9-a845-97930cf36df9.png"></p>
-<p>一般用户都是admin 测试密码得出为admin123 弱口令</p>
-<p>进入后台我自己没找到有什么功能是可以进行渗透的(像文件上传、改文件)</p>
-<p>其中文件上传有一处是在页面编辑里 有一个功能是上传图片 然后会检测是否符合后缀 以及内容</p>
-<p>burpsuite测试后得到图片内容如果为空不允许上传、没有文件头不允许上传(可以加GIF89a)内容可以绕过 但是后缀改成php就会报错</p>
-<p>因为时间原因就没有过多测试 有兴趣可以自己搭一个复现</p>
-<p>修复建议：登录后台更改管理员密码 或使用数据库更改</p>
-<p><img src="https://c.img.dasctf.com/images/202235/1646485487114-7f9aa885-be0b-42b9-af6d-fc2d417416a6.png"></p>
-<p>这一套CMS是5iSNS 网上查找一番就找到一个sql利用脚本 但是也利用不起来哈哈哈 漏洞应该挺少的</p>
-<h2 id="Pwn漏洞"><a href="#Pwn漏洞" class="headerlink" title="Pwn漏洞"></a>Pwn漏洞</h2><p>64位程序，保护如下：<br><img src="https://c.img.dasctf.com/images/202235/1646485935169-07699ac8-1e26-44aa-ada9-35c15126faa1.png"></p>
-<p>是一个菜单堆题 貌似是UAF漏洞 太菜了不会做 尝试在网上找exp无果hhh</p>
-<p>有一道类似的题目我拿来套用 最后也是没打通 害</p>
-<p>main函数如下：</p>
-<p><img src="https://c.img.dasctf.com/images/202235/1646486140524-55e434af-481a-4a7b-846e-9457b7c9ad48.png"></p>
-<p>pwn堆题真的好难啊</p>
-<h2 id="脚本利用"><a href="#脚本利用" class="headerlink" title="脚本利用"></a>脚本利用</h2><p>这次脚本可以就后台弱口令和自带木马进行利用 通过requests库进行漏洞url构造实现批量利用木马 以及post内容发送实现检测后台弱口令</p>
-<p>因为后台没有验证码 所以直接可以利用，</p>
-<p>使用burpsuite拦截后台登录的包</p>
-<p><img src="https://c.img.dasctf.com/images/202235/1646486501263-45de9baf-71f9-4b21-9cbc-29bbbf48a42a.png"></p>
-<p>参数为usermail和password 用requests中post的data&#x3D;{‘usermail’:xxx,’password’：xxx}就可以发送这个包 实现检测的效果</p>
-<p>我自己脚本跑的效果如下：</p>
-<p><img src="https://c.img.dasctf.com/images/202235/1646486618798-a4587fe4-6127-46d9-ad6f-4357194f7cf0.png"></p>
-<p>自带木马的漏洞也可以直接用request访问实现获取flag 先构造好payload：?s&#x3D;eval(system(‘cat &#x2F;flag’))) 之后用request访问即可。</p>
-<p>最后附上一张获取flag的图片 效果没那么好了hhh</p>
-<p><img src="https://c.img.dasctf.com/images/202235/1646486773031-998450a8-16ac-4e5c-a092-770f10912fe3.png"></p>
-<p>题外话：</p>
-<p>观战席看到的hhh 关于木马密码泄露这件事<br><img src="https://c.img.dasctf.com/images/202235/1646487123540-da83d3e1-e147-4e79-b2f7-bef679097eb0.png"></p>
-<h1 id="如何打AWD"><a href="#如何打AWD" class="headerlink" title="如何打AWD?"></a>如何打AWD?</h1><p>就Bugku的awd模式写一下我一般的做法</p>
-<p>以下是我的思路 仅供参考XD：</p>
-<p>首先开始前可以将token之类的写进自己的脚本 用于提交flag等 并且写一个扫描网段ip的脚本 这样的批量会大幅提升效率</p>
-<p>还有使用filezilla或者xshell等ssh连接工具进行连接服务器 将源码下载到自己电脑里(一般都是&#x2F;var&#x2F;www&#x2F;html的网站文件 pwn附件在&#x2F;home&#x2F;ctf&#x2F;pwn)</p>
-<p>web利用可以使用D盾扫描看看有没有高危的漏洞 例如自带马等 如果有可以自己先访问url试一试phpinfo能不能实现</p>
-<p>能的话最好用脚本批量帮你获取flag 实在不行就手工</p>
-<p>然后网站后台也会存在漏洞 一般是弱口令admin admin或者别的 自己多试试就可以进去 后台进去后可以找下各种功能</p>
-<p>一般来说如果可以直接在后台改允许上传的后缀 再加上有文件上传的功能 那么基本都能上传木马getshell</p>
-<p>还有就是可以直接更改模板、页面等内容的 改php代码进去 再访问修改的文件url进行RCE</p>
-<p>最后有了能得到flag的一堆exp 再用bugku提供的api进行批量提交flag 这样效率就会快很多很多</p>
-<p>还有bugku的所有cms的mysql都有弱口令 就是root root 但是每个人靶机的mysql端口是不开的 也就是说远程连接不了</p>
-<p>所以如果你打的这套cms有phpmyadmin 就可以通过phpmyadmin连接mysql，那也是漏洞 只要你能连接到别人的mysql就可以用mysql语句写一句话木马（或者直接获取flag）再通过木马获取flag</p>
-<p>最后你可以去了解一下不死马 写不死马是最吃香的 比方说如果你的木马被别人删掉你就利用不了 那么你写一个不死马他是一直存在的 包括删站 因为它是一直维持权限的 删除要杀进程才能杀死 所以是一个比较麻烦的存在 因此如果你能RCE并且时间还来得及 那么建议你写一个不死马进去 再用不死马获取flag比较保险~~</p>
-<p>pwn的话是最好拿分的 也是最难的</p>
-<p>如果你能就给的pwn附件在自己的靶机打通 再写一个脚本实现pwn漏洞利用结合批量获取ip和提交flag 那么分数会拿的十分的快和轻松</p>
-<p>所以pwn手很吃香呀 对了 本人战队招收pwn手噢~~只需提供exp即可 脚本我们来帮你写！哈哈哈哈</p>
-<hr>
-<p>继续学习 继续努力！备战S3赛季 加油</p>
-<p>另外有学习Pwn的师傅可以私聊我进入战队一起学习噢~</p>
-<p>QQ1395980247</p>
-]]></content>
-      <categories>
-        <category>刷题笔记</category>
-        <category>Writeup</category>
-      </categories>
-      <tags>
-        <tag>刷题</tag>
-        <tag>CTF</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>2022长安战&quot;疫&quot;WriteUp</title>
     <url>/2022/01/09/20220109/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><p><span style="font-size: 12pt">前言&gt;</span></p>
@@ -2193,6 +2068,131 @@ flag3 = 6859390560180138873
       </tags>
   </entry>
   <entry>
+    <title>Bugku S2收官赛AWD解析&amp;如何打AWD?</title>
+    <url>/2022/03/05/20220305/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>随着Bugku awd的举办 S2排位赛走向了尾声。我们的战队An1s_team是从S2的第7场比赛开始打起的，到收官赛我们的排行是第四，我个人十分满意这个成绩 虽然说我的目标是前三 但因为打的比较迟 所以这个成绩我觉得也很不错。</p>
+<p><img src="https://c.img.dasctf.com/images/202235/1646483612418-c7b1dfb2-be58-42d3-a553-139412f82316.png"></p>
+<p>总的来说我的队友都很不错 像是火神 还有ztop师傅等他们都挺积极的 每一次的排位赛基本都有参加 也会在我们的战队群里积极交流哪里有漏洞 分享找到的参考文章我们之间进行交流学习 我觉得这样的团队就很有意义 互相学习，互相进步。</p>
+<p>这次我们在S2收官赛成绩是第三 我知道自己的水平有限 所以这个成绩我觉得不错。<br><img src="https://c.img.dasctf.com/images/202235/1646483612225-7400aa6c-6f0f-4846-a982-5eccc29ece78.png"></p>
+<p>总结就是这个赛季不错 我们下个赛季继续加油 并且我打算重新改进下目前的shell脚本 因为存在较多的问题 再接再厉 学习为主！</p>
+<h1 id="收官赛解析"><a href="#收官赛解析" class="headerlink" title="收官赛解析"></a>收官赛解析</h1><p>已将全程的录像视频投至bilibili：<a href="https://www.bilibili.com/video/BV1La411b7hR?spm_id_from=333.999.0.0">https://www.bilibili.com/video/BV1La411b7hR?spm_id_from=333.999.0.0</a></p>
+<p>以下是总结 之后我会一一解析：</p>
+<p>Web :</p>
+<p>存在自带的木马 assert($_GET[s]) ：\public\common\images\1.jpg.php</p>
+<p>后台存在弱口令：admin&#x2F;?c&#x3D;index 账号密码：admin admin123</p>
+<p>cms是5iSNS 好像cms的漏洞很少或者说是没有</p>
+<p>Pwn：</p>
+<p>是一个经典的堆题 以及菜单题</p>
+<p>太菜了做不出来</p>
+<hr>
+<p>网站首页：</p>
+<p><img src="https://c.img.dasctf.com/images/202235/1646485206896-666cdd51-ef14-4473-b69b-e1c77d34da51.png"></p>
+<h2 id="Web漏洞："><a href="#Web漏洞：" class="headerlink" title="Web漏洞："></a>Web漏洞：</h2><h3 id="漏洞1："><a href="#漏洞1：" class="headerlink" title="漏洞1："></a>漏洞1：</h3><p>网站存在自带木马</p>
+<p>首先用filezilla将网站源码拷贝到本地(bugku是&#x2F;var&#x2F;www&#x2F;html或&#x2F;app)</p>
+<p><img src="https://c.img.dasctf.com/images/202235/1646484572231-4db459c8-a42e-467c-a507-419da4d2b82e.png"></p>
+<p>然后使用D盾扫描源码 得到以下漏洞：</p>
+<p><img src="https://c.img.dasctf.com/images/202235/1646484623699-f1e29384-02d0-4769-a57a-ef2d7fba6a99.png"></p>
+<p>两个级别为1的漏洞可以不用管 看严重漏洞是一个自带的木马 显然这是网站源码存在的高级别漏洞 内容是一个变种的assert马(类似eval) 是可以RCE的</p>
+<p><img src="https://c.img.dasctf.com/images/202235/1646484869292-6cbf3f26-0a9d-4cbe-8735-d3d240842d8a.png"></p>
+<p>访问漏洞url &#x2F;public&#x2F;common&#x2F;images&#x2F;1.jpg.php?s&#x3D;phpinfo()显然RCE了</p>
+<p><img src="https://c.img.dasctf.com/images/202235/1646484921704-6de2e0c3-c442-4f5b-a775-44445b98475f.png"></p>
+<p>?s后带php函数都会实现 所以可以用eval(system(xxx))进行系统的rce 就可以获取flag了 这里我是用我自己的脚本实现的。</p>
+<p>修复建议：连接到ssh删除相应木马</p>
+<h3 id="漏洞2："><a href="#漏洞2：" class="headerlink" title="漏洞2："></a>漏洞2：</h3><p>网站后台存在弱口令</p>
+<p>访问后台&#x2F;admin&#x2F;?c&#x3D;index(ztop师傅找到的哈哈哈我自己找半天没找着)</p>
+<p><img src="https://c.img.dasctf.com/images/202235/1646485114623-bd1da979-a152-4fc9-a845-97930cf36df9.png"></p>
+<p>一般用户都是admin 测试密码得出为admin123 弱口令</p>
+<p>进入后台我自己没找到有什么功能是可以进行渗透的(像文件上传、改文件)</p>
+<p>其中文件上传有一处是在页面编辑里 有一个功能是上传图片 然后会检测是否符合后缀 以及内容</p>
+<p>burpsuite测试后得到图片内容如果为空不允许上传、没有文件头不允许上传(可以加GIF89a)内容可以绕过 但是后缀改成php就会报错</p>
+<p>因为时间原因就没有过多测试 有兴趣可以自己搭一个复现</p>
+<p>修复建议：登录后台更改管理员密码 或使用数据库更改</p>
+<p><img src="https://c.img.dasctf.com/images/202235/1646485487114-7f9aa885-be0b-42b9-af6d-fc2d417416a6.png"></p>
+<p>这一套CMS是5iSNS 网上查找一番就找到一个sql利用脚本 但是也利用不起来哈哈哈 漏洞应该挺少的</p>
+<h2 id="Pwn漏洞"><a href="#Pwn漏洞" class="headerlink" title="Pwn漏洞"></a>Pwn漏洞</h2><p>64位程序，保护如下：<br><img src="https://c.img.dasctf.com/images/202235/1646485935169-07699ac8-1e26-44aa-ada9-35c15126faa1.png"></p>
+<p>是一个菜单堆题 貌似是UAF漏洞 太菜了不会做 尝试在网上找exp无果hhh</p>
+<p>有一道类似的题目我拿来套用 最后也是没打通 害</p>
+<p>main函数如下：</p>
+<p><img src="https://c.img.dasctf.com/images/202235/1646486140524-55e434af-481a-4a7b-846e-9457b7c9ad48.png"></p>
+<p>pwn堆题真的好难啊</p>
+<h2 id="脚本利用"><a href="#脚本利用" class="headerlink" title="脚本利用"></a>脚本利用</h2><p>这次脚本可以就后台弱口令和自带木马进行利用 通过requests库进行漏洞url构造实现批量利用木马 以及post内容发送实现检测后台弱口令</p>
+<p>因为后台没有验证码 所以直接可以利用，</p>
+<p>使用burpsuite拦截后台登录的包</p>
+<p><img src="https://c.img.dasctf.com/images/202235/1646486501263-45de9baf-71f9-4b21-9cbc-29bbbf48a42a.png"></p>
+<p>参数为usermail和password 用requests中post的data&#x3D;{‘usermail’:xxx,’password’：xxx}就可以发送这个包 实现检测的效果</p>
+<p>我自己脚本跑的效果如下：</p>
+<p><img src="https://c.img.dasctf.com/images/202235/1646486618798-a4587fe4-6127-46d9-ad6f-4357194f7cf0.png"></p>
+<p>自带木马的漏洞也可以直接用request访问实现获取flag 先构造好payload：?s&#x3D;eval(system(‘cat &#x2F;flag’))) 之后用request访问即可。</p>
+<p>最后附上一张获取flag的图片 效果没那么好了hhh</p>
+<p><img src="https://c.img.dasctf.com/images/202235/1646486773031-998450a8-16ac-4e5c-a092-770f10912fe3.png"></p>
+<p>题外话：</p>
+<p>观战席看到的hhh 关于木马密码泄露这件事<br><img src="https://c.img.dasctf.com/images/202235/1646487123540-da83d3e1-e147-4e79-b2f7-bef679097eb0.png"></p>
+<h1 id="如何打AWD"><a href="#如何打AWD" class="headerlink" title="如何打AWD?"></a>如何打AWD?</h1><p>就Bugku的awd模式写一下我一般的做法</p>
+<p>以下是我的思路 仅供参考XD：</p>
+<p>首先开始前可以将token之类的写进自己的脚本 用于提交flag等 并且写一个扫描网段ip的脚本 这样的批量会大幅提升效率</p>
+<p>还有使用filezilla或者xshell等ssh连接工具进行连接服务器 将源码下载到自己电脑里(一般都是&#x2F;var&#x2F;www&#x2F;html的网站文件 pwn附件在&#x2F;home&#x2F;ctf&#x2F;pwn)</p>
+<p>web利用可以使用D盾扫描看看有没有高危的漏洞 例如自带马等 如果有可以自己先访问url试一试phpinfo能不能实现</p>
+<p>能的话最好用脚本批量帮你获取flag 实在不行就手工</p>
+<p>然后网站后台也会存在漏洞 一般是弱口令admin admin或者别的 自己多试试就可以进去 后台进去后可以找下各种功能</p>
+<p>一般来说如果可以直接在后台改允许上传的后缀 再加上有文件上传的功能 那么基本都能上传木马getshell</p>
+<p>还有就是可以直接更改模板、页面等内容的 改php代码进去 再访问修改的文件url进行RCE</p>
+<p>最后有了能得到flag的一堆exp 再用bugku提供的api进行批量提交flag 这样效率就会快很多很多</p>
+<p>还有bugku的所有cms的mysql都有弱口令 就是root root 但是每个人靶机的mysql端口是不开的 也就是说远程连接不了</p>
+<p>所以如果你打的这套cms有phpmyadmin 就可以通过phpmyadmin连接mysql，那也是漏洞 只要你能连接到别人的mysql就可以用mysql语句写一句话木马（或者直接获取flag）再通过木马获取flag</p>
+<p>最后你可以去了解一下不死马 写不死马是最吃香的 比方说如果你的木马被别人删掉你就利用不了 那么你写一个不死马他是一直存在的 包括删站 因为它是一直维持权限的 删除要杀进程才能杀死 所以是一个比较麻烦的存在 因此如果你能RCE并且时间还来得及 那么建议你写一个不死马进去 再用不死马获取flag比较保险~~</p>
+<p>pwn的话是最好拿分的 也是最难的</p>
+<p>如果你能就给的pwn附件在自己的靶机打通 再写一个脚本实现pwn漏洞利用结合批量获取ip和提交flag 那么分数会拿的十分的快和轻松</p>
+<p>所以pwn手很吃香呀 对了 本人战队招收pwn手噢~~只需提供exp即可 脚本我们来帮你写！哈哈哈哈</p>
+<hr>
+<p>继续学习 继续努力！备战S3赛季 加油</p>
+<p>另外有学习Pwn的师傅可以私聊我进入战队一起学习噢~</p>
+<p>QQ1395980247</p>
+]]></content>
+      <categories>
+        <category>刷题笔记</category>
+        <category>Writeup</category>
+      </categories>
+      <tags>
+        <tag>刷题</tag>
+        <tag>CTF</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>DirtyPipe-Linux内核提权漏洞 CVE-2022-0847</title>
+    <url>/2022/03/08/20220308/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><h1 id="关于"><a href="#关于" class="headerlink" title="关于"></a>关于</h1><p>CVE-2022-0847-DirtyPipe-Exploit CVE-2022-0847 是存在于 Linux内核 5.8 及之后版本中的本地提权漏洞。攻击者通过利用此漏洞，可覆盖重写任意可读文件中的数据，从而可将普通权限的用户提升到特权 root。 CVE-2022-0847 的漏洞原理类似于 CVE-2016-5195 脏牛漏洞（Dirty Cow），但它更容易被利用。漏洞作者将此漏洞命名为“Dirty Pipe”</p>
+<p>披露老哥原文地址：<a href="https://dirtypipe.cm4all.com/">https://dirtypipe.cm4all.com/</a></p>
+<p>参考文章<a href="https://github.com/imfiver/CVE-2022-0847">https://github.com/imfiver/CVE-2022-0847</a></p>
+<h1 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h1><blockquote>
+<p>注意事项<br>该漏洞已在 Linux 5.16.11 5.15.25 和 5.10.102 中修复。<br>用uname -a 查看当前linux版本<br><img src="https://c.img.dasctf.com/images/202238/1646717540021-96f1579a-9c88-4299-8afe-c740118167f0.png"></p>
+</blockquote>
+<blockquote>
+<p>复现环境<br>(成功)Linux Anyyy 5.10.0-kali6-amd64 #1 SMP Debian 5.10.26-1kali2 (2021-04-01) x86_64 GNU&#x2F;Linux<br>(失败)Linux localhost.localdomain 5.10.0-kali3-amd64 #1 SMP Debian 5.10.13-1kali1 (2021-02-08) x86_64 GNU&#x2F;Linux</p>
+</blockquote>
+<blockquote>
+<p>依赖<br>gcc</p>
+</blockquote>
+<h2 id="使用步骤"><a href="#使用步骤" class="headerlink" title="使用步骤"></a>使用步骤</h2><pre><code>git clone https://github.com/imfiver/CVE-2022-0847.git
+cd CVE-2022-0847
+chmod +x Dirty-Pipe.sh
+bash Dirty-Pipe.sh
+</code></pre>
+<h3 id="5-10-26版本"><a href="#5-10-26版本" class="headerlink" title="5.10.26版本"></a>5.10.26版本</h3><p><img src="https://c.img.dasctf.com/images/202238/1646717540021-96f1579a-9c88-4299-8afe-c740118167f0.png"></p>
+<p><img src="https://c.img.dasctf.com/images/202238/1646717545983-e0982820-719b-4d7b-ba07-f9e6616fa943.png"></p>
+<p>成功提权 复现成功</p>
+<h3 id="5-10-13版本"><a href="#5-10-13版本" class="headerlink" title="5.10.13版本"></a>5.10.13版本</h3><p><img src="https://c.img.dasctf.com/images/202238/1646717285465-225f3679-23b2-41cc-94d2-27d691c34ab7.png"></p>
+<p><img src="https://c.img.dasctf.com/images/202238/1646717329362-d2d9c817-75ae-4fd8-a3c2-023c09df3b75.png"></p>
+<p>需要密码 提权失败</p>
+]]></content>
+      <categories>
+        <category>CVE漏洞</category>
+        <category>0day</category>
+      </categories>
+      <tags>
+        <tag>干货</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>我与我的An1s_team</title>
     <url>/2022/03/09/20220309/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>随着Bugku的一篇公告下来 便诞生了这篇文章。</p>
@@ -2260,19 +2260,20 @@ flag3 = 6859390560180138873
       </tags>
   </entry>
   <entry>
-    <title>计算机信息中的各种进制</title>
-    <url>/2022/03/14/20220314/</url>
+    <title>计算机中的各种进制运算及转换</title>
+    <url>/2022/03/15/20220315/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\css\APlayer.min.css"><script src="\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\js\Meting.min.js"></script><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>因为有个小可爱搞不清楚各种进制，正好我自己是学计算机的，既能帮自己梳理下知识，同时也可以给各位搞不清楚或模糊的读者朋友们进行参考。</p>
-<p>学术有限，都是自己的一些见解，有说错的地方可以指正！</p>
+<p>学术有限，都是参考资料以及自己的一些见解而谈，有说错的地方可以指正！</p>
 <h1 id="有哪些进制？"><a href="#有哪些进制？" class="headerlink" title="有哪些进制？"></a>有哪些进制？</h1><p>常见的有二进制、八进制、十进制、十六进制等</p>
 <p>十进制就是我们平常看到的各种数字 运用于计算数学，</p>
 <p>二进制、八进制与十六进制则是运用于计算机之中，是计算机的语言</p>
 <p>八进制其实见到的也挺少的。</p>
+<p>提一嘴，其实每个进制的加减乘除和十进制都是很像的，十进制是我们平常看到的数字，也就是所谓的逢十进一，所以其他进制也是一样。比如十六进制就是逢16进1等等，可以举一反三。</p>
 <h1 id="二进制"><a href="#二进制" class="headerlink" title="二进制"></a>二进制</h1><p>二进制是以2为基数代表系统的二进位制(binary)</p>
 <p>特征：只有0和1 每一个数字被称为一个比特(bit) 8位一组（8bit比特 &#x3D; 1bytes字节）范围是00000000(0) ~ 11111111(255)</p>
-<p>计算机中，我们所能看到的很多信息都是机器通过二进制机器码转换而成的。它们只认识0和1（只是一种代表，不真代表只有0和1 A和B也是可以的），不过以不同的方式呈现给人们看，因为二进制0与1若要进行转换非常繁琐。</p>
+<p>计算机中，我们所能看到的很多信息都是机器通过二进制机器码转换而成的。它们只认识0和1（只是一种代表，不真代表只有0和1 A和B也是可以的），计算机以不同的方式呈现给人们看，因为二进制0与1若要进行转换非常繁琐。</p>
 <h2 id="计算"><a href="#计算" class="headerlink" title="计算"></a>计算</h2><h3 id="加减乘除"><a href="#加减乘除" class="headerlink" title="加减乘除"></a>加减乘除</h3><p>一般来说加法和减法见的比较多。</p>
-<p>加法：要注意[逢2进1] 跟十进制有点像。两个1相加则在下一个最高位+1</p>
+<p>加法：<br>要注意[逢2进1] 跟十进制有点像。两个1相加则在下一个最高位+1</p>
 <p>举例：100111+11010&#x3D;100001<br>1 0 0 1 1 1<br>1 1 0 1 0<br>————————————<br>1 0 0 0 0 0 1</p>
 <p>有四种情况： 0+0&#x3D;0，0+1&#x3D;1，1+0&#x3D;1，1+1&#x3D;10(0 进位为1)</p>
 <p>两者相加有1则为1 两个1则为10 其余都为0</p>
@@ -2281,37 +2282,251 @@ flag3 = 6859390560180138873
 <p>乘法：<br>有四种情况： 0×0&#x3D;0，1×0&#x3D;0，0×1&#x3D;0，1×1&#x3D;1</p>
 <p>除法：<br>有两种情况(除数只能为1)：0÷1&#x3D;0，1÷1&#x3D;1</p>
 <p>运算可以看如下图：<br><img src="https://c.img.dasctf.com/images/2022314/1647260004823-23b24b46-b1f9-459b-914e-dae491087cb8.webp"></p>
+<h3 id="二进制-–-gt-八进制"><a href="#二进制-–-gt-八进制" class="headerlink" title="二进制 –&gt; 八进制"></a>二进制 –&gt; 八进制</h3><p>方法：取三合一法，即从二进制的小数点为分界点，向左（向右）每三位取成一位，接着将这三位二进制按权拼接，然后按顺序进行排列，小数点的位置不变，得到的数字就是我们所求的八进制数;</p>
+<pre><code>例：将二进制的11010111.0100111转换为八进制的步骤如下(从小数点开始往两边画,不足三位补0);
+
+  1. 小数点前:
+
+  111 = 7;
+
+  010 = 2;
+
+  11补全为011, 011 = 3;
+
+  2. 小数点后:
+
+  010 = 2;
+
+  011 = 3;
+
+  1补全为100，100 = 4;
+
+读数: 读数从高位到低位，即11010111.0100111=327.234
+</code></pre>
+<p><img src="https://c.img.dasctf.com/images/2022315/1647340809916-b24e87ba-bdaa-43a8-9f8a-d46c35fa25a8.png"></p>
 <h3 id="二进制-–-gt-十进制"><a href="#二进制-–-gt-十进制" class="headerlink" title="二进制 –&gt; 十进制"></a>二进制 –&gt; 十进制</h3><p>二进制转换成十进制 为了方便讲解就举个例子来说明：</p>
-<p>0 1 0 1 1 0</p>
-<p>首先二进制8位一组，不足8位需要左边补0。看二进制从最右边看 以2为底数依次增加幂并乘以0或1 再把结果加在一起。</p>
-<p>所以这一个转为十进制先补0为</p>
-<p>0 0 0 1 0 1 1 0</p>
-<p>再进行运算</p>
-<p>0* 2^0(最右边的) + 1* 2^1 (右边前1位) + 1 * 2^2 (以此类推)+ 0 * 2^3 + 1 * 2^4 + 0 * 2^5 + 0 * 2^6 + 0 * 2^7</p>
-<p>&#x3D; 0 + 2 + 4 + 0 + 16 + 0 + 0 + 0 </p>
-<p>&#x3D; 22</p>
-<p>只用转换有1的位置 因为有0的会被乘为0</p>
-<h3 id="十进制-–-gt-二进制"><a href="#十进制-–-gt-二进制" class="headerlink" title="十进制 –&gt; 二进制"></a>十进制 –&gt; 二进制</h3><p>除2取余法，即每次将整数部分除以2，余数为该位权上的数，而商继续除以2，余数又为上一个位权上的数，这个步骤一直持续下去，直到商为0为止;</p>
-<p>读数: 从最后一个余数读起，一直到最前面的一个余数;</p>
-<p>例：将十进制的(43)转换为二进制的步骤如下;</p>
-<ol>
-<li><p>将商43除以2，商21余数为1;</p>
-</li>
-<li><p>将商21除以2，商10余数为1;</p>
-</li>
-<li><p>将商10除以2，商5余数为0;</p>
-</li>
-<li><p>将商5除以2，商2余数为1;</p>
-</li>
-<li><p>将商2除以2，商1余数为0; </p>
-</li>
-<li><p>将商1除以2，商0余数为1;</p>
-</li>
-</ol>
-<p>读数: 因为最后一位是经过多次除以2才得到的，因此它是最高位，读数字从最后的余数向前读，101011，即(43)&#x3D;(101011)</p>
-<p><img src="https://c.img.dasctf.com/images/2022314/1647262582348-aeae0e16-bc5b-4c43-8d4c-8fa975fe6a45.png"></p>
+<pre><code>例：010110转为十进制
+
+0 1 0 1 1 0
+
+首先二进制8位一组，不足8位需要左边补0。看二进制从最右边看 以2为底数依次增加幂并乘以0或1 再把结果加在一起。
+
+所以这一个转为十进制先补0为
+
+0 0 0 1 0 1 1 0
+
+再进行运算
+
+0* 2^0(最右边的) + 1* 2^1 (右边前1位) + 1 * 2^2 (以此类推)+ 0 * 2^3 + 1 * 2^4 + 0 * 2^5 + 0 * 2^6 + 0 * 2^7
+
+= 0 + 2 + 4 + 0 + 16 + 0 + 0 + 0 
+
+= 22
+
+只用转换有1的位置 因为有0的会被乘为0
+</code></pre>
+<h3 id="二进制-–-gt-十六进制"><a href="#二进制-–-gt-十六进制" class="headerlink" title="二进制 –&gt; 十六进制"></a>二进制 –&gt; 十六进制</h3><p>取四合一法，即从二进制的小数点为分界点，向左（向右）每四位取成一位，接着将这四位二进制按权相拼接，然后按顺序进行排列，小数点的位置不变，得到的数字就是我们所求的十六进制数;</p>
+<pre><code>例：11010111转为十六进制
+
+0111 = 7;
+
+1101 = D;
+
+读数: 读数从高位到低位，即11010111=D7
+</code></pre>
 <h1 id="十进制"><a href="#十进制" class="headerlink" title="十进制"></a>十进制</h1><p>十进制就是我们平常看见的数字 有0，1，2，3， 4， 5， 6， 7， 8， 9十个基本数字组成。</p>
-<h1 id="十六进制"><a href="#十六进制" class="headerlink" title="十六进制"></a>十六进制</h1>]]></content>
+<h2 id="计算-1"><a href="#计算-1" class="headerlink" title="计算"></a>计算</h2><h3 id="十进制-–-gt-二进制"><a href="#十进制-–-gt-二进制" class="headerlink" title="十进制 –&gt; 二进制"></a>十进制 –&gt; 二进制</h3><p>除2取余法，即每次将整数部分除以2，余数为该位权上的数，而商继续除以2，余数又为上一个位权上的数，这个步骤一直持续下去，直到商为0为止;</p>
+<p>读数: 从最后一个余数读起，一直到最前面的一个余数;</p>
+<pre><code>例：将十进制的(43)转换为二进制的步骤如下;
+
+  1. 将商43除以2，商21余数为1;
+
+  2. 将商21除以2，商10余数为1;
+
+  3. 将商10除以2，商5余数为0;
+
+  4. 将商5除以2，商2余数为1;
+
+  5. 将商2除以2，商1余数为0; 
+
+  6. 将商1除以2，商0余数为1;
+
+读数: 因为最后一位是经过多次除以2才得到的，因此它是最高位，读数字从最后的余数向前读，101011，即(43)=(101011)
+</code></pre>
+<p><img src="https://c.img.dasctf.com/images/2022314/1647262582348-aeae0e16-bc5b-4c43-8d4c-8fa975fe6a45.png"></p>
+<h3 id="十进制-–-gt-八进制"><a href="#十进制-–-gt-八进制" class="headerlink" title="十进制 –&gt; 八进制"></a>十进制 –&gt; 八进制</h3><p>方法1：</p>
+<p>除8取余法，即每次将整数部分除以8，余数为该位权上的数，而商继续除以8，余数又为上一个位权上的数，这个步骤一直持续下去，直到商为0为止;</p>
+<p>读数: 从最后一个余数起，一直到最前面的一个余数;</p>
+<pre><code>例：将十进制的796转换为八进制的步骤如下;
+
+  1. 将商796除以8，商99余数为4;
+
+  2. 将商99除以8，商12余数为3;
+
+  4. 将商12除以8，商1余数为4;
+
+  5. 将商1除以8，商0余数为1;
+
+ 读数: 因为最后一位是经过多次除以8才得到的，因此它是最高位，读数字从最后的余数向前读，1434，即796=1434
+</code></pre>
+<p><img src="https://c.img.dasctf.com/images/2022315/1647340939857-bbdddd40-9829-49ee-883c-d92d65bac20a.png"></p>
+<p>方法2：</p>
+<p>先将十进制转换成二进制，然后将二进制又转换成八进制;</p>
+<p><img src="https://c.img.dasctf.com/images/2022315/1647340960606-108069cb-cd9d-4996-a144-6ed46fc2ae3d.png"></p>
+<h3 id="十进制-–-gt-十六进制"><a href="#十进制-–-gt-十六进制" class="headerlink" title="十进制 –&gt; 十六进制"></a>十进制 –&gt; 十六进制</h3><p>方法1：</p>
+<p>除16取余法，即每次将整数部分除以16，余数为该位权上的数，而商继续除以16，余数又为上一个位权上的数，这个步骤一直持续下去，直到商为0为止;</p>
+<p>读数: 从最后一个余数起，一直到最前面的一个余数;</p>
+<pre><code>例：十进制796转为十六进制
+
+  1. 将商796除以16，商49余数为12，对应十六进制的C;
+
+  2. 将商49除以16，商3余数为1;
+
+  3. 将商3除以16，商0余数为3;
+
+读数: 因为最后一位是经过多次除以16才得到的，因此它是最高位，读数字从最后的余数向前读，31C，即 796=31C
+</code></pre>
+<p><img src="https://c.img.dasctf.com/images/2022315/1647340044889-fe49589a-a06b-41b8-8c7f-80c6c7601762.png"></p>
+<p>方法2：<br>先将十进制转换成二进制，然后将二进制又转换成十六进制;<br><img src="https://c.img.dasctf.com/images/2022315/1647340050132-df9bfd33-5ddb-42f9-ad0b-167f3ec513d5.png"></p>
+<h1 id="十六进制"><a href="#十六进制" class="headerlink" title="十六进制"></a>十六进制</h1><p>十六进制（简写为hex或下标16）是一种基数为16的计数系统，是一种逢16进1的进位制。</p>
+<p>十六进制可以更方便的表示二进制，计算机硬件是0101二进制的，16进制刚好是2的倍数，更容易表达一个命令或者数据</p>
+<p>同时，十六进制也可以表达颜色，4个16进制位可以表达好几百万的颜色</p>
+<p>特征：由数字0<del>9和字母A、B、C、D、E、F（a、b、c、d、e、f）表示，其中:A</del>F表示10~15 4个二进制可表达1个十六进制</p>
+<h2 id="计算-2"><a href="#计算-2" class="headerlink" title="计算"></a>计算</h2><h3 id="加减乘除-1"><a href="#加减乘除-1" class="headerlink" title="加减乘除"></a>加减乘除</h3><p>加法和减法与十进制相同 逢16进1</p>
+<p>加法：</p>
+<p>200AD881<br>00000050<br>————————<br>200AD8D1</p>
+<p>8+5 &#x3D; 13 &lt; 16 所以不用在下一位进1</p>
+<p>减法：</p>
+<p>其实大体与十进制相同，要注意字母的转换，借位</p>
+<p>51-40&#x3D;11 C8-3A&#x3D;8E FD-88&#x3D;75</p>
+<p>乘法：</p>
+<p>逢16进1 与十进制相同</p>
+<p><img src="https://c.img.dasctf.com/images/2022315/1647327087880-cf1a3cef-0477-48b9-9647-6b4e4619bc81.jpg"></p>
+<p>除法：</p>
+<p>向高位借1，即借到“16”</p>
+<p><img src="https://c.img.dasctf.com/images/2022315/1647327132291-3b5fc96a-439e-4575-903b-94c4add2169b.jpg"></p>
+<h3 id="十六进制-–-gt-二进制"><a href="#十六进制-–-gt-二进制" class="headerlink" title="十六进制 –&gt; 二进制"></a>十六进制 –&gt; 二进制</h3><p>二进制和十六进制编码对应表</p>
+<pre><code>二进制(B)    十六进制(O)
+0000            0
+0001            1
+0010            2
+0011            3
+0100            4
+0101            5
+0110            6
+0111            7
+1000            8
+1001            9
+1010            A
+1011            B
+1100            C
+1101            D
+1110            E
+1111            F
+</code></pre>
+<p>取一分四法，即将一位十六进制数分解成四位二进制数，用四位二进制按权相加去凑这位十六进制数，小数点位置照旧;</p>
+<pre><code>例：0xDF 转为二进制
+
+D = 11 = 1101
+
+F = 15 = 1111
+
+DF = 11011111
+</code></pre>
+<h3 id="十六进制-–-gt-八进制"><a href="#十六进制-–-gt-八进制" class="headerlink" title="十六进制 –&gt; 八进制"></a>十六进制 –&gt; 八进制</h3><p>方法：先将十六进制转换为二进制，然后再将二进制转换为八进制，小数点位置不变;</p>
+<pre><code>例：将十六进制的D7转换为八进制的步骤如下：
+
+  1. 十六进制D7转换成二进制;
+
+    D = 1101;
+
+    7 = 0111;
+
+  2. 得到11010111, 再转换成八进制;
+
+    111 = 7
+    
+    010 = 2
+
+    11补0 为011 = 3
+
+  读数: 读数从高位到低位，327，即D7=327
+</code></pre>
+<h3 id="十六进制-–-gt-十进制"><a href="#十六进制-–-gt-十进制" class="headerlink" title="十六进制 –&gt; 十进制"></a>十六进制 –&gt; 十进制</h3><p>方法: 十六进制数从低位到高位（即从右往左）计算，第0位的权值是16的0次方，第1位的权值是16的1次方，第2位的权值是16的2次方，依次递增下去，把最后的结果相加的值就是十进制的值了;</p>
+<pre><code>例： 0x2B转为十进制
+
+第1位 B * 16^0 = 11;
+
+第2位 2 * 16^1 = 32;
+
+读数: 把结果值相加，11+32=43，即2B=43
+</code></pre>
+<h1 id="八进制"><a href="#八进制" class="headerlink" title="八进制"></a>八进制</h1><p>八进制是一种以8为基数的计数法。一些编程语言中常常以数字0开始表明该数字是八进制。八进制的数和二进制数可以按位对应（八进制一位对应二进制三位），因此常应用在计算机语言中。</p>
+<p>实际上，由于十六进制一位可以对应4位二进制数字，用十六进制来表示二进制较为方便。因此，八进制的应用不如十六进制。有一些程序设计语言提供了使用八进制符号来表示数字的能力，而且还是有一些比较古老的Unix应用在使用八进制。</p>
+<p>特征：采用0~7八个数字 逢8进1。 八进制一位对应二进制三位。</p>
+<h2 id="计算-3"><a href="#计算-3" class="headerlink" title="计算"></a>计算</h2><h3 id="加减乘除-2"><a href="#加减乘除-2" class="headerlink" title="加减乘除"></a>加减乘除</h3><p>与十进制的算法相同 只是逢8进1 </p>
+<p>加法：</p>
+<p>例：355 + 157 &#x3D; 534</p>
+<p>355<br>157<br>———<br>534</p>
+<p>5+7，为12大于8，所以结果为 4并且向前进一</p>
+<p>5+5，为10，再加上上一位进的一，11大于8，结果为 3并向前进 1</p>
+<p>3+1，再加上上一位进的一，结果为 4+1&#x3D;5</p>
+<p>所以结果：355 + 157 &#x3D; 534 </p>
+<p>减法：</p>
+<p>例如：534 - 157 &#x3D; 355</p>
+<p>534<br>157<br>———<br>355</p>
+<p>4-7，不够向前借一位加8，即为（4+8）-7，结果为 5</p>
+<p>3-5，因为3已经被借了一变为2，2-5不够再向前借一位加 8，即为 （2+8）-5，结果为 5</p>
+<p>5-1，5被借了一，即为4-1，结果为 3</p>
+<p>所以结果：534 - 157 &#x3D; 355 </p>
+<p>乘法：</p>
+<p>例如：221 x 147</p>
+<p> 221<br> 147<br>———<br> 1767<br> 904<br>221<br>———<br>35127</p>
+<p>所以结果 221 * 147 &#x3D; 35127</p>
+<p>除法：</p>
+<p>如下图：（画图手写可太难了）<br><img src="https://c.img.dasctf.com/images/2022315/1647344197668-13a3c4e5-e478-4255-9346-7b1128b0c4b3.jpg"></p>
+<h3 id="八进制-–-gt-二进制"><a href="#八进制-–-gt-二进制" class="headerlink" title="八进制 –&gt; 二进制"></a>八进制 –&gt; 二进制</h3><p>二进制和八进制编码对应表</p>
+<pre><code>二进制(B)    八进制(O)
+000                0
+001                1
+010                2
+011                3
+100                4
+101                5
+110                6
+111                7
+</code></pre>
+<p>方法：<br>取一分三法，即将一位八进制数分解成三位二进制数，用三位二进制按权相加去凑这位八进制数，小数点位置照旧</p>
+<p><img src="https://c.img.dasctf.com/images/2022315/1647344407708-93d9a111-c56e-4e79-b787-5533dad36b60.jpg"></p>
+<h3 id="八进制-–-gt-十进制"><a href="#八进制-–-gt-十进制" class="headerlink" title="八进制 –&gt; 十进制"></a>八进制 –&gt; 十进制</h3><p>方法：<br>八进制数从低位到高位（即从右往左）计算，第0位的权值是8的0次方，第1位的权值是8的1次方，第2位的权值是8的2次方，依次递增下去，把最后的结果相加的值就是十进制的值了</p>
+<pre><code>  八进制就是逢8进1，八进制数采用 0～7这八数来表达一个数;
+  例：将八进制的53转换为十进制
+
+  第1位 3 * 8^0 = 3;
+
+  第2位 5 * 8^1 = 40;
+
+  读数: 把结果值相加，3+40=43，即53=43
+</code></pre>
+<h3 id="八进制-–-gt-十六进制"><a href="#八进制-–-gt-十六进制" class="headerlink" title="八进制 –&gt; 十六进制"></a>八进制 –&gt; 十六进制</h3><p>方法：<br>先将八进制转换为二进制，然后再将二进制转换为十六进制，小数点位置不变</p>
+<pre><code>例：将八进制的327转换为十六进制的步骤如下：
+
+  1. 八进制327转换成二进制;
+
+       3 = 011;
+
+    2 = 010;
+
+    7 = 111;
+  2. 得到011010111, 再转换成十六进制;
+
+    0111 = 7;
+    
+    1101 = D;
+
+  读数: 读数从高位到低位，D7，即327=D7
+</code></pre>
+]]></content>
       <categories>
         <category>干货</category>
       </categories>
