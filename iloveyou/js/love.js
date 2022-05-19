@@ -73,10 +73,15 @@ function textp2(){
 }
 
 function textp3(){
-    document.getElementById('love').innerHTML += "<font color='red'>我爱你，余生请你指教！@悦悦悦悦</font>"
+    document.getElementById('love').innerHTML += "<font color='pink'>我爱你，余生请你指教！@悦悦悦悦</font>"
 }
+
 function text2(){
     document.getElementsByTagName('body')[0].style.cssText ="background: url(images/background.jpg) no-repeat;background-size: 100% 100%;";
+}
+
+function text3(){
+    document.getElementById('love').innerHTML += "</br><img src='images/love.jpg'></img>";
 }
 
 
@@ -138,7 +143,8 @@ function Rise() {
             text1();
             setTimeout(textp2,2000);
             setTimeout(textp3,5000);
-            setTimeout(text2,6000);
+            setTimeout(text2,5000);
+            setTimeout(text3,8000);
         }
 
         love.style.top = (love_top - distance) + "px";
