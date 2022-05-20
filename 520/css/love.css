@@ -49,18 +49,9 @@ body {
     left: 35%;
     top: 60%;
     position: absolute;
+    /*margin:0;padding:0;line-height:1.5em;font-family: "STXingkai","宋体";font-size:36px;color:#FFC1C1;*/
     margin:0;padding:0;line-height:1.5em;font-family:'xingkai';font-size:36px;color:#FFC1C1;
 }
-
-#love2 {
-    left: 35%;
-    top: 71%;
-    position: absolute;
-    margin:0;padding:0;line-height:1.5em;font-family:'xingkai';font-size:36px;color:#FF3030;
-}
-
-
-
 
 .container .love {
     width: 520px; /* 13 * 40 */
