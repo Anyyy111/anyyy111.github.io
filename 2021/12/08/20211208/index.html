@@ -1,0 +1,1303 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><meta name="referrer" content="no-referrer"><title>融贯杯 writeup | Anyyy安全小站</title><meta name="keywords" content="刷题,CTF"><meta name="author" content="Anyyy"><meta name="copyright" content="Anyyy"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="学长闲的没事干 给学弟出题 顺便给外校人员也做做 就诞生了本次的融贯杯  然后我被拉过来出题 出了19道web和9道misc 写下我的解题思路  整体难度不是很大 题目质量还可以，有些题目是搬运或者稍加修改。   WEB&gt; 1.代码的秘密 题目如下： 打开源码发现一段js代码  在本地运行js代码 获得flag 2.本地访问 题目如下： 题目提示说要本地访问 因此想到用X-Forwarded">
+<meta property="og:type" content="article">
+<meta property="og:title" content="融贯杯 writeup">
+<meta property="og:url" content="http://www.anyiblog.top/2021/12/08/20211208/index.html">
+<meta property="og:site_name" content="Anyyy安全小站">
+<meta property="og:description" content="学长闲的没事干 给学弟出题 顺便给外校人员也做做 就诞生了本次的融贯杯  然后我被拉过来出题 出了19道web和9道misc 写下我的解题思路  整体难度不是很大 题目质量还可以，有些题目是搬运或者稍加修改。   WEB&gt; 1.代码的秘密 题目如下： 打开源码发现一段js代码  在本地运行js代码 获得flag 2.本地访问 题目如下： 题目提示说要本地访问 因此想到用X-Forwarded">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://cdn.anyiblog.top/common/1646392643413-f46fa0e1-6d44-4bd9-aa1f-bae80409d3f8.jpg">
+<meta property="article:published_time" content="2021-12-07T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-05-07T07:38:53.535Z">
+<meta property="article:author" content="Anyyy">
+<meta property="article:tag" content="刷题">
+<meta property="article:tag" content="CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://cdn.anyiblog.top/common/1646392643413-f46fa0e1-6d44-4bd9-aa1f-bae80409d3f8.jpg"><link rel="shortcut icon" href="http://cdn.anyiblog.top/img/favicon.png"><link rel="canonical" href="http://www.anyiblog.top/2021/12/08/20211208/"><link rel="preconnect" href="//fastly.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.json","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"top-right"},
+  source: {
+    justifiedGallery: {
+      js: 'https://fastly.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://fastly.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '融贯杯 writeup',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2023-05-07 15:38:53'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><div class="aplayer" data-id="7356458861" data-server="netease" data-type="playlist" data-fixed="true" data-listFolded="false" data-order="random" data-preload="none"></div><link rel="stylesheet" href="https://cdn.bootcss.com/aplayer/1.10.1/APlayer.min.css"><script src="https://cdn.bootcss.com/aplayer/1.10.1/APlayer.min.js"></script><script src="https://fastly.jsdelivr.net/npm/meting@1.2.0/dist/Meting.min.js"></script><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/css/flink.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/css/hideCategory.min.css"><script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script><script src="/js/sweetalert.js"></script><link rel="stylesheet" href="/css/sweetalert.css"><!-- 仅首页弹窗通知 welcome--><!--link(rel="stylesheet" href="APlayer.min.css")--><div id="aplayer"></div><script src="http://cdn.anyiblog.top/js/Meting.min2.js" async></script><script src="http://cdn.anyiblog.top/js/Meting.min2.js" async></script><meta name="generator" content="Hexo 6.0.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="http://cdn.anyiblog.top/img/avatar.jpg" onerror="onerror=null;src='http://cdn.anyiblog.top/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">21</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div><div class="menus_item"><a class="site-page" href="/inform/"><i class="fa-fw fa-fw fa fa-coffee"></i><span> 通知</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Anyyy安全小站</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div><div class="menus_item"><a class="site-page" href="/inform/"><i class="fa-fw fa-fw fa fa-coffee"></i><span> 通知</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">融贯杯 writeup</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-12-07T16:00:00.000Z" title="发表于 2021-12-08 00:00:00">2021-12-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-05-07T07:38:53.535Z" title="更新于 2023-05-07 15:38:53">2023-05-07</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/">刷题笔记</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/Writeup/">Writeup</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">5.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>20分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="融贯杯 writeup"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div><article class="post-content" id="article-container"><p><span style="font-size: 18pt">学长闲的没事干 给学弟出题 顺便给外校人员也做做 就诞生了本次的融贯杯</span></p>
+<p><span style="font-size: 18pt"></span></p>
+<p><span style="font-size: 18pt">然后我被拉过来出题 出了19道web和9道misc 写下我的解题思路</span></p>
+<p><span style="font-size: 18pt"></span></p>
+<p><span style="font-size: 18pt">整体难度不是很大 题目质量还可以，有些题目是搬运或者稍加修改。</span></p>
+<p><span style="font-size: 18pt"></span></p>
+<p><span style="font-size: 18pt"><img src="http://cdn.anyiblog.top/common/647abaf9898365f81d251f92f9ed9737.png"></span><br><span style="font-size: 18pt"><img src="http://cdn.anyiblog.top/common/145e5fa144448459f0692633d260c06f.png"></span><br><span style="font-size: 18pt"></span></p>
+<p><span style="font-size: 18pt">WEB&gt;</span></p>
+<p><span style="font-size: 14pt">1.代码的秘密</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/537e23055a79dfee2abfb9628aecea18.png"></span><br><span style="font-size: 14pt">题目如下：</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/612867703e3400a665638bb7237386da.png"></span><br><span style="font-size: 14pt">打开源码发现一段js代码</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/99d5a16bf42eee0764be62158bfffc76.png"></span></p>
+<p><span style="font-size: 14pt">在本地运行js代码 获得flag</span></p>
+<p><img src="http://cdn.anyiblog.top/common/fb3e5519120821092569d714b7a0f602.png"><br><span style="font-size: 14pt">2.本地访问</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/72252f5b120fd70cb1f5ab25f6ed125a.png"></span><br><span style="font-size: 14pt">题目如下：</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/72367e5a9529cf2868ab462781389612.png"></span><br><span style="font-size: 14pt">题目提示说要本地访问 因此想到用X-Forwarded-For构造ip</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/8b444b9be53bd7a7697e990e264b2d2b.png"></span><br><span style="font-size: 14pt">尝试访问后发现源代码：</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/4b2d22123e5ceec76eb7e541e1011789.png"></span><br><span style="font-size: 14pt">第一层绕过后 要求我们用User-Agent伪造admin</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/88f5723b86d500c606768530436fb8a2.png"></span><br><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/31640b3ff099d80ef6c0b0960a9f00f1.png"></span><br><span style="font-size: 14pt">访问后绕过判断</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/fb9afc28a46a039d902e10bcea5ff84b.png"></span><br><span style="font-size: 14pt">这里要我们使用post传入参数password 当password为admin123时即可拿到flag</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/6d6afaac94068967045f972bd698f27a.png"></span><br><span style="font-size: 14pt">访问得到flag：</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/454b05b02682fc3ad70ae88983e0256a.png"></span><br><span style="font-size: 14pt">3.密码爆破</span></p>
+<p><img src="http://cdn.anyiblog.top/common/6365ff8f6e334c67532bb8e247c2b0f9.png"><br><span style="font-size: 14pt">题目如下：</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/ae7c33d9d09d1aecda62a68aa649a8b4.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">结合题目提示要求我们爆破密码 并且密码为5位数字</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">这里可以用python写脚本 或者用 burpsuite 进行爆破 用burpsuite更快一点</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">python脚本如下：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/78f0d966ea6697a588cc65ce2c05b8e8.png"></span><br><span style="font-size: 14pt"></span></p>
+<pre><code>import requests
+
+def getpasswd():
+   ls = []
+   for i in range(10000,100000):
+      ls.append(i)
+   return ls
+
+def flag():
+   url = &quot;http://47.96.153.252:28003/&quot;
+   for i in getpasswd():
+      data = &#123;&#39;password&#39;:i&#125;
+      http=requests.post(url,data=data)
+      if &quot;密码错误&quot; in http.text:
+         print(&#39;[-]%s pass&#39;%i)
+         pass
+      else:
+         print(&#39;[+]%s&#39;%i)
+         break
+
+flag()
+</code></pre>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">burpsuite需抓包 然后进行Intruder爆破&amp;nbsp;</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/41dfca93c3d02131b7f1f24221d47a5f.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">得到密码32767 解得即可。</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">4.运维失误</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/4dbfc15c8c8b7851e0fa05da98720dc9.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">题目如下：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/419649a1c4e096b2727e0bd1b949d3cf.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">进入题目发现无权访问 结合简介提示找网站备份文件 可以判断<a target="_blank" rel="noopener" href="http://www.zip/">www.zip</a></span> <a target="_blank" rel="noopener" href="http://www.tar.gz/">www.tar.gz</a><span style="font-size: 14pt">&amp;nbsp; robots.txt 等等。</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">输入<a target="_blank" rel="noopener" href="http://www.zip发现备份文件/">www.zip发现备份文件</a></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/a24a56241d8f218e5a2aff7e68b7e977.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">得到源码文件</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">index.php：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/17dfd7b8ecc03dde1548ff96d21b5de7.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">这里要我们传入username和password参数 然后账号密码是不知道的 要经过md5验证才能拿到flag</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">再看74037e0c.php</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/1a7cf4ee300476527d09e6b70d54d917.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">得到账号密码 传入username和password即可拿到flag</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/c59eb3dd12f5b4988d3ddf3a5748213a.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">5.时间穿梭</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/bdc2c3bd8a3a59f64b42d121c483d53d.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">题目如下：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/81546abe1302e4b2b59222a7112e7aca.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">点击题目超链接 却被重定向到另一个页面</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/69f2105f0c44a1a6fa4e3d9aaed189f9.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">猜测题目用了header重定向 这里用burpstuie拦截</span></p>
+<p><span style="font-size: 14pt">开启拦截 点击超链接</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/e6987efea834ccf3215cd4034b3e9682.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">发送到repeater</span></p>
+<p><span style="font-size: 14pt">得到flag</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/48670933a27af127ffc1285d21a51f56.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">6.狡猾的前端</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/b88fd8a825a194350d1e616f6b7cd3e0.png"></span><br><span style="font-size: 14pt">题目如下：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/365829095c2b1ac34815b551f3c0bc5c.png"></span><br><span style="font-size: 18.6667px"></span></p>
+<p><span style="font-size: 18.6667px">提示我们flag就在源码里 尝试用f12查看</span></p>
+<p><span style="font-size: 18.6667px"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/9deb88ca22716da3b4eb799d8e397a7b.png"></span><br><span style="font-size: 18.6667px"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/804fa17c10f043ba3dc446f2a80b6fac.png"></span><br><img src="http://cdn.anyiblog.top/common/3d696fb02d657b6938f1043d6de62f76.png"><br><img src="http://cdn.anyiblog.top/common/f05fe6be3a0c77dadb1d4a3a37fbbce3.png"><br><img src="http://cdn.anyiblog.top/common/95b1bec711572bcd75491f21d6cd3ffe.png"><br><span style="font-size: 14pt">几乎能查看源码的键都被js过滤了 这里可以用postman查看</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/2b194373973740a00e75cfd55d68cc79.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">这里非预期解是可以通过多次按f12或者其他键 可以卡出源代码</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/ee9354004bfaf50e12be7a5624c090bb.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">7.Ez_Bypass</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/118efe9a82c71c333094c599d7ff4013.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">题目如下：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/cc44580655607c8b2fb7b8d6e556a257.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">先看源代码：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/a491ac74d3b415bf91ab5608b12146c4.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">提示我们传两个参数 func 和 cmd</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/1421fa10b15ab4f3c7cce305fc3e444d.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">传入得到源码</span></p>
+<p><span style="font-size: 14pt">代码审计一番过后 大致了解了题目使用call_user_func函数 从用户传入的函数和参数进行执行</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/f05b9bd60d7f24292ea800d3c3ee7b5a.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">这里第一层是绕过过滤函数</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/a7e8537a8b82f55cca5ab9233f4fc0b4.png"></span><br><span style="font-size: 14pt">第二层是过滤flag关键词</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/493b2ac3a0b9feb1f6f25f1c7bec6c85.png"></span><br><span style="font-size: 14pt">绕过过后即可执行命令</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/2bde608e23cba0f028c62fdc1197b1f4.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">这里有hint 先看hint</span></p>
+<p><span style="font-size: 14pt">传入</span><span style="font-size: 14pt">&#x2F;?func&#x3D;&amp;cmd&#x3D;&amp;hint</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/2f0e581dbaf09eebd50e9da4306d276b.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">提示先用scandir找flag&amp;nbsp; 然后用system一把梭</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">因为使用print_r所以结果会以数组返回 导致我们可以用scandir看任意路径文件</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">传入</span><span style="font-size: 14pt">&#x2F;?func&#x3D;scandir&amp;cmd&#x3D;&#x2F;</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/7d7014e0e57695b41a6534759b2c339d.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">找到flag</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">然后用system执行命令。</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">这里因为flag被过滤了 结合题目简介提示，我们可以用linux的特性绕过。</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/980b12d4037f8f9f0b964153de111bcf.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">linux下可以定义一个变量为一个字符串 然后引用这个变量</span></p>
+<p><span style="font-size: 14pt">因此我们可以定义多个变量 然后拼接绕过flag过滤</span></p>
+<p><span style="font-size: 14pt">传入</span><span style="font-size: 14pt">&#x2F;?func&#x3D;system&amp;cmd&#x3D;a&#x3D;&amp;apos;fl&amp;apos;;b&#x3D;&amp;apos;aggggHere&amp;apos;;cat &#x2F;$a$b</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/28d475a5bcdcf3053b0b52749ba808e6.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">8.nizhuansiwei</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/7bfa957588d163f45fd4ea4e396e16c1.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">题目如下：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/b2360a845ee5456259847716e1bec131.png"></span><br><span style="font-size: 14pt">题目主要是两层绕过&amp;nbsp;</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/6296a9cdd68eb1ea663cc5e1372deba5.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">首先file_get_contents读取到的文件内容要为welcome to the wzzctf一般来说是不可能的</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">结合题目提示 用data:&#x2F;&#x2F;绕过</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/91e45a390736f1272fbaef500923883c.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">这里是要用data:&#x2F;&#x2F;伪协议构造文件内容</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><a target="_blank" rel="noopener" href="//text/plain;base64,xxxx">data:&#x2F;&#x2F;text&#x2F;plain;base64,xxxx</a></span></p>
+<p><span style="font-size: 14pt">先将内容进行base64</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/ef3e7cd611233b841e8d33aab85a0147.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">传入</span><span style="font-size: 14pt">&#x2F;?text&#x3D;<a target="_blank" rel="noopener" href="//text/plain;base64,d2VsY29tZSB0byB0aGUgd3p6Y3Rm">data:&#x2F;&#x2F;text&#x2F;plain;base64,d2VsY29tZSB0byB0aGUgd3p6Y3Rm</a></span></p>
+<p><img src="http://cdn.anyiblog.top/common/cee6b37d54075051500fd89997a78212.png"><br><span style="font-size: 14pt">即可绕过第一层</span></p>
+<p><span style="font-size: 14pt">然后需要我们传入一个反序列化后的password的值 要为hacker 即可得到flag</span></p>
+<p><span style="font-size: 14pt">现在本地测试</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/3d8f1aaa45edf0012882e1f9ca886966.png"></span><br><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/528fbe3b38a3a363bac5bfb8703532a0.png"></span><br><span style="font-size: 14pt">输入password&#x3D;s:6:”hacker”; 即可</span></p>
+<p><img src="http://cdn.anyiblog.top/common/e404625739ed3d1c164ca78252c64ec2.png"><br><span style="font-size: 14pt">9.某职专后台系统</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/b723d5368dd70c82139242dac3328e4e.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">题目如下：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/b21b61b9ffdb52dacfb1f125e9c499e0.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">一个登录平台 结合题目提示存在高危漏洞 猜测是SQL注入漏洞</span></p>
+<p><span style="font-size: 14pt">先用万能密码试试</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/3859ba5ceb25ed90ee3a36b278cd7149.png"></span><br><span style="font-size: 14pt">直接进入了 但是没有flag 此题为回显型SQL 因此尝试爆数据库 爆表 拿flag</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/5b38119ce67ae7caf06f4cf29bcba8dd.png"></span><br><span style="font-size: 14pt">三个字段</span></p>
+<pre><code>爆数据库：
+1&#39; union select 1,database(),3 #
+</code></pre>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/aa894bbc9ce4d809c7f50da5f042dfff.png"></span><br>    爆表：<br>    1’ union select 1,table_name,3 from information_schema.tables where table_schema&#x3D;database()#</p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/5d5907e26e1cbe584477b7bd0449328b.png"></span><br><span style="font-size: 14pt">得到表flag</span></p>
+<p><span style="font-size: 14pt">然后再查字段名</span></p>
+<pre><code>爆字段：
+1&#39; union select 1,column_name,3 from information_schema.columns where table_schema=database() and table_name=&#39;flag&#39;#
+</code></pre>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/2deebce296692177a93740b48f9b7e4d.png"></span><br><span style="font-size: 14pt">字段名也是flag 最后直接查询就可以了</span></p>
+<pre><code>payload:
+1&#39; union select 1,flag,3 from website.flag #
+</code></pre>
+<p><img src="http://cdn.anyiblog.top/common/d2eab68e590d4eee7438168b018904e8.png"><br><span style="font-size: 14pt">10.你传你马呢</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/84a9f240c594f8accbae5777188e5369.png"></span><br><span style="font-size: 14pt">题目如下：</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/1cd6943360408a550e206db9c36ebec3.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">文件上传题目</span></p>
+<p><span style="font-size: 14pt">随便上传个php文件</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/85e66118dc941414a9dce5825dab823f.png"></span><br><span style="font-size: 14pt">报错，这里error_log记录的是文件的MIME值 猜测题目是检测文件MIME值 而图片的MIME是白名单</span></p>
+<p><span style="font-size: 14pt">所以先上传个图片 然后再把文件内容和后缀改为php即可。</span></p>
+<p><span style="font-size: 14pt">先写个马</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/b7858bef4d94f5241b8511264f0ed723.png"></span><br><span style="font-size: 14pt">把后缀改为jpg</span></p>
+<p><span style="font-size: 14pt">先用burpsuite开启拦截 然后上传图片。</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/725af9d9ae0c1433b76824779e9b7346.png"></span><br><span style="font-size: 14pt">后缀改为php上传</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/868c936333e574d81e56340ed2e6e67e.png"></span><br><span style="font-size: 14pt">访问木马蚁剑连接 或者直接传参都可以</span></p>
+<p><img src="http://cdn.anyiblog.top/common/10f0218286e6e8cda39ff66e86ba2c47.png"><br><span style="font-size: 14pt">11.Baby_Ping</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/d3b4d0266e52c0e95b7b74a67cf87412.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">题目如下：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/390db2d4b732eee782e068883fbc1d6b.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">一个ping功能的平台 要想到使用ping的时候肯定是在靶机中运行 然后我们可以用；隔开执行多个命令</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">先试试1.1.1.1;ls</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/790bb10178f5f295ab75b6ea612697db.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">成功执行 直接看根目录下的flag</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/99e6e2ff340f2a7e7cd7d6f0d7904106.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">12.Baby_MD5</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/5590d9abfda07a16c7895230a27be33a.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">题目如下：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/3bed72c48c685c756ea2609b0ca17bb2.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">先输入?game开始</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">得到源码：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/6e8f2890eeab97a407f41d5393ec6a5d.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">题目注释也提示的很明显了 需要绕过三层 分别为数组绕过 0e绕过 原值绕过</span></p>
+<p><span style="font-size: 14pt">第一层：</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/d41b4b792cef9d8f89d464df03d115aa.png"></span><br><span style="font-size: 14pt">需要我们传入两个值val1和val2两个值不同 但是它们的md5值要相同</span></p>
+<p><span style="font-size: 14pt">这里考察的点就是用</span><span style="font-size: 14pt">数组绕过</span><span style="font-size: 14pt">，php中因为数组的值不能被md5处理，则返回NULL，导致相等。</span></p>
+<p><span style="font-size: 14pt">本地测试如下：</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/ba626fdacf9714a44d9e81d961c7fd09.png"></span><br><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/4e9bafb09e19056d679a2a71769a92e5.png"></span><br><span style="font-size: 14pt">可以看到两个值为空值 php中空值相等 且两值相等 所以绕过。</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">&#x2F;?game&amp;val1[]&#x3D;1&amp;val2[]&#x3D;2</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/c0e198da2a7a9fba18a091f541fbe161.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">第二层：</span></p>
+<p><img src="http://cdn.anyiblog.top/common/dd5298634c1c873e61f124d411ec81ba.png"><br><span style="font-size: 14pt">这里也是要我们传两个不同的值 且MD5值相同 不同的是这里传入的值必须为string类型 不能为数组</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/5ec4dbcc4434aa4185f4a99e847be08c.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">这里考察的是0e绕过 原理是两个值的md5开头为0e php中</span><span style="font-size: 14pt">0e开头的字符串在参与比较时 会被当做科学计数法 结果转换为0</span> <span style="font-size: 14pt">因此绕过</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">一些绕过值：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<pre><code>QNKCDZO
+0e830400451993494058024219903391
+240610708
+0e462097431906509019562988736854
+s878926199a
+0e545993274517709034328855841020
+s155964671a
+0e342768416822451524974117254469
+s214587387a
+0e848240448830537924465865611904
+s214587387a
+0e848240448830537924465865611904
+s878926199a
+0e545993274517709034328855841020
+s1091221200a
+0e940624217856561557816327384675
+</code></pre>
+<p><span style="font-size: 14pt">传入任意两个即可。</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">&#x2F;?game&amp;val1[]&#x3D;1&amp;val2[]&#x3D;2&amp;val3&#x3D;QNKCDZO&amp;val4&#x3D;240610708</span></p>
+<p><img src="http://cdn.anyiblog.top/common/87538f26e00a8b076ebea8fdb2a8da2b.png"><br><span style="font-size: 14pt">第三层：</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/713f57d6cd13ea4e3930b5d062882989.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">这里要我们传入的值等于其md5的值 是原值绕过</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">记录一个值：</span></p>
+<p><span style="font-size: 14pt">0e215962017 的 MD5 值也是由 0e 开头，在 PHP 弱类型比较中相等</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">所以post传入即可拿到flag</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/69b019b565344caba6b21b2b221bc1b0.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">13.套娃</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/a17e536aa9bc710d23511640370eaff0.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">题目如下：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/80c1073981d7aafbf135a7ad32465b40.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">先看源代码</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/6b23c5877f3d20e561bf1753a7cd6e0b.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">substr_count() 函数计算子串在字符串中出现的次数</span></p>
+<p><span style="font-size: 14pt">$_SERVER[&amp;apos;QUERY_STRING&amp;apos;]</span></p>
+<p><span style="font-size: 14pt">例如：</span></p>
+<p><span style="font-size: 14pt"><a target="_blank" rel="noopener" href="http://localhost/aaa/index.php?p=222&q=333">http://localhost/aaa/index.php?p=222&q=333</a></span></p>
+<p><span style="font-size: 14pt">结果：</span></p>
+<p><span style="font-size: 14pt">$_SERVER[&amp;apos;QUERY_STRING&amp;apos;] &#x3D; “p&#x3D;222&amp;q&#x3D;333”;</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">因此想要绕过我们传入的参数得没有_下划线&amp;nbsp; 但是我们传参又必须要有w_z_z_c</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">下划线的绕过我们可以用 . 或者 空格 来代替这个符号</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">后面的绕过正则只需要用%0a截断即可</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">payload:</span><span style="font-size: 14pt">&#x2F;?w z z c&#x3D;23333%0A</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/8278532923a3e66fefc781ef54c30cf7.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">或</span><span style="font-size: 14pt">&#x2F;?w.z.z.c&#x3D;23333%0A绕过</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/12506140d3760c3cfa6f60dcc5425e90.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">14.异或的马</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/f9b79e61d3e968b35ae82ac68c6ed6c2.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">题目如下：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/6de09579414d8b3bffa535ceddd008af.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">这是通过异或写的一段木马 只要看懂代码就可以执行了。</span></p>
+<p><span style="font-size: 14pt">可以直接用php执行。或者用python写 这里php方便一点</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/8af030ebe9dd982251afd078b4df17cf.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/3aaf3bfb667837944364121d6ffc5f95.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">可以看到木马大致为assert($_GET[&amp;apos;H@ck&amp;apos;])</span></p>
+<p><span style="font-size: 14pt">连接方式为get</span></p>
+<p><span style="font-size: 14pt">密码为H@ck&amp;nbsp;</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">payload：</span><span style="font-size: 14pt">&#x2F;?H@ck&#x3D;system(%27cat%20&#x2F;flag%27)</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/4e6fd0959897a3da2fca21d69c1fdaaf.png"></span><br><span style="font-size: 14pt">15.字符？正则？</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/e229359e43887caf858964645a912010.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">题目如下：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/28cf0f10a33197639608b9f6e04f1d96.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">这里我们传入的id只要符合正则匹配就可以拿到flag</span></p>
+<p><span style="font-size: 14pt">这个正则有点复杂 慢慢分析：</span></p>
+<p><span style="font-size: 14pt">“&#x2F;key.*key.{4,7}key:&#x2F;.&#x2F;(.*key)[a-z][[:punct:]]&#x2F;i”</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">&#x2F; &#x2F;是定界符；</span></p>
+<p><span style="font-size: 14pt">key,直接使用，id&#x3D;key</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">.是元字符,表示除了换行符的任意一个字符，就取a好了，id&#x3D;keya</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">*是量词，表示前一个元字符a的数量0个或多个，即{0，}。取零个，id&#x3D;key</span></p>
+<p><span style="font-size: 14pt">key,直接使用，id&#x3D;keykey</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">.取a,id&#x3D;keykeya</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">{4,7}是量词，表示前一个元字符a的数量为4到7，取4个，id&#x3D;keykeyaaaa</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">key,直接用，id&#x3D;keykeyaaaakey</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">:也直接用，id&#x3D;keykeyaaaakey：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">&#x2F;即&#x2F;，\防止转义，id&#x3D;keykeyaaaakey:&#x2F;</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">.取a,id&#x3D;keykeyaaaakey:&#x2F;a</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">&#x2F;即&#x2F;，id&#x3D;keykeyaaaakey:&#x2F;a&#x2F;</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">(.*key)是一个分组，.取a,星号取零个,key直接用，id&#x3D;keykeyaaaakey:&#x2F;a&#x2F;key</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">[a-z]任取一个a-z的小写字母，取a,id&#x3D;keykeyaaaakey:&#x2F;a&#x2F;keya</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">[[:punct:]]表示任取一个标点符号，取：，id&#x3D;keykeyaaaakey:&#x2F;a&#x2F;keya</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">i为模式修饰符，表示不区分大小写</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">所以得到payload为：</span></p>
+<p><span style="font-size: 14pt">?id&#x3D;keykeyaaaakey:&#x2F;a&#x2F;keya:</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/d96777186c0f12753e8491d40933310d.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">16.Easy_Ping</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/f3bc3b3e6d8f8dac4a1ebae9bdf603b2.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">题目如下：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/3bc2f04dc0529845d0e3a9240275d897.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">先让我们传入参数ip</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/3cea12c2b4a7840c076f482c65b49bfa.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">又是ping题 尝试用;来执行命令</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/617091a7d33404e94ba591ca57d41040.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">成功执行，尝试cat &#x2F;flag</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/9793d9457a8e67425d2a1773481b2aa0.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">发现空格被过滤&amp;nbsp;</span><span style="font-size: 14pt">可以用</span><span style="font-size: 14pt">$IFS$9绕过空格</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/152c3be712a6bed6397482428b724c2b.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">flag被过滤</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">尝试先看源码。</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/2e1851e040996c3432f67d4f9d185a31.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">得到源码：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/dd47a8b94c315b1480185f5ee046f32a.png"></span><br><span style="font-size: 14pt">这里把空格 一些特殊符号 bash 和flag过滤了</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">这里利用linux变量特性绕过</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/e537272bf2f26d30a9026f4520eb412f.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">这里没绕过正则匹配 如果先写fl 再写ag 还是和正则匹配上的&amp;nbsp;</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">把fl 和 ag 反一下就可以了&amp;nbsp;</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">payload:</span><span style="font-size: 14pt">&#x2F;?ip&#x3D;1.1.1.1;a&#x3D;ag;b&#x3D;fl;cat$IFS$9$b$a.php</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/d8f4fb76d700b0af8603b310edb087d6.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">17.闪电五连鞭</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/9e9ff48a36911279e8d61dbf50804e98.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">题目如下：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/c2b573067e5ccd5edca629b6bda72706.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/e20d54d8ebb44eec83aa4f6710f54fef.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">第一个判断:</span></p>
+<p><span style="font-size: 14pt">当没有用GET方法传入flag时，会显示Click here的链接。</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">点击链接会用GET方法传入一串字符串$exam，后面是当前时间的一串sha1哈希值。</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/d359224cfb6842b08193c6c77b3b90c7.png"></span><br><span style="font-size: 14pt">第二个判断:</span></p>
+<p><span style="font-size: 14pt">这里要</span><span style="font-size: 14pt">传入的flag值为例子exam的长度</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">先点超链接看例子</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/7d432a5e507ead3f017fa4466fc408d7.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">用python看下长度：</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/fa373982d3fbc1709fa92955c8b75a76.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">长度为49</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">我们可以用垃圾字符填充flag值 如[代码];1*n;这种方式</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">第三个判断:</span></p>
+<p><span style="font-size: 14pt">过滤了一堆字符&#96;’”‘.‘\‘(‘)‘[‘]‘_’flag’echo’print’require’include’die’exit</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/f42e51bceea6517bc1f2967855874437.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">第四个判断:</span></p>
+<p><span style="font-size: 14pt">判断传入flag的值等于flag值的哈希值，正确就输出flag。用的是严格的三个等号的比较，flag都不知道，哈希值更不可能知道(&#x3D;&#x3D;&#x3D;强相等,类型和值都要相等)，</span></p>
+<p><span style="font-size: 14pt">但存在eval($_GET[&amp;apos;flag&amp;apos;])可以任意代码执行</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/3cf90f892ebc89b4465f0b2e49507f83.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">尝试绕过过滤:</span></p>
+<p><span style="font-size: 14pt">echo被过滤了，用php短标签进行输出;</span></p>
+<p><span style="font-size: 14pt">flag被过滤了，用先赋其他值，再修改的方法绕过</span></p>
+<pre><code>当php开启短标签后，
+能正常解析类似于这样形式的php文件： phpinfo() ?&gt;
+并且可以使用&lt;?=$a?&gt;的形式输出
+</code></pre>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">为了使payload长度与$exam长度相等，在代码间加入无意义的语句。</span></p>
+<p><span style="font-size: 14pt">构造payload：&#x2F;?flag&#x3D;$a&#x3D;blag;$a{0}&#x3D;f;111111111111111111111;?&gt;<?=$$a;?></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/7ed4d99960e02120499b1072f4126054.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">18.PHPGame</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/2aba5b3a726aa81327f05707de35cfe8.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">题目如下：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/8fee2b08bcf35b6c81de5133b8f32d96.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">先看源码：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/1396f95df7c9066da702739e5af6d317.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">先传参 然后开始。</span></p>
+<p><span style="font-size: 14pt">题目源码如下：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/fad4c69c6aed7b3e59f1856960292d3d.png"></span><br><span style="font-size: 14pt"></span></p>
+<pre><code>&lt;html&gt;
+&lt;!--if($_REQUEST[&#39;mode&#39;]!=&quot;begin&quot;)&#123;
+    die(&quot;Welcome PHP Games!&quot;);
+&#125;--&gt;
+&lt;/html&gt;
+&lt;?php
+error_reporting(0);
+include &#39;fl4g.php&#39;;
+
+if($_REQUEST[&#39;mode&#39;]!=&quot;begin&quot;)&#123;
+    die(&quot;PHP Games!&quot;);
+&#125;else&#123;
+    show_source(__FILE__);
+    class last_task&#123;
+        var $left;
+        var $middle;
+        var $right;
+    &#125;
+    $a=$_GET[&#39;a&#39;];
+    $b=$_GET[&#39;b&#39;];
+    if($a==$b)&#123;
+        die(&quot;wrong way&quot;);
+    &#125;else&#123;
+        if(md5($a)!==md5($b))&#123;
+            die(&quot;need a little magic&quot;);
+        &#125;else&#123;
+            if($_POST[&#39;token&#39;])&#123;
+                $token = unserialize($_POST[&#39;token&#39;]);
+                if($token[&#39;user&#39;]==&quot;user&quot;&amp;&amp;$token[&#39;pass&#39;]==&quot;pass&quot;)&#123;
+                        $flag=$_POST[&#39;flag&#39;];
+                        if($flag)&#123;
+                            $flag = unserialize(urldecode($flag));
+                            $flag-&gt;middle = $fl4g;
+                            if($flag-&gt;middle===$flag-&gt;left&amp;&amp;$flag-&gt;middle===$flag-&gt;right)&#123;
+                                echo &quot;this is your flag &quot;.$flag-&gt;middle;
+                            &#125;else&#123;
+                                die(&quot;one more step&quot;);
+                            &#125;
+                        &#125;else&#123;
+                            die(&quot;don&#39;t give up&quot;);
+                        &#125;
+                &#125;else&#123;
+                    die(&quot;Not a valid token&quot;);
+                &#125;
+            &#125;else&#123;
+                die(&quot;give me the token&quot;);
+            &#125;
+        &#125;
+    &#125;
+&#125;
+?&gt; wrong way
+</code></pre>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">1、MD5弱比较绕过</span></p>
+<p><img src="http://cdn.anyiblog.top/common/b3462cbeb3fa51f8ae376ee7987b31ad.png"><br><span style="font-size: 14pt">这里是要传入的变量a和变量b一样 并且md5值不能一样。</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">这里考察的点就是用数组绕过，php中因为数组的值不能被md5处理，则返回NULL，导致相等。</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">本地测试如下：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/ba626fdacf9714a44d9e81d961c7fd09.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/4e9bafb09e19056d679a2a71769a92e5.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">因此第一层用&#x2F;?mode&#x3D;begin&amp;a[]&#x3D;1&amp;b[]&#x3D;2 绕过</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">2、数组反序列化</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><img src="http://cdn.anyiblog.top/common/c4d81ab347cb3fc7accb01694b8dece9.png"><br><span style="font-size: 14pt">这里要传一个数组，还得是反序列化，在本地构造一个就可以了。</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/5bd11104d378ffa6c4722709fe1fff66.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/2426d0e33dbde358ce4bb981a9c5c1f4.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">a:2:{s:4:”user”;s:4:”user”;s:4:”pass”;s:4:”pass”;}</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">成功绕过。</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/2aa56b6313711c5581795b4c25c1458c.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">3.PHP反序列化浅拷贝</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">重点来了，，这里是最难的部分。</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/ca885603e9fc8a1803dbd8a5a07c24af.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/ce301d2c6468e6ac2f80a1d6325a3cda.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">这里的意思是传一个反序列化后的值。然后要使last_task类中的left和right一定要等于$middle的值（这里middle的值是fl4g.php中的$fl4g变量） 也就是说能绕过就可以得到flag了。</span></p>
+<p><span style="font-size: 14pt">因为绕过if判断后输出的值也是middle的值，而middle的值就是flag，所以我们不能改变middle的值。但是又得让left和right的值为middle的值，显然我们不知道flag是做不到的，因此这里考察的一个知识点就是PHP浅拷贝。</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">参考文章<a target="_blank" rel="noopener" href="https://blog.csdn.net/crisprx/article/details/104457047">https://blog.csdn.net/crisprx/article/details/104457047</a> 师傅讲的很细，这里概述一下。</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">先说一下深拷贝和浅拷贝通俗理解</span></p>
+<p><span style="font-size: 14pt">深拷贝：赋值时值完全复制，完全的copy，对其中一个作出改变，不会影响另一个</span></p>
+<p><span style="font-size: 14pt">浅拷贝：赋值时，引用赋值，相当于取了一个别名。对其中一个修改，会影响另一个</span></p>
+<p><span style="font-size: 14pt">举个例子：(这里只做浅拷贝的例子)</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/0c83a8f56ca805801f23653e96bdab92.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">(网站回显)</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/2a47bbcf9c7a89f641c03d1d6038d6bd.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">而这道题要用到&amp;apos;&amp;&amp;apos; 来浅拷贝</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">再来个李子：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/4ed3336459c307e624bf230908fa728c.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/e6986455d3c2be48815a366e774bd0af.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">这里的知识点是引用传递。在这个例子中，将$a为crispr copy，$a前添加&amp; 而$b又等于$a，然后又改变了$b的值，导致$a的值改变了。</span></p>
+<p><span style="font-size: 14pt">参考:<a target="_blank" rel="noopener" href="https://www.php.net/manual/zh/language.references.pass.php">https://www.php.net/manual/zh/language.references.pass.php</a></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">所以我们的payload为：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/b38f5749e768f97b3fea06746886bb58.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">或者：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/7f0e4d3977a3f48bf333861022449858.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">这里将left和right的值取&amp;$middle的值 然后再将值序列化传入即可。</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/9d06e973f57930d669a9ddd03f8a14b7.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">O:9:”last_task”:3:{s:4:”left”;N;s:6:”middle”;R:2;s:5:”right”;R:2;}</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">传入flag post值 得到flag</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/e136bf3a0a97b1cff9006bc0a9722465.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">19.应可鲁德</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/bbd7fe550c742d8ded57e4dc216fed9f.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">题目如下：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/be98bab94c5039e4ae733800da5222c5.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">先是一个登陆页面，然后随便输入个id进去。如下：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/04273a29d6835d31fffccb4ac888c97f.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">点击超链接，发现url明显的是文件包含。</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/ce24fe4f022d7c2428f14b2a51778230.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">尝试读取默认文件 &#x2F;etc&#x2F;passwd</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/3c9be52c87b7683c8cff4adacd2053b2.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">成功读取到了。说明这是一个通过get传参的include函数。</span></p>
+<p><span style="font-size: 14pt">尝试读取flag一把梭。</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/e07e8e204f085a25617f0267f44b103d.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">无果</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">先慢慢来，看源码先。</span></p>
+<p><span style="font-size: 14pt">这里用php:&#x2F;&#x2F;filter伪协议读取文件</span></p>
+<p><span style="font-size: 14pt">构造payload：php:&#x2F;&#x2F;filter&#x2F;read&#x3D;convert.base64-encode&#x2F;resource&#x3D;index.php</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">index源码如下：</span></p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;form action=&quot;action.php&quot; method=&quot;POST&quot;&gt;
+    please input your name:
+
+    &lt;input type=&quot;text&quot; name=&quot;name&quot; &gt;
+
+    &lt;input type=&quot;submit&quot; value=&quot;Submit&quot;&gt;
+&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">再看下action.php的文件内容</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/cdb3f154b94e9c97592cf138c9ebb3d9.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">action源码如下：</span></p>
+<pre><code>&lt;?php
+session_start();
+error_reporting(0);
+$name = $_POST[&#39;name&#39;];
+if($name)&#123;
+    $_SESSION[&quot;username&quot;] = $name;
+&#125;
+include($_GET[&#39;file&#39;]);
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;div&gt;
+    &lt;a href=&quot;action.php?file=1.txt&quot;&gt;ctf推荐书籍&lt;/a&gt;
+    &lt;a href=&quot;action.php?file=2.txt&quot;&gt;ctf刷题平台&lt;/a&gt;
+&lt;/div&gt;
+&lt;/html&gt;
+</code></pre>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">这里很明显就是session包含。</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">在action.php中代码的这一块：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<pre><code>$name = $_POST[&#39;name&#39;];
+if($name)&#123;
+    $_SESSION[&quot;username&quot;] = $name;
+&#125;
+</code></pre>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">其原理是：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/823fe51af4c3e333d4bd41239b754c08.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">在我们在首页(index.php)通过post传参传入了id后会发送到action.php 在action.php中会把用户名保存为传入的post值</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">而这个post值是可控的。因此我们只要传入<?php eval($_GET[&apos;s&apos;]);?> 一句话进去，再通过session</span></p>
+<p><span style="font-size: 14pt">会创造一个临时文件，我们访问临时文件就可以实现任意代码执行了。接下来就懂得都懂。</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">php的 session文件的默认存放位置大致如下</span></p>
+<pre><code>/var/lib/php/sess_PHPSESSID
+/var/lib/php5/sess_PHPSESSID
+/tmp/sess_PHPSESSID
+/tmp/sessions/sess_PHPSESSID
+</code></pre>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">先id传个<?php phpinfo(); ?></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/b42040ca2cfed34604096da6042fa328.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">访问：</span><span style="font-size: 14pt">&#x2F;action.php?file&#x3D;<a target="_blank" rel="noopener" href="//filter/read=convert.base64-encode/resource=/tmp/sess_1c87b143947ceb5dac0b2adf082d0aab">php:&#x2F;&#x2F;filter&#x2F;read&#x3D;convert.base64-encode&#x2F;resource&#x3D;&#x2F;tmp&#x2F;sess_1c87b143947ceb5dac0b2adf082d0aab</a></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/cfdad4c9ed43dc27674d726acbd9772e.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/8d602c1b07bcdb98eea0451907ce3100.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">然后我们直接访问&amp;nbsp;</span><span style="font-size: 14pt">&#x2F;action.php?file&#x3D;&#x2F;tmp&#x2F;sess_1c87b143947ceb5dac0b2adf082d0aab</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/78b012d98b3ab47efad3a787b723aa27.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">到这里就简单了，然后我们再写个一句话木马进去</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/2eddc0832d8d5e94afdd99698327f87c.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">传入</span><span style="font-size: 14pt">?file&#x3D;&#x2F;tmp&#x2F;sess_c2ae0bc438de4b10b87b791a7514a375&amp;c&#x3D;system(&amp;apos;ls &#x2F;&amp;apos;);</span></p>
+<p><span style="font-size: 14pt">（注意这里多个传参要用&amp;拼接）</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/99a1643b1a8a445395a6128c9ce0c348.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">最后cat &#x2F;fl444444444g就可以了</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/5bb59e8ad9d88a7266779d713559a88a.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">MISC&gt;</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">1.无法达到的深度</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/333aaf80dc83d8ece28ee954d7828f4b.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">题目附件：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/06ca13e8755bed335c77d47ae3186dce.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">结合题目和简介 (深度) 猜测通过改图片高度来拿flag</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">图片属性：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/2aa44a6cecf16c82d9240cc713cbb831.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">winhex打开图片分析</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/d848cd6baa4dd368f915831efceb3a5c.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">高度628的hex值为0274 通过winhex搜索</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/d1e8e4236dc90201c3bfcf40ebecb4e3.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/e29d33906402ca8e27757aeb30283628.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/d59ccd6407ad488606b8c31e6dce0efb.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">这里左边的是高度 右边的是宽度</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">把0274改高 比如改为0500 保存：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/b75d5e078fde949d570bc2833de50623.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">图片有文字提示 再改高点 直接改为 2F00(约10000)</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/1cd1731771947fc59d1ff155f4d444f5.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">得到flag</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">2.五步飞扬</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/86c8664ea57d8fd4ab63371338db8855.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">题目附件：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/d9b10f84010648dd05f531b18c657b8b.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">第一步：</span></p>
+<p><span style="font-size: 14pt">ASCII:</span></p>
+<p><span style="font-size: 14pt">102 108 97 103 123</span></p>
+<p><span style="font-size: 14pt">用python解</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/c9d37c638d53f1857cd94c6828282288.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">解得 flag{</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">第二步：</span></p>
+<p><span style="font-size: 14pt">URL:</span></p>
+<p><span style="font-size: 14pt">%5Cu0063%5Cu0034%5Cu0038%5Cu0032%5Cu0035%5Cu0031%5Cu0035%5Cu0030</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/f7d1740081c0d1b778e718f49cc2aebd.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">url解码得到&amp;nbsp;</span><span style="font-size: 14pt">c4825150</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/d07eb0d80c1bb3c58b7d7a635c0bceb5.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">得到c4825150</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">第三步：</span></p>
+<p><span style="font-size: 14pt">摩斯电码</span></p>
+<p><span style="font-size: 14pt">-….- . —-. ..-. —-. —– —– -.-. —–</span></p>
+<p><span style="font-size: 14pt">在线网站解一下即可。</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/2f7e8a308c9640df5525a8fea3a5ab96.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">得到</span><span style="font-size: 14pt">-e9f900c0</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">第四步：</span></p>
+<p><span style="font-size: 14pt">BrainFuck解码</span></p>
+<p><span style="font-size: 14pt">+++++ +[-&gt;+ +++++ &lt;]&gt;++ +++++ ++.&lt;+ +++++ +[-&gt;+ +++++ +&lt;]&gt;+ +++++ .–.+</span></p>
+<p><span style="font-size: 14pt">+..&lt;+ +++++ [-&gt;– —-&lt; ]&gt;— —– .—- —-. &lt;++++ +++[- &gt;++++ +++&lt;]</span></p>
+<p><span style="font-size: 14pt">&gt;++++ +.&lt;++ +++++ [-&gt;– —– &lt;]&gt;– –.++ .&lt;</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/9fdc52faa9607ef208f52c43660a4ea8.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><img src="http://cdn.anyiblog.top/common/46d8759713b4a304d567ff8681dace3a.png"><br><span style="font-size: 14pt">得到</span><span style="font-size: 14pt">-dbdd80f13</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">第五步：</span></p>
+<p><span style="font-size: 14pt">base系列(base64-&gt;base32-&gt;base16)</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">R1UyRE1PQldIRTNUR01SUUdZNFRPTVpTR0EzVFNOU0dHNDJUT01SU0dBM0RNTlNER1lZVE1OWlRJRVpFSU5SV0dZMkRHTUJUR0VaVE9NWlRHWVpET1JBPQ&#x3D;&#x3D;</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">直接用ciphey一把梭：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/f26a7bdf3a2d4aa88b3d4a87ebaf30d6.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">得到：</span><span style="font-size: 14pt">-fd0173b}</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">组合flag 得到flag{</span><span style="font-size: 14pt">c4825150</span><span style="font-size: 14pt">-e9f900c0</span><span style="font-size: 14pt">-dbdd80f13</span><span style="font-size: 14pt">-fd0173b}</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">3</span><span style="font-size: 14pt;color: unset;font-family: unset">.爆破鬼才</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/f0723d97d0520b95ec91776011fc7d80.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">题目附件：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/9be5b844092095205f5d79b34b864d03.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">题目说是密码爆破 且为四位数字 用ARCHPR爆破</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/8dfae29a46b59a2127bcc0b878137229.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/03229b74fd133cc5735eb803478f88fa.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">将压缩包拖入即可。</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/c309220a1b7f24afe110c2f8d81b216a.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">得到密码为8964 用密码打开文本即可得到flag</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">flag{657ef479be76fe227ce09f9dd22c2cd8}</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/2a71e46b8737811ec782be36068d6d08.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">4.九层妖塔</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/52e6dfa0a4614b62d92f24d945426f99.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">（此题搬运自DASCTF魔法世界 《闯入魔塔的魔法少女》）</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">题目附件：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/ba36ceffed494cdd15cfb3228b9fb1a7.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">预期解是用swf逆向即可 当然玩五十层魔塔也可以。。</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">用Flash Decomplier反编译工具打开</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/7f24bb49865b3fc3d29d426f2db071cb.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">使用文件查找功能</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/4807e4c36e026abbe833a4f1f2adec62.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">直接搜索flag</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/c58015df5bad6cc04b63fe194d91f524.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">在DoAction找到flag字段&amp;nbsp;</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/65aa4b78e6ac3425a9dcad410a7fc902.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">转到DoAction 然后用ctrl+f快速查找 搜索flag</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/c2b6ed4daa500bf2d8810a2257c60806.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">得到flag&amp;nbsp;</span></p>
+<p><span style="font-size: 14pt">DASCTF{23dvkjzr3juboiavztbncaxftfpyq5gz}</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">5.艾克赛斯</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/fa3013f22e7c583c7f1a9478161342a4.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">题目附件：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/7aea2cac57bdccbf4878ee4ca779c853.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">先看encode.py</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/b6387dd9f69ee95b114f00d92fcf1411.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">这里先将flag的文本的每一个字符读取 将每一位ascii码进行-1操作</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">然后再把拼接起来的新的字符串作为十进制写到密文中。</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">密文如下：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/edaa94042a589aa16314fd415d8faa64.png"></span><br><span style="font-size: 14pt"></span></p>
+<pre><code>8785377975578074175091449592699820502541930703609541378188644326830861555987356326396428107299197220
+</code></pre>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">对应写解密脚本即可。</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/3a0ac2291ebbde9f3b09b10509f07943.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">先将密文转为十六进制</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/c9c08f0248c08745d52be955381c6738.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">这里再将ascii码分隔一下 然后再一一转为字符串即可</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">最终脚本如下：</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/611991eca039f164544c9663cbeca4d1.png"></span><br><span style="font-size: 14pt"></span></p>
+<pre><code>def decode():
+    ciphey_text=8785377975578074175091449592699820502541930703609541378188644326830861555987356326396428107299197220
+    print(hex(ciphey_text))
+    #0x101107961021225548535199100999751545549984947505696495149549899475448501011015649124
+    list=[101,107,96,102,122,55,48,53,51,99,100,99,97,51,54,55,49,98,49,47,50,56,96,49,51,49,54,98,99,47,54,48,50,101,101,56,49,124] ###分离ascii码
+    flag=&quot;&quot;
+    for i in list:
+        flag += chr(i+1)
+    print(flag)
+
+decode()
+</code></pre>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">运行得到flag</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/7f27851fee76d29089cf61f77e951f2c.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">flag{8164dedb4782c2039a2427cd0713ff92}</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">6.lsp隐写</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/8e65f357ebe825646a8b7ac174b8034e.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">题目附件：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/33f4c0173c465b830a77530e8f3f0594.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">一张图片 不难想到此题为lsb隐写 标题也提示了 将图片拖入stegsolve中</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">进行通道分析：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/7564f72ec9fbe0ef46dce2af210f3e8c.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/20180949ff18c0f3e5ddb55b60ad862f.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">将红绿蓝三个通道选为最低位 然后bit order选为lsb</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/a7645e48acba595d07d9431123039da3.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">在文件头部发现504B 这是压缩包的文件头</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/8742f22843e6020fa40b30d513ac6683.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">选择Save Bin到文本中</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/0fea9222b51a4c1213f6ed03350528dd.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><img src="http://cdn.anyiblog.top/common/c25e3d6ea62d3f508b5ed1da85b6fbe8.png"><br><span style="font-size: 14pt">得到十六进制数值 然后将这段数据通过winhex写到压缩包中</span></p>
+<pre><code>504B030414000000080053A58353AADB061F360000003400000008000000666C61672E7478744B36CE294DF128A9F0ADF2AA4A7649A9F20D09ABF0AB8A344DAA8A3448CACAAE4ACE0AAAF40B4937F6CD7235F00BC936F2CD33B00500504B0102140014000900080053A58353AADB061F3600000034000000080024000000000000002000000000000000666C61672E7478740A0020000000000001001800DAEE244043E8D7011871A34643E8D701FCD9203D43E8D701504B050600000000010001005A0000005C0000000000
+</code></pre>
+<p><span style="font-size: 14pt">&amp;nbsp; &amp;nbsp; &amp;nbsp;</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/69f6b48b2d8d3aad90f3c590d68b32b8.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">保存后 发现是文件加密 这里是伪加密</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/d8e7cba472657ace3ffb5c82200a4ee4.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">将0900改为0000即可。</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/67c473424a769860433a9c3f858bb218.png"></span><br><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/c345ce8cdcf0d985850b8ebb370e2d99.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">打开文本 发现一段base64数据</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/e2ed76d484db8c4e3c7745dc08743a22.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">在线解密一下</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/eed6d4a19ca3f7ffb9bbf7b4516f3441.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">发现又是rot13 再解一下</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/6f405adb912e0f9a5d5ff3ed3a1f779c.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">得到flag</span></p>
+<p><span style="font-size: 14pt">flag{d32fc7f15d769b64a93e4e5872145962}</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">7.异或与非</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/cafb67ff83c7a5eafa4f69c9bec8aeb8.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">题目附件：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/2b7720aeb1d41a8bf2ba076e8024b5ee.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">加密脚本如下：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/f745b15515bd766826cf1e505aef16ae.png"></span><br><span style="font-size: 14pt"></span></p>
+<pre><code>[+]Your Ciphertext: [&#39;f&#39;, &#39;
+</code></pre>
+<p>‘, ‘<br>‘, ‘’, ‘’, ‘’, ‘S’, ‘’, ‘’, ‘P’, ‘V’, ‘’, ‘’, ‘‘, ‘<br>‘, ‘’, ‘’, ‘T’, ‘&#39;, ‘<br>‘, ‘’, ‘’, ‘ ’, ‘’, ‘V’, ‘V’, ‘Q’, ‘S’, ‘’, ‘P’, ‘S’, ‘’, ‘’, ‘’, ‘    ‘, ‘‘, ‘ ’, ‘I’]</p>
+<p><span style="font-size: 14pt">审计代码：</span></p>
+<p><span style="font-size: 14pt">首先将flag文本内容读出 然后创建了列表encode_flag 并添加flag的第一个字符&amp;nbsp;</span></p>
+<p><span style="font-size: 14pt">然后遍历flag字符串 将每一位字符与上一位字符的ascii码进行异或 转成字符</span></p>
+<p><span style="font-size: 14pt">最后将结果打印出来</span></p>
+<p><span style="font-size: 14pt">大致读懂代码后 根据print出来的东西写解密脚本</span></p>
+<p><span style="font-size: 14pt">脚本如下：</span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/9e47e9c4ed11725a27cf68b7bb14e0c7.png"></span><br><span style="font-size: 14pt"></span></p>
+<pre><code>def decode():
+    str=[&#39;f&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;S&#39;, &#39;&#39;, &#39;&#39;, &#39;P&#39;, &#39;V&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;T&#39;, &#39;\&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39; &#39;, &#39;&#39;, &#39;V&#39;, &#39;V&#39;, &#39;Q&#39;, &#39;S&#39;, &#39;&#39;, &#39;P&#39;, &#39;S&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;    &#39;, &#39;&#39;, &#39; &#39;, &#39;I&#39;]
+    flag=&quot;f&quot;
+    for i in range(1,len(str)):
+        flag += chr(ord(str[i]) ^ ord(flag[i-1]))
+    print(flag)
+decode()
+</code></pre>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">根据加密脚本同样操作 将第一位与上一位进行异或 最后把结果加到一个字符串上打印</span></p>
+<p><span style="font-size: 14pt">运行脚本得到flag</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/55860ce014ef77fa46cd1969a395a385.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">flag{e674d2738261e942337a7f52b1501844}</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">8.国王的新字符</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/96a2081f294e05f8cf0cf1c2e117300a.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">题目附件：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/0757bea829d117143f9b554ec6edb2da.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">文本信息如下：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/70ad18d2c7e4d7597eeaa9f5ff9bd6ec.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">根据文本提示 让我们用kali的vim打开这段文本</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/84fa60b9e15e2bc6b54ca6676b9eaa91.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">打开后发现了一堆隐藏的信息 结合题目和简介提示 显然是零宽字符</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">用在线网站解</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/eeb6e150be2e50cea410f36ac7ca4df2.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">得到flag</span></p>
+<p><span style="font-size: 14pt">flag{ZeroNumber}</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">9.看不见的水印</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/c8c89a92ffd88eabde415e7ff8ae8754.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">题目附件：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/0b54bb56e7589220c01761c0befba4df.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">先把图片解压下来</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/3d78555717c5e715980c342f470438bc.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">两张同样的图片 结合题目标题看不见的水印 显然这是盲水印隐写</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">使用github上相应的脚本即可。</span></p>
+<p><span style="font-size: 14pt"><a target="_blank" rel="noopener" href="https://github.com/chishaxie/BlindWaterMark">https://github.com/chishaxie/BlindWaterMark</a></span></p>
+<p><span style="font-size: 14pt">python bwmforpy3.py decode file.jpg file0.jpg flag.jpg</span><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/3eff8b7a8e00d4d3ae6020e0b952029a.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">得到盲水印图：</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/9e881361f16f91dfb1ea08b43c04f2dd.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">显然是密码 进行解密即可。</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt"><img src="http://cdn.anyiblog.top/common/c7594d6a39b3352c21ce42a91cee7d9d.png"></span><br><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">flag{a5bee5c2a562c3c7a721d16f7147b309}</span></p>
+<p><span style="font-size: 14pt"></span></p>
+<p><span style="font-size: 14pt">End</span></p>
+<p><span style="font-size: 14pt"></span></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Anyyy</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://www.anyiblog.top/2021/12/08/20211208/">http://www.anyiblog.top/2021/12/08/20211208/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.anyiblog.top" target="_blank">Anyyy安全小站</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%88%B7%E9%A2%98/">刷题</a><a class="post-meta__tags" href="/tags/CTF/">CTF</a></div><div class="post_share"><div class="social-share" data-image="http://cdn.anyiblog.top/common/1646392643413-f46fa0e1-6d44-4bd9-aa1f-bae80409d3f8.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://fastly.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/01/09/20220109/"><img class="prev-cover" src="http://cdn.anyiblog.top/common/1646392676713-e6fe8060-5ed5-47d6-b53d-7a7ac2e19530.png" onerror="onerror=null;src='http://cdn.anyiblog.top/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">2022长安战&quot;疫&quot;WriteUp</div></div></a></div><div class="next-post pull-right"><a href="/2021/12/04/20211204/"><img class="next-cover" src="http://cdn.anyiblog.top/common/1646392613793-f9da8870-2a98-448e-b729-eaed11bfcd2a.jpg" onerror="onerror=null;src='http://cdn.anyiblog.top/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">摸鱼大闯关 1-40关 writeup</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/10/14/20211014/" title="记一次文件上传之过滤php绕过"><img class="cover" src="http://cdn.anyiblog.top/common/1646392513625-fd6edaab-3c57-4c79-a544-7de27fa9d2ac.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-14</div><div class="title">记一次文件上传之过滤php绕过</div></div></a></div><div><a href="/2021/12/04/20211204/" title="摸鱼大闯关 1-40关 writeup"><img class="cover" src="http://cdn.anyiblog.top/common/1646392613793-f9da8870-2a98-448e-b729-eaed11bfcd2a.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-04</div><div class="title">摸鱼大闯关 1-40关 writeup</div></div></a></div><div><a href="/2022/03/05/20220305/" title="Bugku S2收官赛AWD解析&如何打AWD?"><img class="cover" src="http://cdn.anyiblog.top/common/1646483574333-968635ed-5a8c-425a-bb24-5552a5e97fa5.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-05</div><div class="title">Bugku S2收官赛AWD解析&如何打AWD?</div></div></a></div><div><a href="/2022/01/09/20220109/" title="2022长安战"疫"WriteUp"><img class="cover" src="http://cdn.anyiblog.top/common/1646392676713-e6fe8060-5ed5-47d6-b53d-7a7ac2e19530.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-09</div><div class="title">2022长安战"疫"WriteUp</div></div></a></div><div><a href="/2022/04/20/20220420/" title="记2022Xctf web-WriteUp"><img class="cover" src="http://cdn.anyiblog.top/common/1650422131077-48517457-7d0e-40e4-ae4f-4810291233d6.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-20</div><div class="title">记2022Xctf web-WriteUp</div></div></a></div><div><a href="/2022/08/03/20220803/" title="Bugku渗透测试1 writeup超详细"><img class="cover" src="http://cdn.anyiblog.top/common/1659459424138-e8a16af9-c8de-4061-ab93-0113a09f5b1e.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-08-03</div><div class="title">Bugku渗透测试1 writeup超详细</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="http://cdn.anyiblog.top/img/avatar.jpg" onerror="this.onerror=null;this.src='http://cdn.anyiblog.top/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Anyyy</div><div class="author-info__description">电影落幕，月亮隐没，我会忘记你。</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">21</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://space.bilibili.com/120264656/"><i class="fab fa-bilibili"></i><span>Bilibili</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=1395980247&amp;website=www.oicqzone.com" target="_blank" title="QQ"><i class="fab fa-qq"></i></a><a class="social-icon" href="http://cdn.anyiblog.top/img/wechat.jpg" target="_blank" title="Wechat"><i class="fab fa-weixin"></i></a><a class="social-icon" href="mailto:anyiguys@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">☁️欢迎造访安逸的网安小站☁️<br>⭐不定期更新干货，建议收藏 以防走丢~⭐<br><span style='color: #f66e64'>👉图片无法加载请参考文章 <style>.inform{color: #49B1F5} .inform:hover{color: #99a9bf}</style><a class='inform' href='https://www.anyiblog.top/inform/'>站点通知</a></span></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/08/18/20240818/" title="eBSploit 永恒之蓝一键利用工具"><img src="https://cdn.anyiblog.top/product/ebsploit/cover/header.png" onerror="this.onerror=null;this.src='http://cdn.anyiblog.top/img/404.jpg'" alt="eBSploit 永恒之蓝一键利用工具"/></a><div class="content"><a class="title" href="/2024/08/18/20240818/" title="eBSploit 永恒之蓝一键利用工具">eBSploit 永恒之蓝一键利用工具</a><time datetime="2024-08-17T16:00:00.000Z" title="发表于 2024-08-18 00:00:00">2024-08-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/06/01/20240601/" title="案例分享 | 记一次对大型国企Ruoyi系统曲折的打点测试But lucky~"><img src="http://cdn.anyiblog.top/WriteUp/20240601/cover.png" onerror="this.onerror=null;this.src='http://cdn.anyiblog.top/img/404.jpg'" alt="案例分享 | 记一次对大型国企Ruoyi系统曲折的打点测试But lucky~"/></a><div class="content"><a class="title" href="/2024/06/01/20240601/" title="案例分享 | 记一次对大型国企Ruoyi系统曲折的打点测试But lucky~">案例分享 | 记一次对大型国企Ruoyi系统曲折的打点测试But lucky~</a><time datetime="2024-05-31T16:00:00.000Z" title="发表于 2024-06-01 00:00:00">2024-06-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/03/14/20240314/" title="中职网络安全赛项-B模块综合详细题解"><img src="http://cdn.anyiblog.top/WriteUp/20240314/cover.png" onerror="this.onerror=null;this.src='http://cdn.anyiblog.top/img/404.jpg'" alt="中职网络安全赛项-B模块综合详细题解"/></a><div class="content"><a class="title" href="/2024/03/14/20240314/" title="中职网络安全赛项-B模块综合详细题解">中职网络安全赛项-B模块综合详细题解</a><time datetime="2024-03-13T16:00:00.000Z" title="发表于 2024-03-14 00:00:00">2024-03-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/09/20231209/" title="第六届强网拟态国际精英挑战赛线下 白盒资格赛 Misc方向Write Up"><img src="http://cdn.anyiblog.top/WriteUp/20231209/cover.png" onerror="this.onerror=null;this.src='http://cdn.anyiblog.top/img/404.jpg'" alt="第六届强网拟态国际精英挑战赛线下 白盒资格赛 Misc方向Write Up"/></a><div class="content"><a class="title" href="/2023/12/09/20231209/" title="第六届强网拟态国际精英挑战赛线下 白盒资格赛 Misc方向Write Up">第六届强网拟态国际精英挑战赛线下 白盒资格赛 Misc方向Write Up</a><time datetime="2023-12-08T16:00:00.000Z" title="发表于 2023-12-09 00:00:00">2023-12-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/11/20230611/" title="SYCTF2023 安洵杯全国精英赛 | Misc方向题解"><img src="http://cdn.anyiblog.top//common/202306110947345.png" onerror="this.onerror=null;this.src='http://cdn.anyiblog.top/img/404.jpg'" alt="SYCTF2023 安洵杯全国精英赛 | Misc方向题解"/></a><div class="content"><a class="title" href="/2023/06/11/20230611/" title="SYCTF2023 安洵杯全国精英赛 | Misc方向题解">SYCTF2023 安洵杯全国精英赛 | Misc方向题解</a><time datetime="2023-06-11T00:38:26.360Z" title="发表于 2023-06-11 08:38:26">2023-06-11</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2024 By Anyyy</div><div class="icp"><a href="https://beian.miit.gov.cn/" target="_blank"><img class="lozad" style="padding:0px;vertical-align: text-bottom;" src="http://cdn.anyiblog.top/img/beian.png"/><span>浙ICP备2023010983号</span></a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="chat_btn" type="button" title="聊天"><i class="fas fa-sms"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">本地搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://fastly.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="https://fastly.jsdelivr.net/npm/instant.page@5/instantpage.min.js" type="module"></script><script src="https://fastly.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'B9OoMs6vkuGJUaeS3FjECON0-gzGzoHsz',
+      appKey: '03bqTybh2h4Jbp0s5XTucplR',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://fastly.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script src="https://fastly.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/js/hideMobileSidebar.js"></script><script src="https://fastly.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/js/hideCategory.min.js"></script><script>window.$crisp = [];
+window.CRISP_WEBSITE_ID = "4b34540b-3bd0-4089-9d4a-3760c14a4207";
+(function () {
+  d = document;
+  s = d.createElement("script");
+  s.src = "https://client.crisp.chat/l.js";
+  s.async = 1;
+  d.getElementsByTagName("head")[0].appendChild(s);
+})();
+$crisp.push(["safe", true])
+
+if (true) {
+  $crisp.push(["do", "chat:hide"])
+  $crisp.push(["on", "chat:closed", function() {
+    $crisp.push(["do", "chat:hide"])
+  }])
+  var chatBtnFn = () => {
+    var chatBtn = document.getElementById("chat_btn")
+    chatBtn.addEventListener("click", function(){
+      $crisp.push(["do", "chat:show"])
+      $crisp.push(["do", "chat:open"])
+
+    });
+  }
+  chatBtnFn()
+} else {
+  if (false) {
+    function chatBtnHide () {
+      $crisp.push(["do", "chat:hide"])
+    }
+    function chatBtnShow () {
+      $crisp.push(["do", "chat:show"])
+    }
+  }
+}</script><script src="https://fastly.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"]):not([href="/music"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax], .pjax-reload script').forEach(*item* *=>* {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

